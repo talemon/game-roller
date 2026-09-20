@@ -26,3 +26,6 @@ dist-ssr
 # Scrape cache
 .cache/
 .firecrawl/
+
+# Bun lockfile (Cloudflare build image bun is older; repo uses npm lockfile)
+bun.lock

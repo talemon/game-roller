@@ -7,6 +7,7 @@
     "dev": "vite",
     "build": "vite build",
     "preview": "vite preview",
+    "deploy": "vite build && wrangler deploy",
     "check": "svelte-check --tsconfig ./tsconfig.app.json && tsc -p tsconfig.node.json",
     "test": "bun test",
     "tags:fetch": "mkdir -p .cache && firecrawl scrape \"https://steamdb.info/tags/\" --format html --only-main-content -o .cache/steamdb-tags.html",
@@ -22,6 +23,7 @@
     "svelte": "^5.57.0",
     "svelte-check": "^4.7.6",
     "typescript": "~6.0.2",
-    "vite": "^8.3.0"
+    "vite": "^8.3.0",
+    "wrangler": "^4.42.0"
   }
 }
