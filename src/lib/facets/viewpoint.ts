@@ -3,7 +3,7 @@ import { tagFacet } from '../steam-tags';
 export const viewpointFacet = tagFacet({
   id: 'viewpoint',
   label: 'Look & viewpoint',
-  hint: 'Steam visuals & viewpoint tags',
+  hint: 'Art style and camera',
   slot: 'prefix',
   enabledByDefault: false,
   count: { min: 1, max: 2, default: 1 },

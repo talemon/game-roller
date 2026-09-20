@@ -3,7 +3,7 @@ import { tagFacet } from '../steam-tags';
 export const genreFacet = tagFacet({
   id: 'genre',
   label: 'Genre',
-  hint: 'Steam genre tags',
+  hint: 'What kind of game it is',
   slot: 'prefix',
   enabledByDefault: true,
   count: { min: 1, max: 4, default: 2 },

@@ -3,7 +3,7 @@ import { tagFacet } from '../steam-tags';
 export const playersFacet = tagFacet({
   id: 'players',
   label: 'Players',
-  hint: 'Steam player-mode tags',
+  hint: 'Solo, co-op or competitive',
   slot: 'prefix',
   enabledByDefault: false,
   count: { min: 1, max: 1, default: 1 },
