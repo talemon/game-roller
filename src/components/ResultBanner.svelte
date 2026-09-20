@@ -287,14 +287,23 @@
     }
   }
 
-  .failed {
+  /* Status tints are for the outlined button. While Copy is the primary it is already an
+     accent slab, so tinting the ink accent would paint the label in its own background. */
+  .failed:not(.primary) {
     border-color: var(--danger);
     color: var(--danger);
   }
 
-  .copied {
+  .copied:not(.primary) {
     border-color: var(--accent);
     color: var(--accent);
+  }
+
+  /* Primary + failure: the slab itself turns Fault Red, keeping the paired ink readable. */
+  .primary.failed {
+    background: var(--danger);
+    border-color: var(--danger);
+    color: var(--accent-text);
   }
 
   @media (prefers-reduced-motion: reduce) {
