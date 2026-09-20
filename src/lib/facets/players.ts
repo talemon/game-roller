@@ -1,0 +1,16 @@
+import { tagFacet } from '../steam-tags';
+
+export const playersFacet = tagFacet({
+  id: 'players',
+  label: 'Players',
+  hint: 'Steam player-mode tags',
+  slot: 'prefix',
+  enabledByDefault: false,
+  count: { min: 1, max: 1, default: 1 },
+  categories: ['Players'],
+  phrases: {
+    Singleplayer: 'single-player',
+    PvP: 'PvP',
+    '4 Player Local': '4-player local',
+  },
+});

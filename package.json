@@ -1,0 +1,27 @@
+{
+  "name": "game-roller",
+  "private": true,
+  "version": "0.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview",
+    "check": "svelte-check --tsconfig ./tsconfig.app.json && tsc -p tsconfig.node.json",
+    "test": "bun test",
+    "tags:fetch": "mkdir -p .cache && firecrawl scrape \"https://steamdb.info/tags/\" --format html --only-main-content -o .cache/steamdb-tags.html",
+    "tags:parse": "bun scripts/scrape-steam-tags.ts .cache/steamdb-tags.html src/data/steam-tags.json",
+    "tags:refresh": "bun run tags:fetch && bun run tags:parse"
+  },
+  "devDependencies": {
+    "@sveltejs/vite-plugin-svelte": "^7.3.0",
+    "@tsconfig/svelte": "^5.0.8",
+    "@types/bun": "^1.4.2",
+    "@types/node": "^24.13.3",
+    "cheerio": "^1.2.0",
+    "svelte": "^5.57.0",
+    "svelte-check": "^4.7.6",
+    "typescript": "~6.0.2",
+    "vite": "^8.3.0"
+  }
+}

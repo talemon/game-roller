@@ -1,0 +1,30 @@
+import { tagFacet } from '../steam-tags';
+
+export const genreFacet = tagFacet({
+  id: 'genre',
+  label: 'Genre',
+  hint: 'Steam genre tags',
+  slot: 'prefix',
+  enabledByDefault: true,
+  count: { min: 1, max: 4, default: 2 },
+  categories: ['Top-Level Genres', 'Genres', 'Sub-Genres', 'Role-Playing Genres', 'Card & Board Genres'],
+  excludeCategories: ['Software Genres'],
+  exclude: ['Indie'],
+  phrases: {
+    RPG: 'role-playing',
+    'Action RPG': 'action role-playing',
+    'Strategy RPG': 'strategy role-playing',
+    'Party-Based RPG': 'party-based role-playing',
+    'Tactical RPG': 'tactical role-playing',
+    RTS: 'real-time strategy',
+    'Action RTS': 'action real-time strategy',
+    FPS: 'first-person shooter',
+    'Point & Click': 'point-and-click',
+    'Hack and Slash': 'hack-and-slash',
+    "Shoot 'Em Up": "shoot-'em-up",
+    "Beat 'em up": "beat-'em-up",
+    'Choose Your Own Adventure': 'choose-your-own-adventure',
+    'Open World Survival Craft': 'open-world survival-craft',
+    'Match 3': 'match-3',
+  },
+});
