@@ -1,5 +1,6 @@
 import { describe, expect, test } from 'bun:test';
-import { sampleDistinct } from './roll';
+import type { Facet, FacetItem } from './facets/types';
+import { rollFacet, sampleDistinct } from './roll';
 
 /** Tiny LCG so draws are reproducible. */
 function lcg(seed: number): () => number {
@@ -31,5 +32,51 @@ describe('sampleDistinct', () => {
 
   test('same seed → same draw', () => {
     expect(sampleDistinct(ten, 5, lcg(99))).toEqual(sampleDistinct(ten, 5, lcg(99)));
+  });
+});
+
+describe('rollFacet', () => {
+  const item = (id: string, family?: string): FacetItem => ({
+    id,
+    label: id,
+    phrase: id,
+    family,
+  });
+  const facet = (items: FacetItem[], max: number): Facet => ({
+    id: 'genre',
+    label: 'Genre',
+    hint: '',
+    slot: 'prefix',
+    items,
+    count: { min: 1, max, default: 1 },
+    enabledByDefault: true,
+    hue: 0,
+  });
+
+  test('never draws two members of one family', () => {
+    const f = facet(
+      [item('rpg', 'rpg'), item('action rpg', 'rpg'), item('tactical rpg', 'rpg'), item('puzzle')],
+      3,
+    );
+    for (let seed = 0; seed < 200; seed++) {
+      const drawn = rollFacet(f, 3, lcg(seed)).items;
+      const families = drawn.map((i) => i.family).filter(Boolean);
+      expect(new Set(families).size).toBe(families.length);
+    }
+  });
+
+  test('comes up short rather than repeating a family', () => {
+    const f = facet([item('rpg', 'rpg'), item('action rpg', 'rpg')], 2);
+    expect(rollFacet(f, 2, lcg(3)).items).toHaveLength(1);
+  });
+
+  test('family-free items still fill the requested count', () => {
+    const f = facet([item('a'), item('b'), item('c')], 3);
+    expect(rollFacet(f, 3, lcg(5)).items).toHaveLength(3);
+  });
+
+  test('clamps the count to the facet bounds', () => {
+    const f = facet([item('a'), item('b'), item('c')], 2);
+    expect(rollFacet(f, 99, lcg(5)).items).toHaveLength(2);
   });
 });

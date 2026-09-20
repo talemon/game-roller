@@ -1,4 +1,4 @@
-import type { Facet, FacetRoll } from './facets/types';
+import type { Facet, FacetItem, FacetRoll } from './facets/types';
 
 /** Draws `k` distinct items uniformly (partial Fisher–Yates), in draw order. */
 export function sampleDistinct<T>(
@@ -20,7 +20,23 @@ export function sampleDistinct<T>(
   return out;
 }
 
+/**
+ * Draws `count` items, at most one per declared family — "role-playing action role-playing"
+ * is a distinct draw but says one thing twice. Comes up short only when the pool runs out
+ * of unused families.
+ */
 export function rollFacet(facet: Facet, count: number, rng?: () => number): FacetRoll {
   const clamped = Math.max(facet.count.min, Math.min(count, facet.count.max));
-  return { facet, items: sampleDistinct(facet.items, clamped, rng) };
+  const pool = sampleDistinct(facet.items, facet.items.length, rng);
+  const families = new Set<string>();
+  const items: FacetItem[] = [];
+  for (const item of pool) {
+    if (items.length === clamped) break;
+    if (item.family !== undefined) {
+      if (families.has(item.family)) continue;
+      families.add(item.family);
+    }
+    items.push(item);
+  }
+  return { facet, items };
 }

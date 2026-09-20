@@ -3,6 +3,23 @@ import type { Facet } from './types';
 
 const SOURCE_NAME: Record<PlotSource, string> = { booker: 'Booker', tobias: 'Tobias' };
 
+/**
+ * Plots that name the same arc in different vocabularies. Booker and Tobias overlap, and
+ * "about transformation and metamorphosis" is one idea printed twice.
+ */
+const PLOT_FAMILY: Record<string, string> = {
+  transformation: 'change',
+  metamorphosis: 'change',
+  maturation: 'change',
+  rebirth: 'change',
+  ascension: 'fortune',
+  descension: 'fortune',
+  pursuit: 'chase',
+  escape: 'chase',
+  rivalry: 'contest',
+  underdog: 'contest',
+};
+
 export const plotFacet: Facet = {
   id: 'plot',
   label: 'Master plot',
@@ -17,5 +34,6 @@ export const plotFacet: Facet = {
     phrase: p.phrase,
     description: p.description,
     attribution: p.sources.map((s) => SOURCE_NAME[s]).join(' & '),
+    family: PLOT_FAMILY[p.id],
   })),
 };

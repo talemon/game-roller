@@ -5,6 +5,16 @@ export interface FacetItem {
   label: string;
   /** Sentence fragment, e.g. `role-playing`. */
   phrase: string;
+  /**
+   * Items sharing a family are near-synonyms (RPG and Action RPG, Roguelike and Roguelite):
+   * a single roll draws at most one of them, so the sentence never says the same thing twice.
+   */
+  family?: string;
+  /**
+   * This phrase already ends in "game" (`party game`, `wargame`), so the sentence drops its
+   * own head noun and sorts the phrase last: "A tactical party game", never "party game game".
+   */
+  suppressesHead?: boolean;
   emoji?: string;
   /** Shown under the chip (plots). */
   description?: string;

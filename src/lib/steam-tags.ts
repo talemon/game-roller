@@ -5,6 +5,9 @@ import type { SteamTag, SteamTagData } from './steam-tag-types';
 
 export const steamTags: SteamTagData = data as SteamTagData;
 
+/** A phrase ending in "game" already says what the sentence's head noun would say. */
+const HEAD_NOUN = /game$/i;
+
 /**
  * Tags belonging to any of the given SteamDB categories, deduped and sorted by name.
  * Throws on an unknown category so a renamed category surfaces at module load.
@@ -32,6 +35,11 @@ export interface TagFacetOptions {
   excludeCategories?: string[];
   /** Tag name → sentence phrase; anything absent goes through `tagPhrase`'s default rule. */
   phrases?: Record<string, string>;
+  /**
+   * Tag name → family. Tags in one family are near-synonyms and never share a roll;
+   * a name absent here is its own family of one.
+   */
+  families?: Record<string, string>;
   count: Facet['count'];
   enabledByDefault: boolean;
   hue: number;
@@ -43,17 +51,26 @@ export function tagFacet(opts: TagFacetOptions): Facet {
   const exclude = opts.exclude ?? [];
   const excludeCategories = opts.excludeCategories ?? [];
   const phrases = opts.phrases ?? {};
+  const families = opts.families ?? {};
   const items = tagsInCategories(opts.categories)
     .filter(
       (tag) =>
         !exclude.includes(tag.name) && !tag.categories.some((c) => excludeCategories.includes(c)),
     )
-    .map((tag) => ({
-      id: `tag:${tag.id}`,
-      label: tag.name,
-      phrase: tagPhrase(tag.name, phrases),
-      emoji: tag.emoji,
-    }));
+    .map((tag) => {
+      const phrase = tagPhrase(tag.name, phrases);
+      // "party game", "wargame": the phrase already carries the sentence's head noun, so it
+      // supplies it — and two of them in one roll would print "board game party game".
+      const suppressesHead = HEAD_NOUN.test(phrase);
+      return {
+        id: `tag:${tag.id}`,
+        label: tag.name,
+        phrase,
+        emoji: tag.emoji,
+        family: suppressesHead ? 'head-noun' : families[tag.name],
+        suppressesHead: suppressesHead || undefined,
+      };
+    });
   return {
     id: opts.id,
     label: opts.label,

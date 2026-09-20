@@ -21,6 +21,17 @@ function roll(f: Facet, phrases: string[]): FacetRoll {
   return { facet: f, items };
 }
 
+/** A prefix item whose phrase already ends in "game", e.g. the Party Game tag. */
+function headRoll(f: Facet, phrases: string[], head: string): FacetRoll {
+  return {
+    facet: f,
+    items: [
+      ...phrases.map((phrase) => ({ id: phrase, label: phrase, phrase })),
+      { id: head, label: head, phrase: head, suppressesHead: true },
+    ],
+  };
+}
+
 const genre = facet('genre', 'prefix');
 const plot = facet('plot', 'about');
 const theme = facet('theme', 'trailing', (p) => `with a ${p.join(' and ')} theme`);
@@ -57,6 +68,16 @@ describe('composeSentence', () => {
   test('empty rolls → empty string', () => {
     expect(composeSentence([])).toBe('');
     expect(composeSentence([roll(genre, [])])).toBe('');
+  });
+
+  test('a prefix that already ends in "game" supplies the head noun', () => {
+    expect(composeSentence([headRoll(genre, [], 'party game'), roll(plot, ['comedy'])])).toBe(
+      'A party game about comedy',
+    );
+  });
+
+  test('the head-supplying phrase sorts last, whatever the draw order', () => {
+    expect(composeSentence([headRoll(genre, ['tactical'], 'wargame')])).toBe('A tactical wargame');
   });
 });
 
