@@ -58,6 +58,7 @@
     <p class="hint" id="hint-{facet.id}">{facet.hint}</p>
   </header>
 
+  {#if state.enabled}
   <div class="controls">
     {#if hasCount}
       <label class="count" for="count-{facet.id}">
@@ -71,13 +72,12 @@
           step="1"
           bind:value={state.count}
           onchange={clampCount}
-          disabled={!state.enabled}
           aria-describedby="range-{facet.id}"
         />
         <span class="range" id="range-{facet.id}">{facet.count.min}–{facet.count.max}</span>
       </label>
     {/if}
-    <button onclick={onRoll} disabled={!state.enabled} aria-describedby="hint-{facet.id}">
+    <button onclick={onRoll} aria-describedby="hint-{facet.id}">
       Roll
     </button>
   </div>
@@ -113,6 +113,7 @@
       {/each}
     {/if}
   </ul>
+  {/if}
 </article>
 
 <style>
@@ -130,9 +131,10 @@
     transition: border-color 0.15s;
   }
 
-  /* Disabled: fade the controls and rolled chips, keep the title and hint readable. */
+  /* Disabled: collapsed to a single line — title and hint side by side, no controls or chips. */
   .card.disabled {
     border-style: dashed;
+    padding-block: 0.5rem;
   }
 
   .card.disabled .title span,
@@ -140,9 +142,11 @@
     color: var(--muted);
   }
 
-  .card.disabled .controls,
-  .card.disabled .chips {
-    opacity: 0.5;
+  .card.disabled header {
+    flex-direction: row;
+    align-items: center;
+    gap: 0.75rem;
+    flex-wrap: wrap;
   }
 
   header {
@@ -334,6 +338,13 @@
     .chip:has(.chip-desc) {
       flex: 1 1 18rem;
       max-width: 28rem;
+    }
+  }
+
+  @media (min-width: 720px) {
+    .card.disabled {
+      grid-template-columns: 1fr;
+      grid-template-areas: 'header';
     }
   }
 </style>

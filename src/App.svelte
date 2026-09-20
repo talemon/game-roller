@@ -90,6 +90,8 @@
   }
 
   function rollAll() {
+    skipReveal?.();
+    for (const f of facets) states[f.id].rolled = [];
     play(facets.filter((f) => states[f.id].enabled));
   }
 
