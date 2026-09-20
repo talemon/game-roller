@@ -60,9 +60,10 @@
         onclick={copy}
         disabled={!sentence}
         class:failed={copyStatus === 'failed'}
+        class:copied={copyStatus === 'copied'}
         aria-live="polite"
       >
-        {COPY_LABEL[copyStatus]}
+        {#key copyStatus}<span class="line">{COPY_LABEL[copyStatus]}</span>{/key}
       </button>
     {/if}
     <label class="reveal">
@@ -87,7 +88,9 @@
     flex-direction: column;
     gap: 1rem;
     min-width: 0;
-    transition: border-color 0.2s;
+    transition:
+      border-color 0.2s,
+      background-color 0.25s ease-out;
   }
 
   .banner.revealing {
@@ -155,6 +158,11 @@
   .failed {
     border-color: var(--danger);
     color: var(--danger);
+  }
+
+  .copied {
+    border-color: var(--accent);
+    color: var(--accent);
   }
 
   @media (prefers-reduced-motion: reduce) {

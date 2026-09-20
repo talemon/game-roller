@@ -9,7 +9,13 @@
 </script>
 
 <script lang="ts">
+  import { fade, slide } from 'svelte/transition';
   import type { Facet } from '../lib/facets/types';
+
+  const reducedMotion = matchMedia('(prefers-reduced-motion: reduce)');
+  /** Expand/collapse: slide explains where the controls went; reduced motion keeps only the fade. */
+  const reveal = (node: Element) =>
+    reducedMotion.matches ? fade(node, { duration: 150 }) : slide(node, { duration: 220 });
 
   let {
     facet,
@@ -60,7 +66,7 @@
   </header>
 
   {#if state.enabled}
-  <div class="controls">
+  <div class="controls" transition:reveal>
     {#if hasCount}
       <label class="count" for="count-{facet.id}">
         How many
@@ -89,6 +95,7 @@
     style="--rows: {reservedRows}"
     aria-label="Rolled {facet.label}"
     aria-hidden={ghosts !== undefined}
+    transition:reveal
   >
     {#if ghosts}
       {#each ghosts as item, i (i)}
@@ -129,7 +136,10 @@
     grid-template-columns: 1fr;
     gap: 0.75rem;
     min-width: 0;
-    transition: border-color 0.15s;
+    transition:
+      border-color 0.15s,
+      background-color 0.25s ease-out,
+      padding 0.22s ease-out;
   }
 
   /* Disabled: collapsed to a single line — title and hint side by side, no controls or chips. */
@@ -355,8 +365,15 @@
 
   @media (min-width: 720px) {
     .card.disabled {
-      grid-template-columns: 1fr;
-      grid-template-areas: 'header';
+      /* Header spans both columns; controls/chips keep their areas while they slide out. */
+      grid-template-areas:
+        'header header'
+        'controls chips';
+      row-gap: 0;
+    }
+
+    .card.disabled .chips {
+      min-height: 0;
     }
   }
 </style>

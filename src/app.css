@@ -104,11 +104,19 @@ button {
   cursor: pointer;
   transition:
     background 0.15s,
-    border-color 0.15s;
+    border-color 0.15s,
+    color 0.15s,
+    transform 0.1s;
 }
 
 button:hover:not(:disabled) {
   border-color: var(--accent);
+}
+
+/* Press: immediate, physical, and it resets the instant the pointer lifts. */
+button:active:not(:disabled) {
+  transform: scale(0.97);
+  transition-duration: 0.05s;
 }
 
 button:disabled {
@@ -164,6 +172,14 @@ input[type='checkbox'] {
     width: 1.35rem;
     height: 1.35rem;
   }
+}
+
+/* Theme switch: surfaces and text cross-fade instead of hard-cutting. */
+html,
+body {
+  transition:
+    background-color 0.25s ease-out,
+    color 0.25s ease-out;
 }
 
 @media (prefers-reduced-motion: reduce) {
