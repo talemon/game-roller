@@ -14,8 +14,17 @@
   let {
     facet,
     state = $bindable(),
+    ghosts,
     onRoll,
-  }: { facet: Facet; state: FacetState; onRoll: () => void } = $props();
+  }: {
+    facet: Facet;
+    state: FacetState;
+    /** Decoy items while this slot is rattling; undefined once settled. */
+    ghosts?: FacetItem[];
+    onRoll: () => void;
+  } = $props();
+
+  const rattling = $derived(ghosts !== undefined);
 
   const hasCount = $derived(facet.count.max > facet.count.min);
 
@@ -31,7 +40,13 @@
   }
 </script>
 
-<article class="card" class:disabled={!state.enabled} aria-labelledby="facet-{facet.id}">
+<article
+  class="card"
+  class:disabled={!state.enabled}
+  class:rattling
+  aria-labelledby="facet-{facet.id}"
+  aria-busy={rattling}
+>
   <header>
     <label class="title">
       <input type="checkbox" bind:checked={state.enabled} />
@@ -64,10 +79,20 @@
     </button>
   </div>
 
-  {#if state.rolled.length > 0}
+  {#if ghosts}
+    <ul class="chips" aria-hidden="true">
+      {#each ghosts as item, i (i)}
+        <li class="chip ghost">
+          <span class="chip-label">
+            {#if item.emoji}<span class="emoji">{item.emoji}</span>{/if}{item.label}
+          </span>
+        </li>
+      {/each}
+    </ul>
+  {:else if state.rolled.length > 0}
     <ul class="chips" aria-label="Rolled {facet.label}">
-      {#each state.rolled as item (item.id)}
-        <li class="chip">
+      {#each state.rolled as item, i (item.id)}
+        <li class="chip landed" style="--i: {i}">
           <span class="chip-label">
             {#if item.emoji}<span class="emoji" aria-hidden="true">{item.emoji}</span>{/if}{item.label}
           </span>
@@ -206,5 +231,50 @@
   .chip:has(.chip-desc) {
     border-radius: 12px;
     padding: 0.5rem 0.9rem;
+  }
+
+  /* Rattling: the slot is live — accent edge, decoys dimmed and blurred like dice still moving. */
+  .card.rattling {
+    border-color: var(--accent);
+  }
+
+  .chip.ghost {
+    color: var(--muted);
+    border-style: dashed;
+    filter: blur(0.6px);
+    min-width: 7ch;
+  }
+
+  /* Landing: each locked chip drops into place, staggered by index. */
+  .chip.landed {
+    animation: land 320ms cubic-bezier(0.16, 1, 0.3, 1) both;
+    animation-delay: calc(var(--i) * 45ms);
+  }
+
+  @keyframes land {
+    from {
+      transform: translateY(-0.5rem) scale(1.06);
+      opacity: 0;
+    }
+    to {
+      transform: none;
+      opacity: 1;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .chip.landed {
+      animation: appear 180ms ease-out both;
+    }
+
+    .chip.ghost {
+      filter: none;
+    }
+
+    @keyframes appear {
+      from {
+        opacity: 0;
+      }
+    }
   }
 </style>
