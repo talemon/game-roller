@@ -1,26 +1,52 @@
 <script lang="ts">
+  import { onDestroy } from 'svelte';
+
   let { sentence, onRollAll }: { sentence: string; onRollAll: () => void } = $props();
 
-  let copied = $state(false);
+  type CopyStatus = 'idle' | 'copied' | 'failed';
+  const COPY_LABEL: Record<CopyStatus, string> = {
+    idle: 'Copy',
+    copied: 'Copied',
+    failed: 'Copy failed',
+  };
+
+  // Clipboard API is absent on insecure origins (plain http on a LAN) and in some embedded browsers.
+  const canCopy = typeof navigator !== 'undefined' && !!navigator.clipboard?.writeText;
+
+  let copyStatus = $state<CopyStatus>('idle');
   let copyTimer: ReturnType<typeof setTimeout> | undefined;
 
   async function copy() {
-    await navigator.clipboard.writeText(sentence);
-    copied = true;
     clearTimeout(copyTimer);
-    copyTimer = setTimeout(() => (copied = false), 1500);
+    try {
+      await navigator.clipboard.writeText(sentence);
+      copyStatus = 'copied';
+    } catch {
+      copyStatus = 'failed';
+    }
+    copyTimer = setTimeout(() => (copyStatus = 'idle'), 1500);
   }
+
+  onDestroy(() => clearTimeout(copyTimer));
 </script>
 
-<section class="banner">
-  {#if sentence}
-    <p class="sentence">{sentence}</p>
-  {:else}
-    <p class="sentence placeholder">Roll to get an idea</p>
-  {/if}
+<section class="banner" aria-labelledby="result-heading">
+  <h2 id="result-heading" class="visually-hidden">Your game idea</h2>
+  <p class="sentence" class:placeholder={!sentence} aria-live="polite" aria-atomic="true">
+    {sentence || 'Roll to get an idea'}
+  </p>
   <div class="actions">
     <button class="primary" onclick={onRollAll}>Roll everything</button>
-    <button onclick={copy} disabled={!sentence}>{copied ? 'Copied' : 'Copy'}</button>
+    {#if canCopy}
+      <button
+        onclick={copy}
+        disabled={!sentence}
+        class:failed={copyStatus === 'failed'}
+        aria-live="polite"
+      >
+        {COPY_LABEL[copyStatus]}
+      </button>
+    {/if}
   </div>
 </section>
 
@@ -33,6 +59,7 @@
     display: flex;
     flex-direction: column;
     gap: 1rem;
+    min-width: 0;
   }
 
   .sentence {
@@ -41,6 +68,7 @@
     font-weight: 600;
     line-height: 1.3;
     text-wrap: balance;
+    overflow-wrap: anywhere;
   }
 
   .placeholder {
@@ -52,5 +80,10 @@
     display: flex;
     gap: 0.5rem;
     flex-wrap: wrap;
+  }
+
+  .failed {
+    border-color: var(--danger);
+    color: var(--danger);
   }
 </style>

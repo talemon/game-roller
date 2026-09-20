@@ -29,6 +29,9 @@
   }
 
   const scrapedOn = steamTags.scrapedAt.slice(0, 10);
+  const scrapedOnLabel = new Intl.DateTimeFormat(undefined, { dateStyle: 'medium' }).format(
+    new Date(steamTags.scrapedAt),
+  );
 </script>
 
 <main>
@@ -39,7 +42,8 @@
 
   <ResultBanner {sentence} onRollAll={rollAll} />
 
-  <section class="cards">
+  <section class="cards" aria-labelledby="details-heading">
+    <h2 id="details-heading" class="visually-hidden">Details to roll</h2>
     {#each facets as facet (facet.id)}
       <FacetCard {facet} bind:state={states[facet.id]} onRoll={() => roll(facet)} />
     {/each}
@@ -47,7 +51,8 @@
 
   <footer>
     Genre, theme, viewpoint and player tags from
-    <a href="https://steamdb.info/tags/" rel="noopener">SteamDB</a>, scraped {scrapedOn}. Master plots
+    <a href="https://steamdb.info/tags/" rel="noopener">SteamDB</a>, scraped
+    <time datetime={scrapedOn}>{scrapedOnLabel}</time>. Master plots
     after Christopher Booker, <cite>The Seven Basic Plots</cite>, and Ronald B. Tobias,
     <cite>20 Master Plots</cite>.
   </footer>
@@ -75,7 +80,7 @@
 
   .cards {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    grid-template-columns: repeat(auto-fill, minmax(min(280px, 100%), 1fr));
     gap: 1rem;
   }
 
