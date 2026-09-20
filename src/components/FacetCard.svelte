@@ -116,14 +116,15 @@
 </article>
 
 <style>
+  /* Narrow: stacked. Wide: a row — title and controls in a fixed left column, chips fill the rest. */
   .card {
     background: var(--surface);
     border: 1px solid var(--border);
     border-radius: 12px;
     box-shadow: var(--shadow);
     padding: 1rem 1.25rem;
-    display: flex;
-    flex-direction: column;
+    display: grid;
+    grid-template-columns: 1fr;
     gap: 0.75rem;
     min-width: 0;
     transition: border-color 0.15s;
@@ -206,9 +207,9 @@
     transition: opacity 0.15s;
   }
 
-  /* Sized for the longest plot description at the narrowest three-column card (4 lines). */
+  /* Sized for the longest plot description at full mobile width (3 lines). */
   .chips.tall {
-    --row: 6.25rem;
+    --row: 5.2rem;
   }
 
   .chip {
@@ -300,4 +301,36 @@
       }
     }
   }
+  @media (min-width: 720px) {
+    .card {
+      grid-template-columns: 17rem 1fr;
+      grid-template-areas:
+        'header chips'
+        'controls chips';
+      column-gap: 1.5rem;
+      align-items: start;
+    }
+
+    header {
+      grid-area: header;
+    }
+
+    .controls {
+      grid-area: controls;
+    }
+
+    .chips {
+      grid-area: chips;
+      align-self: stretch;
+      /* Full width fits every roll on one row; reserve just that. */
+      min-height: var(--row);
+    }
+
+    /* Two plot descriptions side by side, each with room to wrap. */
+    .chip:has(.chip-desc) {
+      flex: 1 1 18rem;
+      max-width: 28rem;
+    }
+  }
+
 </style>
