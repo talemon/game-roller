@@ -240,9 +240,10 @@ Every compartment carries a 1px border in both themes — the hairline is struct
 - **Shadow Strategy:** light theme only; see Elevation & Depth.
 - **Border:** 1px hairline; dashed when disarmed; the facet hue while that slot is rattling.
 - **Internal Padding:** `1rem 1.25rem`, collapsing to `0.5rem` block padding when disarmed so an off compartment becomes a single line with its title and hint side by side.
+- **Stale results:** when the count no longer matches the chips on screen, the chips drop to 0.55 opacity, the card's own Roll takes a facet-hue border, and a caption reads "Roll to apply". A card never silently contradicts itself.
 
 ### Inputs / Fields
-- **Number field:** page-tone fill (recessed against the compartment), hairline border, 6px radius, 4rem wide, tabular numerals, with the permitted range printed beside it as a caption. Out-of-range, empty, or decimal input is snapped back to bounds on change rather than rejected.
+- **Number field:** page-tone fill (recessed against the compartment), hairline border, 6px radius, 4rem wide, tabular numerals, with the permitted range printed beside it as a caption. Out-of-range, empty, or decimal input is snapped back to bounds on change rather than rejected — and the rewrite is spoken through the banner's status region, because a value that changes under the cursor without a word teaches that the control is advisory.
 - **Checkbox:** native, 1.1rem (1.35rem coarse), `accent-color` set to the card's facet hue when the card is armed and to the global accent otherwise. Disarming a card moves focus to its checkbox so the collapse never drops focus to the document.
 - **Focus:** global 2px Signal Blue outline at 2px offset.
 - **Disabled:** 0.6 opacity.
@@ -262,6 +263,8 @@ Height is reserved from the sentence the running reveal will end on, rendered in
 
 **The Shifting Weight Rule.** Primary marks the next thing worth doing, and that changes. With no idea on screen the roll button is primary and Copy is inert; the moment a settled sentence exists Copy takes the accent fill and the roll button demotes to secondary and relabels "Roll again". Success is copy-and-leave, so the loud control is whichever one gets the user there. Copy stays mounted and merely disabled during a reveal, and Skip is appended at the end of the row — nothing that was already there ever moves.
 
+**The Nothing Silent Rule.** A control that cannot do its job says why, and a value the system rewrites is spoken. Rolling with nothing armed is not an inert button but a disabled one with "Tick a card below to roll something." beside it; a clamped count announces the value it landed on; chips that no longer match their count dim and ask to be re-rolled. The alternative teaches the user that the controls are decoration.
+
 ## Do's and Don'ts
 
 ### Do:
@@ -270,6 +273,7 @@ Height is reserved from the sentence the running reveal will end on, rendered in
 - **Do** compose both theme values deliberately when adding a colour token; dark is tonal and shadowless, light is warm paper with the two-part shadow.
 - **Do** keep hierarchy in weight, size, and the reading/aside colour split, using the system sans for everything.
 - **Do** give every new motion a reduced-motion counterpart that preserves the state change (fade or an instant end state), and make any sequence longer than a second escapable.
+- **Do** pair every silent correction with a visible or announced consequence — a disabled reason, a status line, a dimmed result.
 - **Do** report state through border colour, the 0.97 press, and hue on a live edge.
 - **Do** size touch targets through `@media (pointer: coarse)` rather than by changing the desktop rhythm.
 

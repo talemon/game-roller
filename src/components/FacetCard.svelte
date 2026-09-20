@@ -22,12 +22,15 @@
     state = $bindable(),
     ghosts,
     onRoll,
+    onNotice,
   }: {
     facet: Facet;
     state: FacetState;
     /** Decoy items while this slot is rattling; undefined once settled. */
     ghosts?: FacetItem[];
     onRoll: () => void;
+    /** Says something the user did not see happen, for the banner's status region. */
+    onNotice: (message: string) => void;
   } = $props();
 
   const rattling = $derived(ghosts !== undefined);
@@ -37,6 +40,10 @@
    */
   const reservedRows = $derived(state.rolled.length > 0 || rattling ? state.count : 0);
   const tallChips = $derived(facet.items.some((item) => item.description));
+  /** The count no longer matches what is on the card: the chips are last roll's answer. */
+  const stale = $derived(
+    !rattling && state.rolled.length > 0 && state.rolled.length !== state.count,
+  );
 
   let card: HTMLElement;
   let toggle: HTMLInputElement;
@@ -48,13 +55,22 @@
 
   const hasCount = $derived(facet.count.max > facet.count.min);
 
-  /** Snap whatever the user typed (empty, decimal, out of range) back into the facet's bounds. */
+  /**
+   * Snap whatever the user typed (empty, decimal, out of range) back into the facet's bounds,
+   * and say so — a value silently rewritten under the cursor teaches that controls are advisory.
+   */
   function clampCount(event: Event) {
     const input = event.currentTarget as HTMLInputElement;
-    const parsed = input.value.trim() === '' ? Number.NaN : Math.round(Number(input.value));
+    const typed = input.value.trim();
+    const parsed = typed === '' ? Number.NaN : Math.round(Number(typed));
     const next = Number.isFinite(parsed)
       ? Math.max(facet.count.min, Math.min(parsed, facet.count.max))
       : facet.count.default;
+    if (typed !== String(next)) {
+      const bound =
+        next === facet.count.max ? ', the most it rolls' : next === facet.count.min ? ', the fewest it rolls' : '';
+      onNotice(`${facet.label} set to ${next}${bound}`);
+    }
     state.count = next;
     input.value = String(next);
   }
@@ -96,13 +112,23 @@
         <span class="range" id="range-{facet.id}">{facet.count.min}–{facet.count.max}</span>
       </label>
     {/if}
-    <button onclick={onRoll} aria-label="Roll {facet.label}" aria-describedby="hint-{facet.id}">
+    <button
+      class:stale
+      onclick={onRoll}
+      aria-label="Roll {facet.label}"
+      aria-describedby="hint-{facet.id}"
+    >
       Roll
     </button>
+    {#if stale}
+      <!-- The chips are the previous count's answer; say so rather than letting the card lie. -->
+      <span class="pending">Roll to apply</span>
+    {/if}
   </div>
 
   <ul
     class="chips"
+    class:stale
     class:tall={tallChips}
     style="--rows: {reservedRows}"
     aria-label="Rolled {facet.label}"
@@ -218,6 +244,21 @@
   .range {
     font-variant-numeric: tabular-nums;
     font-size: 0.8rem;
+  }
+
+  /* Count changed since the last roll: the chips are the previous answer, and this card's
+     Roll is the fix. Hue on that button is allowed — it is this result's own control. */
+  .pending {
+    font-size: 0.8rem;
+    color: var(--muted);
+  }
+
+  button.stale {
+    border-color: oklch(var(--tint-border-l) var(--tint-border-c) var(--facet-hue));
+  }
+
+  .chips.stale {
+    opacity: 0.55;
   }
 
   /* Reserved once something has been rolled, so landing chips never push the layout;

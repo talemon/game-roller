@@ -6,6 +6,8 @@
     reserveText,
     revealing,
     revealEnabled,
+    armedCount,
+    notice,
     onRollAll,
     onSkip,
     onRevealChange,
@@ -15,6 +17,10 @@
     reserveText: string;
     revealing: boolean;
     revealEnabled: boolean;
+    /** How many cards are armed; nothing armed means there is nothing to roll. */
+    armedCount: number;
+    /** Something that happened without the user seeing it, e.g. a count snapped to bounds. */
+    notice: string;
     onRollAll: () => void;
     onSkip: () => void;
     onRevealChange: (enabled: boolean) => void;
@@ -54,9 +60,11 @@
       ? 'Idea copied to clipboard'
       : copyStatus === 'failed'
         ? 'Copying the idea failed'
-        : revealing || !sentence
-          ? ''
-          : sentence,
+        : notice
+          ? notice
+          : revealing || !sentence
+            ? ''
+            : sentence,
   );
 
   onDestroy(() => clearTimeout(copyTimer));
@@ -76,7 +84,13 @@
     {/key}
   </p>
   <div class="actions">
-    <button class="roll" class:primary={!keepReady} onclick={onRollAll}>
+    <button
+      class="roll"
+      class:primary={!keepReady}
+      onclick={onRollAll}
+      disabled={armedCount === 0}
+      aria-describedby={armedCount === 0 ? 'nothing-armed' : undefined}
+    >
       {sentence ? 'Roll again' : 'Roll everything'}
     </button>
     {#if canCopy}
@@ -114,6 +128,10 @@
       />
       Reveal one by one
     </label>
+    {#if armedCount === 0}
+      <!-- Rolling nothing used to look like a broken button; name the fix instead. -->
+      <p class="empty" id="nothing-armed">Tick a card below to roll something.</p>
+    {/if}
   </div>
   <p class="visually-hidden" role="status">{announcement}</p>
 </section>
@@ -222,6 +240,14 @@
     color: var(--muted);
     cursor: pointer;
     min-height: 2.5rem;
+  }
+
+  /* Sits on its own row under the buttons, so appearing never reflows the action row. */
+  .empty {
+    flex-basis: 100%;
+    margin: 0;
+    font-size: 0.85rem;
+    color: var(--muted);
   }
 
   /* Copy holds one width across Copy / Copied / Copy failed; the roll button across both

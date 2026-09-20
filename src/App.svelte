@@ -40,6 +40,17 @@
    * so the box grows once — before the rattle — rather than under a cursor aiming at Skip.
    */
   let reserveText = $state('');
+  /** Nothing armed means "Roll everything" has nothing to roll; the button says so instead. */
+  const armedCount = $derived(facets.filter((f) => states[f.id].enabled).length);
+  /** One-off message for something the user did not see happen (a clamped count). */
+  let notice = $state('');
+  let noticeTimer: ReturnType<typeof setTimeout> | undefined;
+
+  function announce(message: string) {
+    clearTimeout(noticeTimer);
+    notice = message;
+    noticeTimer = setTimeout(() => (notice = ''), 4000);
+  }
 
   function readRevealPreference() {
     try {
@@ -143,6 +154,8 @@
     {reserveText}
     {revealing}
     {revealEnabled}
+    {armedCount}
+    {notice}
     onRollAll={rollAll}
     onSkip={() => skipReveal?.()}
     onRevealChange={setRevealEnabled}
@@ -156,6 +169,7 @@
         bind:state={states[facet.id]}
         ghosts={ghosts[facet.id]}
         onRoll={() => roll(facet)}
+        onNotice={announce}
       />
     {/each}
   </section>
