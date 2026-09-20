@@ -35,6 +35,8 @@ export interface TagFacetOptions {
   excludeCategories?: string[];
   /** Tag name → sentence phrase; anything absent goes through `tagPhrase`'s default rule. */
   phrases?: Record<string, string>;
+  /** Tag name → one-line blurb shown under the chip. */
+  descriptions?: Record<string, string>;
   /**
    * Tag name → family. Tags in one family are near-synonyms and never share a roll;
    * a name absent here is its own family of one.
@@ -52,6 +54,7 @@ export function tagFacet(opts: TagFacetOptions): Facet {
   const excludeCategories = opts.excludeCategories ?? [];
   const phrases = opts.phrases ?? {};
   const families = opts.families ?? {};
+  const descriptions = opts.descriptions ?? {};
   const items = tagsInCategories(opts.categories)
     .filter(
       (tag) =>
@@ -67,6 +70,7 @@ export function tagFacet(opts: TagFacetOptions): Facet {
         label: tag.name,
         phrase,
         emoji: tag.emoji,
+        description: descriptions[tag.name],
         family: suppressesHead ? 'head-noun' : families[tag.name],
         suppressesHead: suppressesHead || undefined,
       };

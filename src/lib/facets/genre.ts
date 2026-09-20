@@ -1,3 +1,4 @@
+import { genreDescriptions } from '../../data/genre-descriptions';
 import { tagFacet } from '../steam-tags';
 import { GENRE_CATEGORIES } from './categories';
 
@@ -29,6 +30,7 @@ export const genreFacet = tagFacet({
     'Open World Survival Craft': 'open-world survival-craft',
     'Match 3': 'match-3',
   },
+  descriptions: genreDescriptions,
   // Near-synonyms: two members of one family in the same sentence describe the same game
   // twice ("role-playing action role-playing", "roguelike deckbuilder traditional roguelike").
   families: {

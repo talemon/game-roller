@@ -18,4 +18,8 @@ describe('genreFacet', () => {
   test('every item has a phrase', () => {
     for (const item of genreFacet.items) expect(item.phrase.length).toBeGreaterThan(0);
   });
+
+  test('every item has a description', () => {
+    for (const item of genreFacet.items) expect(item.description, item.label).toBeString();
+  });
 });
