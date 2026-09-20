@@ -226,7 +226,7 @@ Every compartment carries a 1px border in both themes — the hairline is struct
 - **Hover / Focus:** border shifts to Signal Blue (150ms); primary brightens via `filter` (1.1 dark, 0.92 light). Focus is a 2px Signal Blue outline at 2px offset, from the global `:focus-visible` rule.
 - **Active:** `scale(0.97)` with the transition cut to 50ms, so the press reads as immediate and releases the moment the pointer lifts.
 - **Disabled:** 0.5 opacity, `cursor: not-allowed`, no hover response.
-- **Status variants:** the copy button borders and tints Signal Blue on success, Fault Red on failure, for 1.5s. Its accessible name stays "Copy idea" while the visible label swaps.
+- **Status variants:** the copy button borders and tints Signal Blue on success, Fault Red on failure. The state belongs to the idea, not to a clock: it is derived from which sentence was last copied, so the confirmation stands until that sentence changes and no timer can clear it mid-read. Its accessible name stays "Copy idea" while the visible label swaps.
 
 ### Chips
 - **Style:** the facet's hue at token lightness/chroma — tinted fill, tinted 1px border, tinted text — fully round at 0.35rem/0.8rem. A chip with a description becomes a 12px-radius card (0.5rem/0.9rem) with a 0.8rem description line in the hue's muted tone and an attribution at 0.75rem/0.8 opacity.

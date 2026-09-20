@@ -1,6 +1,4 @@
 <script lang="ts">
-  import { onDestroy } from 'svelte';
-
   let {
     sentence,
     reserveText,
@@ -36,18 +34,28 @@
   // Clipboard API is absent on insecure origins (plain http on a LAN) and in some embedded browsers.
   const canCopy = typeof navigator !== 'undefined' && !!navigator.clipboard?.writeText;
 
-  let copyStatus = $state<CopyStatus>('idle');
-  let copyTimer: ReturnType<typeof setTimeout> | undefined;
+  /**
+   * Which sentence the last copy attempt was about. The button's state is derived from these
+   * rather than parked in a timer: the confirmation belongs to one idea, so it stands until
+   * that idea changes, and no stray re-render or racing timeout can clear it mid-read.
+   */
+  let copiedFor = $state<string | null>(null);
+  let failedFor = $state<string | null>(null);
+
+  const copyStatus = $derived<CopyStatus>(
+    !sentence ? 'idle' : failedFor === sentence ? 'failed' : copiedFor === sentence ? 'copied' : 'idle',
+  );
 
   async function copy() {
-    clearTimeout(copyTimer);
+    const target = sentence;
     try {
-      await navigator.clipboard.writeText(sentence);
-      copyStatus = 'copied';
+      await navigator.clipboard.writeText(target);
+      copiedFor = target;
+      failedFor = null;
     } catch {
-      copyStatus = 'failed';
+      failedFor = target;
+      copiedFor = null;
     }
-    copyTimer = setTimeout(() => (copyStatus = 'idle'), 1500);
   }
 
   /**
@@ -66,8 +74,6 @@
             ? ''
             : sentence,
   );
-
-  onDestroy(() => clearTimeout(copyTimer));
 
   /** A finished idea is on screen: keeping it is now the loud action, rolling the quiet one. */
   const keepReady = $derived(!!sentence && !revealing);
