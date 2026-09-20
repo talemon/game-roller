@@ -301,6 +301,7 @@
       }
     }
   }
+
   @media (min-width: 720px) {
     .card {
       grid-template-columns: 17rem 1fr;
@@ -322,6 +323,9 @@
     .chips {
       grid-area: chips;
       align-self: stretch;
+      /* Results read as the row's answer: pushed right, centred against the controls. */
+      justify-content: flex-end;
+      align-content: center;
       /* Full width fits every roll on one row; reserve just that. */
       min-height: var(--row);
     }
@@ -332,5 +336,4 @@
       max-width: 28rem;
     }
   }
-
 </style>
