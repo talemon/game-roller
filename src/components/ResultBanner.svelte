@@ -3,6 +3,7 @@
 
   let {
     sentence,
+    reserveText,
     revealing,
     revealEnabled,
     onRollAll,
@@ -10,6 +11,8 @@
     onRevealChange,
   }: {
     sentence: string;
+    /** The sentence this reveal will end on; reserves the banner's height up front. */
+    reserveText: string;
     revealing: boolean;
     revealEnabled: boolean;
     onRollAll: () => void;
@@ -62,6 +65,9 @@
 <section class="banner" class:revealing aria-labelledby="result-heading">
   <h2 id="result-heading" class="visually-hidden">Your game idea</h2>
   <p class="sentence" class:placeholder={!sentence}>
+    <!-- Sizes the box for the sentence the reveal is heading towards, so the banner grows
+         once, before the rattle, instead of under the cursor aiming at Skip. -->
+    <span class="sizer" aria-hidden="true">{reserveText || sentence}</span>
     {#key sentence}
       <span class="line">{sentence || 'Roll to get an idea'}</span>
     {/key}
@@ -119,17 +125,25 @@
     font-size: clamp(1.4rem, 3.5vw, 2rem);
     font-weight: 600;
     line-height: 1.3;
-    /* Two lines reserved: the banner keeps its height while slots lock in. */
-    min-height: 2.6em;
     text-wrap: balance;
     overflow-wrap: anywhere;
+    /* Sizer and live line share one cell: the box is as tall as the taller of the two. */
+    display: grid;
   }
 
-  /* Three lines on narrow screens, where the finished sentence usually needs them. */
-  @media (max-width: 640px) {
-    .sentence {
-      min-height: 3.9em;
-    }
+  .sizer,
+  .line {
+    grid-area: 1 / 1;
+  }
+
+  .sizer {
+    visibility: hidden;
+    pointer-events: none;
+  }
+
+  /* Two lines floor once a roll exists, so a short result does not shrink the banner. */
+  .sentence:not(.placeholder) {
+    min-height: 2.6em;
   }
 
   /* Each locked slot re-keys the line: a short settle, not an entrance. */

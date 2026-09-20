@@ -35,6 +35,11 @@
     }),
   );
   const sentence = $derived(composeSentence(activeRolls));
+  /**
+   * The sentence the running reveal will end on. The banner reserves its height from this,
+   * so the box grows once — before the rattle — rather than under a cursor aiming at Skip.
+   */
+  let reserveText = $state('');
 
   function readRevealPreference() {
     try {
@@ -62,6 +67,14 @@
       for (const r of rolls) states[r.facet.id].rolled = r.items;
       return;
     }
+    const rolled = new Map(rolls.map((r) => [r.facet.id, r.items]));
+    reserveText = composeSentence(
+      facets.flatMap((f) => {
+        if (!states[f.id].enabled) return [];
+        const items = rolled.get(f.id) ?? states[f.id].rolled;
+        return items.length > 0 ? [{ facet: f, items }] : [];
+      }),
+    );
     // onDone can fire before playReveal returns, so only publish a sequence still running.
     let running = true;
     const skip = playReveal(
@@ -81,6 +94,7 @@
         },
         onDone() {
           pendingFacetId = null;
+          reserveText = '';
           running = false;
           if (skipReveal === skip) skipReveal = null;
         },
@@ -126,6 +140,7 @@
 
   <ResultBanner
     {sentence}
+    {reserveText}
     {revealing}
     {revealEnabled}
     onRollAll={rollAll}
