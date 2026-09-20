@@ -96,7 +96,7 @@
         <span class="range" id="range-{facet.id}">{facet.count.min}–{facet.count.max}</span>
       </label>
     {/if}
-    <button onclick={onRoll} aria-describedby="hint-{facet.id}">
+    <button onclick={onRoll} aria-label="Roll {facet.label}" aria-describedby="hint-{facet.id}">
       Roll
     </button>
   </div>
@@ -207,7 +207,7 @@
     display: flex;
     align-items: center;
     gap: 0.5rem;
-    font-size: 0.9rem;
+    font-size: 0.85rem;
     color: var(--muted);
   }
 
@@ -298,7 +298,8 @@
     color: var(--muted);
     border: 1px dashed var(--border);
     filter: blur(0.6px);
-    width: 7.5rem;
+    /* Fixed so the rattle cannot reflow, but wide enough that the slowing ticks stay legible. */
+    width: 10.5rem;
     max-width: 100%;
   }
 

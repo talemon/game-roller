@@ -218,7 +218,7 @@
     align-items: center;
     gap: 0.5rem;
     margin-inline-start: auto;
-    font-size: 0.9rem;
+    font-size: 0.85rem;
     color: var(--muted);
     cursor: pointer;
     min-height: 2.5rem;
