@@ -31,9 +31,20 @@
   } = $props();
 
   const rattling = $derived(ghosts !== undefined);
-  /** Rows reserved under the controls: one per rolled chip, so a lock never grows the card. */
-  const reservedRows = $derived(state.count);
+  /**
+   * Rows reserved under the controls: one per rolled chip, so a lock never grows the card.
+   * Nothing rolled yet means nothing can shift, so an untouched card reserves no space.
+   */
+  const reservedRows = $derived(state.rolled.length > 0 || rattling ? state.count : 0);
   const tallChips = $derived(facet.items.some((item) => item.description));
+
+  let card: HTMLElement;
+  let toggle: HTMLInputElement;
+
+  /** Collapsing unmounts the controls: hand focus to the checkbox instead of dropping it to <body>. */
+  function onToggle() {
+    if (!state.enabled && card.contains(document.activeElement)) toggle.focus();
+  }
 
   const hasCount = $derived(facet.count.max > facet.count.min);
 
@@ -50,6 +61,7 @@
 </script>
 
 <article
+  bind:this={card}
   class="card"
   class:disabled={!state.enabled}
   class:rattling
@@ -59,7 +71,7 @@
 >
   <header>
     <label class="title">
-      <input type="checkbox" bind:checked={state.enabled} />
+      <input type="checkbox" bind:this={toggle} bind:checked={state.enabled} onchange={onToggle} />
       <span id="facet-{facet.id}">{facet.label}</span>
     </label>
     <p class="hint" id="hint-{facet.id}">{facet.hint}</p>
@@ -208,7 +220,8 @@
     font-size: 0.8rem;
   }
 
-  /* Always present with rows reserved, so landing chips never push the layout. */
+  /* Reserved once something has been rolled, so landing chips never push the layout;
+     an untouched card has nothing to shift and stays closed up. */
   .chips {
     --row: 2.4rem;
     list-style: none;
@@ -218,7 +231,7 @@
     flex-wrap: wrap;
     align-content: flex-start;
     gap: 0.5rem;
-    min-height: calc(var(--rows, 1) * var(--row) + (var(--rows, 1) - 1) * 0.5rem);
+    min-height: calc(var(--rows, 0) * var(--row) + max(var(--rows, 0) - 1, 0) * 0.5rem);
     transition: opacity 0.15s;
   }
 
@@ -352,8 +365,8 @@
       /* Results read as the row's answer: pushed right, centred against the controls. */
       justify-content: flex-end;
       align-content: center;
-      /* Full width fits every roll on one row; reserve just that. */
-      min-height: var(--row);
+      /* Full width fits every roll on one row; reserve just that, and only once rolled. */
+      min-height: calc(min(var(--rows, 0), 1) * var(--row));
     }
 
     /* Two plot descriptions side by side, each with room to wrap. */

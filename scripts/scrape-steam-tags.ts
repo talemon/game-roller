@@ -1,8 +1,10 @@
 import { existsSync, readFileSync, writeFileSync } from 'node:fs';
 import { load } from 'cheerio';
+import { ROLLED_CATEGORIES } from '../src/lib/facets/categories';
 import type { SteamTag, SteamTagData } from '../src/lib/steam-tag-types';
 
-export type ParsedSteamTags = Omit<SteamTagData, 'scrapedAt' | 'source'>;
+export type ParsedSteamTags = { categories: string[]; tags: SteamTag[] };
+export type PrunedSteamTags = Omit<SteamTagData, 'scrapedAt' | 'source'>;
 
 export function parseSteamTags(html: string): ParsedSteamTags {
   const $ = load(html);
@@ -24,7 +26,6 @@ export function parseSteamTags(html: string): ParsedSteamTags {
         const emoji = a.find('span[aria-hidden]').text().trim();
         a.find('span[aria-hidden]').remove();
         const name = a.text().trim();
-        const count = parseInt($(label).find('.label-count').text().replace(/\D/g, ''), 10);
 
         if (Number.isNaN(id) || name === '') {
           console.error(`malformed tag label in "${category}": ${$.html(label).trim()}`);
@@ -35,7 +36,7 @@ export function parseSteamTags(html: string): ParsedSteamTags {
         if (existing) {
           if (!existing.categories.includes(category)) existing.categories.push(category);
         } else {
-          tags.set(id, { id, name, emoji, count, categories: [category] });
+          tags.set(id, { id, name, emoji, categories: [category] });
         }
       });
   });
@@ -43,6 +44,22 @@ export function parseSteamTags(html: string): ParsedSteamTags {
   return {
     categories,
     tags: [...tags.values()].sort((a, b) => a.id - b.id),
+  };
+}
+
+/**
+ * Keeps only tags that land in a category some facet rolls from: the rest can never be
+ * shown, so they have no business in the bundle. Each kept tag's own `categories` stays
+ * complete, because facet `excludeCategories` rules read categories nobody rolls from.
+ */
+export function pruneToRolled({ categories, tags }: ParsedSteamTags): PrunedSteamTags {
+  const rolled = new Set(ROLLED_CATEGORIES);
+  const kept = tags.filter((tag) => tag.categories.some((c) => rolled.has(c)));
+  const keptCategories = new Set(kept.flatMap((tag) => tag.categories));
+  return {
+    categories,
+    omittedCategories: categories.filter((c) => !keptCategories.has(c)),
+    tags: kept,
   };
 }
 
@@ -63,11 +80,15 @@ if (import.meta.main) {
     process.exit(1);
   }
 
+  const pruned = pruneToRolled(parsed);
   const data: SteamTagData = {
     source: 'https://steamdb.info/tags/',
     scrapedAt: new Date().toISOString(),
-    ...parsed,
+    ...pruned,
   };
-  writeFileSync(outputPath, JSON.stringify(data, null, 2) + '\n');
-  console.log(`wrote ${outputPath}: ${data.tags.length} tags, ${data.categories.length} categories`);
+  writeFileSync(outputPath, JSON.stringify(data) + '\n');
+  console.log(
+    `wrote ${outputPath}: ${data.tags.length} rollable tags of ${parsed.tags.length}, ` +
+      `${data.categories.length} categories (${data.omittedCategories.length} omitted)`,
+  );
 }

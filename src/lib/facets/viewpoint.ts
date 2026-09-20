@@ -1,4 +1,5 @@
 import { tagFacet } from '../steam-tags';
+import { VIEWPOINT_CATEGORIES } from './categories';
 
 export const viewpointFacet = tagFacet({
   id: 'viewpoint',
@@ -8,7 +9,7 @@ export const viewpointFacet = tagFacet({
   enabledByDefault: false,
   hue: 150,
   count: { min: 1, max: 2, default: 1 },
-  categories: ['Visuals & Viewpoint'],
+  categories: [...VIEWPOINT_CATEGORIES],
   exclude: ['360 Video', 'Split Screen'],
   phrases: {
     'Third Person': 'third-person',

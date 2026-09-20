@@ -41,12 +41,27 @@
     copyTimer = setTimeout(() => (copyStatus = 'idle'), 1500);
   }
 
+  /**
+   * One announcement per outcome. The visible sentence is not a live region: during a reveal
+   * it changes ten times, and a screen reader would read every partial idea. This says the
+   * finished idea once, and yields to the copy result while that is showing.
+   */
+  const announcement = $derived(
+    copyStatus === 'copied'
+      ? 'Idea copied to clipboard'
+      : copyStatus === 'failed'
+        ? 'Copying the idea failed'
+        : revealing || !sentence
+          ? ''
+          : sentence,
+  );
+
   onDestroy(() => clearTimeout(copyTimer));
 </script>
 
 <section class="banner" class:revealing aria-labelledby="result-heading">
   <h2 id="result-heading" class="visually-hidden">Your game idea</h2>
-  <p class="sentence" class:placeholder={!sentence} aria-live="polite" aria-atomic="true">
+  <p class="sentence" class:placeholder={!sentence}>
     {#key sentence}
       <span class="line">{sentence || 'Roll to get an idea'}</span>
     {/key}
@@ -59,9 +74,9 @@
       <button
         onclick={copy}
         disabled={!sentence}
+        aria-label="Copy idea"
         class:failed={copyStatus === 'failed'}
         class:copied={copyStatus === 'copied'}
-        aria-live="polite"
       >
         {#key copyStatus}<span class="line">{COPY_LABEL[copyStatus]}</span>{/key}
       </button>
@@ -75,6 +90,7 @@
       Reveal one by one
     </label>
   </div>
+  <p class="visually-hidden" role="status">{announcement}</p>
 </section>
 
 <style>

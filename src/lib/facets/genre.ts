@@ -1,4 +1,5 @@
 import { tagFacet } from '../steam-tags';
+import { GENRE_CATEGORIES } from './categories';
 
 export const genreFacet = tagFacet({
   id: 'genre',
@@ -8,7 +9,7 @@ export const genreFacet = tagFacet({
   enabledByDefault: true,
   hue: 255,
   count: { min: 1, max: 4, default: 2 },
-  categories: ['Top-Level Genres', 'Genres', 'Sub-Genres', 'Role-Playing Genres', 'Card & Board Genres'],
+  categories: [...GENRE_CATEGORIES],
   excludeCategories: ['Software Genres'],
   exclude: ['Indie'],
   phrases: {

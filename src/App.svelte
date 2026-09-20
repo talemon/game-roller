@@ -142,7 +142,7 @@
 
   <footer>
     Genre, theme, viewpoint and player tags from
-    <a href="https://steamdb.info/tags/" rel="noopener">SteamDB</a>, scraped
+    <a href="https://steamdb.info/tags/" target="_blank" rel="noopener">SteamDB</a>, scraped
     <time datetime={scrapedOn}>{scrapedOnLabel}</time>. Master plots
     after Christopher Booker, <cite>The Seven Basic Plots</cite>, and Ronald B. Tobias,
     <cite>20 Master Plots</cite>.

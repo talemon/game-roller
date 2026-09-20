@@ -182,11 +182,15 @@ body {
     color 0.25s ease-out;
 }
 
+/*
+ * Reduced motion is handled per component: FacetCard swaps slide for fade and the chip
+ * landing for a plain appear, ResultBanner swaps the settle for a fade, and the reveal
+ * sequence drops its rattle. Hover, press and theme cross-fade stay — they report state.
+ */
 @media (prefers-reduced-motion: reduce) {
-  *,
-  *::before,
-  *::after {
-    transition-duration: 0s;
+  html,
+  body {
+    transition-duration: 0.12s;
   }
 }
 

@@ -1,5 +1,5 @@
 import { describe, expect, test } from 'bun:test';
-import { parseSteamTags } from './scrape-steam-tags';
+import { parseSteamTags, pruneToRolled } from './scrape-steam-tags';
 
 const fixture = `Scrape ID: abc123
 <div class="taglist-wrap">
@@ -39,12 +39,29 @@ describe('parseSteamTags', () => {
       id: 701,
       name: 'Sports',
       emoji: '🏅',
-      count: 12856,
       categories: ['Themes & Moods', 'Top-Level Genres'],
     });
   });
 
   test('sorts tags by id', () => {
     expect(parsed.tags.map((t) => t.id)).toEqual([701, 4166]);
+  });
+});
+
+describe('pruneToRolled', () => {
+  const pruned = pruneToRolled(parseSteamTags(fixture));
+
+  test('keeps tags a facet can roll and records what was dropped', () => {
+    expect(pruned.tags.map((t) => t.name)).toEqual(['Sports', 'Atmospheric']);
+    expect(pruned.omittedCategories).toEqual([]);
+  });
+
+  test('drops tags no facet rolls from', () => {
+    const parsed = parseSteamTags(fixture);
+    parsed.categories.push('Miscellaneous');
+    parsed.tags.push({ id: 1, name: 'Early Access', emoji: '', categories: ['Miscellaneous'] });
+    const result = pruneToRolled(parsed);
+    expect(result.tags.map((t) => t.name)).not.toContain('Early Access');
+    expect(result.omittedCategories).toEqual(['Miscellaneous']);
   });
 });

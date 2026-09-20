@@ -1,4 +1,5 @@
 import { tagFacet } from '../steam-tags';
+import { PLAYERS_CATEGORIES } from './categories';
 
 export const playersFacet = tagFacet({
   id: 'players',
@@ -8,7 +9,7 @@ export const playersFacet = tagFacet({
   enabledByDefault: false,
   hue: 195,
   count: { min: 1, max: 1, default: 1 },
-  categories: ['Players'],
+  categories: [...PLAYERS_CATEGORIES],
   phrases: {
     Singleplayer: 'single-player',
     PvP: 'PvP',

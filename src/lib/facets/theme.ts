@@ -1,5 +1,6 @@
 import { indefiniteArticle } from '../sentence';
 import { tagFacet } from '../steam-tags';
+import { THEME_CATEGORIES } from './categories';
 
 export const themeFacet = tagFacet({
   id: 'theme',
@@ -9,7 +10,7 @@ export const themeFacet = tagFacet({
   enabledByDefault: false,
   hue: 330,
   count: { min: 1, max: 2, default: 1 },
-  categories: ['Themes & Moods'],
+  categories: [...THEME_CATEGORIES],
   renderTrailing: (p) =>
     p.length === 1 ? `with ${indefiniteArticle(p[0])} ${p[0]} theme` : `with ${p.join(' and ')} themes`,
 });
