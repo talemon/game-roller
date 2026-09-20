@@ -1,0 +1,542 @@
+{
+  "schemaVersion": 2,
+  "generatedAt": "2026-09-20T20:15:58.064Z",
+  "title": "Design System: Game Roller",
+  "extensions": {
+    "colorMeta": {
+      "accent": {
+        "role": "primary",
+        "displayName": "Signal Blue",
+        "canonical": "#6ea8fe",
+        "tonalRamp": [
+          "oklch(15% 0.13 262)",
+          "oklch(26% 0.13 262)",
+          "oklch(37% 0.13 262)",
+          "oklch(48% 0.13 262)",
+          "oklch(59% 0.13 262)",
+          "oklch(70% 0.13 262)",
+          "oklch(81% 0.13 262)",
+          "oklch(92% 0.13 262)"
+        ]
+      },
+      "paper-accent": {
+        "role": "primary",
+        "displayName": "Signal Blue (light theme)",
+        "canonical": "#2a5fc4",
+        "tonalRamp": [
+          "oklch(15% 0.16 262)",
+          "oklch(26% 0.16 262)",
+          "oklch(37% 0.16 262)",
+          "oklch(48% 0.16 262)",
+          "oklch(59% 0.16 262)",
+          "oklch(70% 0.16 262)",
+          "oklch(81% 0.16 262)",
+          "oklch(92% 0.16 262)"
+        ]
+      },
+      "bg": {
+        "role": "neutral",
+        "displayName": "Tray Slate — page",
+        "canonical": "#121417",
+        "tonalRamp": [
+          "oklch(15% 0.012 240)",
+          "oklch(26% 0.012 240)",
+          "oklch(37% 0.012 240)",
+          "oklch(48% 0.012 240)",
+          "oklch(59% 0.012 240)",
+          "oklch(70% 0.012 240)",
+          "oklch(81% 0.012 240)",
+          "oklch(92% 0.012 240)"
+        ]
+      },
+      "surface": {
+        "role": "neutral",
+        "displayName": "Tray Slate — compartment",
+        "canonical": "#1b1f24",
+        "tonalRamp": [
+          "oklch(15% 0.012 240)",
+          "oklch(26% 0.012 240)",
+          "oklch(37% 0.012 240)",
+          "oklch(48% 0.012 240)",
+          "oklch(59% 0.012 240)",
+          "oklch(70% 0.012 240)",
+          "oklch(81% 0.012 240)",
+          "oklch(92% 0.012 240)"
+        ]
+      },
+      "chip": {
+        "role": "neutral",
+        "displayName": "Tray Slate — chip",
+        "canonical": "#242a31",
+        "tonalRamp": [
+          "oklch(15% 0.014 240)",
+          "oklch(26% 0.014 240)",
+          "oklch(37% 0.014 240)",
+          "oklch(48% 0.014 240)",
+          "oklch(59% 0.014 240)",
+          "oklch(70% 0.014 240)",
+          "oklch(81% 0.014 240)",
+          "oklch(92% 0.014 240)"
+        ]
+      },
+      "border": {
+        "role": "neutral",
+        "displayName": "Hairline",
+        "canonical": "#2e353d",
+        "tonalRamp": [
+          "oklch(15% 0.014 240)",
+          "oklch(26% 0.014 240)",
+          "oklch(37% 0.014 240)",
+          "oklch(48% 0.014 240)",
+          "oklch(59% 0.014 240)",
+          "oklch(70% 0.014 240)",
+          "oklch(81% 0.014 240)",
+          "oklch(92% 0.014 240)"
+        ]
+      },
+      "text": {
+        "role": "neutral",
+        "displayName": "Reading",
+        "canonical": "#e8eaed",
+        "tonalRamp": [
+          "oklch(15% 0.004 250)",
+          "oklch(26% 0.004 250)",
+          "oklch(37% 0.004 250)",
+          "oklch(48% 0.004 250)",
+          "oklch(59% 0.004 250)",
+          "oklch(70% 0.004 250)",
+          "oklch(81% 0.004 250)",
+          "oklch(92% 0.004 250)"
+        ]
+      },
+      "muted": {
+        "role": "neutral",
+        "displayName": "Aside",
+        "canonical": "#9aa3ad",
+        "tonalRamp": [
+          "oklch(15% 0.015 245)",
+          "oklch(26% 0.015 245)",
+          "oklch(37% 0.015 245)",
+          "oklch(48% 0.015 245)",
+          "oklch(59% 0.015 245)",
+          "oklch(70% 0.015 245)",
+          "oklch(81% 0.015 245)",
+          "oklch(92% 0.015 245)"
+        ]
+      },
+      "danger": {
+        "role": "tertiary",
+        "displayName": "Fault Red",
+        "canonical": "#ff8a80",
+        "tonalRamp": [
+          "oklch(15% 0.13 25)",
+          "oklch(26% 0.13 25)",
+          "oklch(37% 0.13 25)",
+          "oklch(48% 0.13 25)",
+          "oklch(59% 0.13 25)",
+          "oklch(70% 0.13 25)",
+          "oklch(81% 0.13 25)",
+          "oklch(92% 0.13 25)"
+        ]
+      },
+      "paper-bg": {
+        "role": "neutral",
+        "displayName": "Warm Paper — page",
+        "canonical": "#f3f1ec",
+        "tonalRamp": [
+          "oklch(15% 0.01 85)",
+          "oklch(26% 0.01 85)",
+          "oklch(37% 0.01 85)",
+          "oklch(48% 0.01 85)",
+          "oklch(59% 0.01 85)",
+          "oklch(70% 0.01 85)",
+          "oklch(81% 0.01 85)",
+          "oklch(92% 0.01 85)"
+        ]
+      },
+      "paper-surface": {
+        "role": "neutral",
+        "displayName": "Warm Paper — compartment",
+        "canonical": "#ffffff",
+        "tonalRamp": [
+          "oklch(15% 0.004 85)",
+          "oklch(26% 0.004 85)",
+          "oklch(37% 0.004 85)",
+          "oklch(48% 0.004 85)",
+          "oklch(59% 0.004 85)",
+          "oklch(70% 0.004 85)",
+          "oklch(81% 0.004 85)",
+          "oklch(92% 0.004 85)"
+        ]
+      },
+      "paper-chip": {
+        "role": "neutral",
+        "displayName": "Warm Paper — chip",
+        "canonical": "#ebe8e1",
+        "tonalRamp": [
+          "oklch(15% 0.012 85)",
+          "oklch(26% 0.012 85)",
+          "oklch(37% 0.012 85)",
+          "oklch(48% 0.012 85)",
+          "oklch(59% 0.012 85)",
+          "oklch(70% 0.012 85)",
+          "oklch(81% 0.012 85)",
+          "oklch(92% 0.012 85)"
+        ]
+      },
+      "paper-border": {
+        "role": "neutral",
+        "displayName": "Hairline (light theme)",
+        "canonical": "#d5d1c8",
+        "tonalRamp": [
+          "oklch(15% 0.014 85)",
+          "oklch(26% 0.014 85)",
+          "oklch(37% 0.014 85)",
+          "oklch(48% 0.014 85)",
+          "oklch(59% 0.014 85)",
+          "oklch(70% 0.014 85)",
+          "oklch(81% 0.014 85)",
+          "oklch(92% 0.014 85)"
+        ]
+      },
+      "paper-text": {
+        "role": "neutral",
+        "displayName": "Reading (light theme)",
+        "canonical": "#1c1f24",
+        "tonalRamp": [
+          "oklch(15% 0.008 250)",
+          "oklch(26% 0.008 250)",
+          "oklch(37% 0.008 250)",
+          "oklch(48% 0.008 250)",
+          "oklch(59% 0.008 250)",
+          "oklch(70% 0.008 250)",
+          "oklch(81% 0.008 250)",
+          "oklch(92% 0.008 250)"
+        ]
+      },
+      "paper-muted": {
+        "role": "neutral",
+        "displayName": "Aside (light theme)",
+        "canonical": "#5b6370",
+        "tonalRamp": [
+          "oklch(15% 0.02 255)",
+          "oklch(26% 0.02 255)",
+          "oklch(37% 0.02 255)",
+          "oklch(48% 0.02 255)",
+          "oklch(59% 0.02 255)",
+          "oklch(70% 0.02 255)",
+          "oklch(81% 0.02 255)",
+          "oklch(92% 0.02 255)"
+        ]
+      },
+      "paper-danger": {
+        "role": "tertiary",
+        "displayName": "Fault Red (light theme)",
+        "canonical": "#b3261e",
+        "tonalRamp": [
+          "oklch(15% 0.16 27)",
+          "oklch(26% 0.16 27)",
+          "oklch(37% 0.16 27)",
+          "oklch(48% 0.16 27)",
+          "oklch(59% 0.16 27)",
+          "oklch(70% 0.16 27)",
+          "oklch(81% 0.16 27)",
+          "oklch(92% 0.16 27)"
+        ]
+      }
+    },
+    "facetHues": [
+      {
+        "facet": "viewpoint",
+        "displayName": "Viewpoint Green",
+        "hue": 150
+      },
+      {
+        "facet": "players",
+        "displayName": "Players Cyan",
+        "hue": 195
+      },
+      {
+        "facet": "genre",
+        "displayName": "Genre Indigo",
+        "hue": 255
+      },
+      {
+        "facet": "plot",
+        "displayName": "Plot Amber",
+        "hue": 45
+      },
+      {
+        "facet": "theme",
+        "displayName": "Theme Magenta",
+        "hue": 330
+      }
+    ],
+    "facetTint": {
+      "purpose": "Lightness and chroma per theme; each card supplies only --facet-hue, so contrast is guaranteed in both themes.",
+      "dark": {
+        "tint-bg-l": "30%",
+        "tint-bg-c": 0.045,
+        "tint-border-l": "46%",
+        "tint-border-c": 0.09,
+        "tint-text-l": "92%",
+        "tint-text-c": 0.03,
+        "tint-muted-l": "78%",
+        "tint-muted-c": 0.05,
+        "tint-accent-l": "75%",
+        "tint-accent-c": 0.14
+      },
+      "light": {
+        "tint-bg-l": "95%",
+        "tint-bg-c": 0.03,
+        "tint-border-l": "82%",
+        "tint-border-c": 0.08,
+        "tint-text-l": "32%",
+        "tint-text-c": 0.08,
+        "tint-muted-l": "46%",
+        "tint-muted-c": 0.07,
+        "tint-accent-l": "52%",
+        "tint-accent-c": 0.16
+      }
+    },
+    "typographyMeta": {
+      "display": {
+        "displayName": "Display",
+        "purpose": "The rolled sentence only; balanced wrap, two lines reserved (three under 640px)."
+      },
+      "headline": {
+        "displayName": "Headline",
+        "purpose": "Page title."
+      },
+      "title": {
+        "displayName": "Title",
+        "purpose": "A compartment's name, beside its checkbox."
+      },
+      "body": {
+        "displayName": "Body",
+        "purpose": "Chip labels (500) and general interface text (400)."
+      },
+      "label": {
+        "displayName": "Label",
+        "purpose": "Card hints, reveal toggle, theme options, footer."
+      },
+      "caption": {
+        "displayName": "Caption",
+        "purpose": "Chip descriptions, count ranges, attribution."
+      }
+    },
+    "shadows": [
+      {
+        "name": "compartment",
+        "value": "0 1px 2px rgb(28 31 36 / 0.06), 0 6px 16px rgb(28 31 36 / 0.05)",
+        "purpose": "Light theme only: cards and the result banner resting on paper. Dark theme sets --shadow: none and separates tonally."
+      }
+    ],
+    "motion": [
+      {
+        "name": "state",
+        "value": "150ms (background, border-color, color)",
+        "purpose": "Hover and control state on buttons, options, chips."
+      },
+      {
+        "name": "press",
+        "value": "scale(0.97) at 50ms",
+        "purpose": "Button :active; resets the instant the pointer lifts."
+      },
+      {
+        "name": "theme-crossfade",
+        "value": "250ms ease-out (background-color, color)",
+        "purpose": "Theme switch on html/body and surfaces; 120ms under reduced motion."
+      },
+      {
+        "name": "land",
+        "value": "320ms cubic-bezier(0.16, 1, 0.3, 1), 45ms stagger by index",
+        "purpose": "A locked chip dropping into its row; becomes a 180ms opacity appear under reduced motion."
+      },
+      {
+        "name": "settle",
+        "value": "260ms cubic-bezier(0.16, 1, 0.3, 1)",
+        "purpose": "The sentence re-keying as each slot locks; a settle, not an entrance."
+      },
+      {
+        "name": "reveal-slide",
+        "value": "220ms slide (expand/collapse)",
+        "purpose": "Card controls and chips entering or leaving when a facet is armed; 150ms fade under reduced motion."
+      },
+      {
+        "name": "rattle",
+        "value": "14 ticks easing 60ms → 220ms, 220ms between slots",
+        "purpose": "The dice rattle per slot; skippable by button, Escape, or the persisted toggle."
+      }
+    ],
+    "breakpoints": [
+      {
+        "name": "narrow",
+        "value": "640px"
+      },
+      {
+        "name": "row",
+        "value": "720px"
+      },
+      {
+        "name": "page",
+        "value": "960px"
+      },
+      {
+        "name": "coarse",
+        "value": "(pointer: coarse)"
+      }
+    ]
+  },
+  "components": [
+    {
+      "name": "Primary Button",
+      "kind": "button",
+      "refersTo": "button-primary",
+      "description": "The single action on screen: Roll everything.",
+      "html": "<button class=\"ds-btn-primary\">Roll everything</button>",
+      "css": ".ds-btn-primary { font: inherit; font-weight: 600; background: var(--accent, #6ea8fe); color: var(--accent-text, #0b1526); border: 1px solid var(--accent, #6ea8fe); border-radius: 8px; padding: 0.45rem 0.9rem; min-height: 2.5rem; cursor: pointer; transition: background .15s, border-color .15s, color .15s, transform .1s; } .ds-btn-primary:hover { filter: brightness(1.1); } .ds-btn-primary:focus-visible { outline: 2px solid var(--accent, #6ea8fe); outline-offset: 2px; } .ds-btn-primary:active { transform: scale(0.97); transition-duration: .05s; }"
+    },
+    {
+      "name": "Default Button",
+      "kind": "button",
+      "refersTo": "button",
+      "description": "Per-card Roll and the reveal Skip.",
+      "html": "<button class=\"ds-btn\">Roll</button>",
+      "css": ".ds-btn { font: inherit; color: var(--text, #e8eaed); background: var(--chip, #242a31); border: 1px solid var(--border, #2e353d); border-radius: 8px; padding: 0.45rem 0.9rem; min-height: 2.5rem; cursor: pointer; transition: background .15s, border-color .15s, color .15s, transform .1s; } .ds-btn:hover { border-color: var(--accent, #6ea8fe); } .ds-btn:focus-visible { outline: 2px solid var(--accent, #6ea8fe); outline-offset: 2px; } .ds-btn:active { transform: scale(0.97); transition-duration: .05s; } .ds-btn:disabled { opacity: .5; cursor: not-allowed; }"
+    },
+    {
+      "name": "Result Chip",
+      "kind": "chip",
+      "refersTo": "chip",
+      "description": "A rolled result, tinted with its facet's hue so it traces back to its card.",
+      "html": "<span class=\"ds-chip\" style=\"--facet-hue: 255\"><span class=\"ds-chip-label\"><span class=\"ds-chip-emoji\" aria-hidden=\"true\">🧩</span>Puzzle Platformer</span></span>",
+      "css": ".ds-chip { --tint-bg: oklch(var(--tint-bg-l, 30%) var(--tint-bg-c, .045) var(--facet-hue)); --tint-border: oklch(var(--tint-border-l, 46%) var(--tint-border-c, .09) var(--facet-hue)); --tint-text: oklch(var(--tint-text-l, 92%) var(--tint-text-c, .03) var(--facet-hue)); display: inline-flex; flex-direction: column; gap: .15rem; background: var(--tint-bg); border: 1px solid var(--tint-border); color: var(--tint-text); border-radius: 999px; padding: .35rem .8rem; overflow-wrap: anywhere; } .ds-chip-label { font-weight: 500; } .ds-chip-emoji { margin-inline-end: .35em; }"
+    },
+    {
+      "name": "Described Chip",
+      "kind": "chip",
+      "refersTo": "chip-described",
+      "description": "A result carrying a description and source attribution (master plots).",
+      "html": "<span class=\"ds-chip-desc\" style=\"--facet-hue: 45\"><span class=\"ds-chip-desc-label\">Rebirth</span><span class=\"ds-chip-desc-body\">A character falls under a dark shadow and is redeemed, often through someone else. <span class=\"ds-chip-desc-attr\">Booker</span></span></span>",
+      "css": ".ds-chip-desc { --tint-bg: oklch(var(--tint-bg-l, 30%) var(--tint-bg-c, .045) var(--facet-hue)); --tint-border: oklch(var(--tint-border-l, 46%) var(--tint-border-c, .09) var(--facet-hue)); --tint-text: oklch(var(--tint-text-l, 92%) var(--tint-text-c, .03) var(--facet-hue)); --tint-muted: oklch(var(--tint-muted-l, 78%) var(--tint-muted-c, .05) var(--facet-hue)); display: inline-flex; flex-direction: column; gap: .15rem; max-width: 28rem; background: var(--tint-bg); border: 1px solid var(--tint-border); color: var(--tint-text); border-radius: 12px; padding: .5rem .9rem; } .ds-chip-desc-label { font-weight: 500; } .ds-chip-desc-body { font-size: .8rem; line-height: 1.35; color: var(--tint-muted); } .ds-chip-desc-attr { margin-inline-start: .35rem; font-size: .75rem; opacity: .8; }"
+    },
+    {
+      "name": "Ghost Chip",
+      "kind": "chip",
+      "refersTo": "chip",
+      "description": "A decoy shown while a slot is rattling: dashed, blurred, fixed width so the rattle cannot reflow the row.",
+      "html": "<span class=\"ds-chip-ghost\"><span class=\"ds-chip-ghost-label\">Roguelike</span></span>",
+      "css": ".ds-chip-ghost { display: inline-flex; width: 7.5rem; max-width: 100%; background: var(--chip, #242a31); color: var(--muted, #9aa3ad); border: 1px dashed var(--border, #2e353d); border-radius: 999px; padding: .35rem .8rem; filter: blur(.6px); } .ds-chip-ghost-label { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; } @media (prefers-reduced-motion: reduce) { .ds-chip-ghost { filter: none; } }"
+    },
+    {
+      "name": "Facet Card",
+      "kind": "card",
+      "refersTo": "card",
+      "description": "One compartment of the tray: checkbox, title, hint, count, Roll, and its results. Becomes a row at 720px.",
+      "html": "<article class=\"ds-card\" style=\"--facet-hue: 255\"><div class=\"ds-card-head\"><label class=\"ds-card-title\"><input type=\"checkbox\" checked class=\"ds-card-check\"><span>Genre</span></label><p class=\"ds-card-hint\">What kind of game it is</p></div><div class=\"ds-card-controls\"><label class=\"ds-card-count\">How many <input type=\"number\" value=\"2\" min=\"1\" max=\"4\" class=\"ds-input-number\"><span class=\"ds-card-range\">1–4</span></label><button class=\"ds-btn\">Roll</button></div></article>",
+      "css": ".ds-card { display: grid; gap: .75rem; background: var(--surface, #1b1f24); border: 1px solid var(--border, #2e353d); border-radius: 12px; box-shadow: var(--shadow, none); padding: 1rem 1.25rem; transition: border-color .15s, background-color .25s ease-out, padding .22s ease-out; } .ds-card-head { display: flex; flex-direction: column; gap: .2rem; } .ds-card-title { display: flex; align-items: center; gap: .5rem; font-weight: 600; font-size: 1.05rem; min-height: 2.75rem; margin-block: -.5rem; cursor: pointer; } .ds-card-check { width: 1.1rem; height: 1.1rem; margin: 0; accent-color: oklch(var(--tint-accent-l, 75%) var(--tint-accent-c, .14) var(--facet-hue)); } .ds-card-hint { margin: 0; color: var(--muted, #9aa3ad); font-size: .85rem; } .ds-card-controls { display: flex; align-items: center; gap: .75rem; flex-wrap: wrap; } .ds-card-count { display: flex; align-items: center; gap: .5rem; font-size: .9rem; color: var(--muted, #9aa3ad); } .ds-card-range { font-size: .8rem; font-variant-numeric: tabular-nums; }"
+    },
+    {
+      "name": "Number Field",
+      "kind": "input",
+      "refersTo": "input-number",
+      "description": "How many results a facet rolls; recessed against the card, tabular numerals, snapped back into bounds on change.",
+      "html": "<input type=\"number\" inputmode=\"numeric\" value=\"2\" min=\"1\" max=\"4\" class=\"ds-input-number\">",
+      "css": ".ds-input-number { font: inherit; width: 4rem; color: var(--text, #e8eaed); background: var(--bg, #121417); border: 1px solid var(--border, #2e353d); border-radius: 6px; padding: .25rem .4rem; min-height: 2.25rem; font-variant-numeric: tabular-nums; } .ds-input-number:focus-visible { outline: 2px solid var(--accent, #6ea8fe); outline-offset: 2px; } .ds-input-number:disabled { opacity: .6; } @media (pointer: coarse) { .ds-input-number { min-height: 2.75rem; } }"
+    },
+    {
+      "name": "Theme Switcher",
+      "kind": "nav",
+      "refersTo": "segmented-option",
+      "description": "The only persistent control: a pill-shaped segmented group of System / Light / Dark over visually hidden radios.",
+      "html": "<fieldset class=\"ds-toggle\"><label class=\"ds-toggle-option ds-is-active\">System</label><label class=\"ds-toggle-option\">Light</label><label class=\"ds-toggle-option\">Dark</label></fieldset>",
+      "css": ".ds-toggle { display: inline-flex; gap: .15rem; margin: 0; padding: .2rem; border: 1px solid var(--border, #2e353d); border-radius: 999px; background: var(--surface, #1b1f24); } .ds-toggle-option { display: inline-flex; align-items: center; padding: .3rem .8rem; min-height: 2rem; border-radius: 999px; font-size: .85rem; color: var(--muted, #9aa3ad); cursor: pointer; user-select: none; transition: background .15s, color .15s; } .ds-toggle-option:hover { color: var(--text, #e8eaed); } .ds-toggle-option.ds-is-active { background: var(--chip, #242a31); color: var(--text, #e8eaed); font-weight: 600; } @media (pointer: coarse) { .ds-toggle-option { min-height: 2.5rem; } }"
+    },
+    {
+      "name": "Result Banner",
+      "kind": "custom",
+      "refersTo": "banner",
+      "description": "The reading surface: composed sentence at display size with two lines reserved, primary action, and the reveal toggle.",
+      "html": "<section class=\"ds-banner\"><p class=\"ds-banner-sentence\"><span class=\"ds-banner-line\">A 3D online co-op puzzle platformer game about rebirth</span></p><div class=\"ds-banner-actions\"><button class=\"ds-btn-primary\">Roll everything</button><button class=\"ds-btn\">Copy</button><label class=\"ds-banner-reveal\"><input type=\"checkbox\" checked> Reveal one by one</label></div></section>",
+      "css": ".ds-banner { display: flex; flex-direction: column; gap: 1rem; background: var(--surface, #1b1f24); border: 1px solid var(--border, #2e353d); border-radius: 12px; box-shadow: var(--shadow, none); padding: 1.5rem; transition: border-color .2s, background-color .25s ease-out; } .ds-banner-sentence { margin: 0; font-size: clamp(1.4rem, 3.5vw, 2rem); font-weight: 600; line-height: 1.3; min-height: 2.6em; text-wrap: balance; overflow-wrap: anywhere; } .ds-banner-line { display: inline-block; animation: ds-settle 260ms cubic-bezier(.16, 1, .3, 1); } @keyframes ds-settle { from { transform: translateY(.18em); opacity: .4; } to { transform: none; opacity: 1; } } .ds-banner-actions { display: flex; align-items: center; gap: .5rem; flex-wrap: wrap; } .ds-banner-reveal { display: inline-flex; align-items: center; gap: .5rem; margin-inline-start: auto; font-size: .9rem; color: var(--muted, #9aa3ad); min-height: 2.5rem; cursor: pointer; } @media (prefers-reduced-motion: reduce) { .ds-banner-line { animation: none; } }"
+    }
+  ],
+  "narrative": {
+    "northStar": "The Dice Tray",
+    "overview": "Game Roller is a felt-lined tray with five compartments. You arm the compartments you care about, tip the tray, and the dice rattle, slow, and settle one at a time. The sentence at the top is what the dice read when they stop. Everything in the interface is either a die, a compartment, or the reading — there is no chrome that is none of those.\n\nThe tray is quiet. Surfaces are unadorned rectangles with a single hairline border; the only saturated colour on screen is the primary action and the chips that a roll actually produced. Density is deliberate: on a wide screen each facet becomes one horizontal row — controls on the left, results pushed to the right edge — so the whole set of compartments scans as a short list rather than a page of cards to read. Motion carries weight, never decoration: a rattle that eases from 60ms to 220ms per tick, a chip that drops 0.5rem and lands with a 320ms exponential ease-out, a card that slides its controls away when you disarm it. Nothing pulses, floats, or shimmers at rest.\n\nDark is the room the tray sits in by default; light is a separate, composed daytime version — warm paper, white compartments, soft shadow — not the dark theme inverted. Both are first-class, and the system never assumes one.",
+    "keyCharacteristics": [
+      "Five facet hues, each owned by one compartment, carried into every artifact that compartment produces",
+      "Reserved space over reflow: a landing chip never pushes the layout",
+      "One authored motion moment (the reveal) with a first-class skip",
+      "Flat tonal dark, softly shadowed light — both composed, neither inverted",
+      "System sans throughout; hierarchy comes from weight, size, and colour, never from a second face"
+    ],
+    "rules": [
+      {
+        "name": "The Traceability Rule",
+        "body": "A facet hue exists so that a chip can be traced back to the compartment that produced it. A new facet earns a hue because it needs identity in the results, never because the palette wants more variety. Hues are never reused across facets and never applied to anything that is not a result, a result's control, or a live slot's edge.",
+        "section": "colors"
+      },
+      {
+        "name": "The One Action Rule",
+        "body": "Signal Blue marks the thing to press and the thing being interacted with — primary button, focus ring, live-reveal border, selection, caret. A second saturated element competing for the eye in the neutral shell is a bug.",
+        "section": "colors"
+      },
+      {
+        "name": "The Composed Theme Rule",
+        "body": "Light is authored, not derived. Warm paper (#f3f1ec), true white compartments, and real shadows; dark is cool slate, shadowless, tonal. Adding a token means choosing both values deliberately — never invert(), never a filter.",
+        "section": "colors"
+      },
+      {
+        "name": "The One Face Rule",
+        "body": "The system sans is the whole type system. No display face, no mono costume for \"technical\" — tabular numerals handle the only place numbers need to align.",
+        "section": "typography"
+      },
+      {
+        "name": "The Reserved Line Rule",
+        "body": "Any text that changes while the user watches reserves its height first. The sentence reserves two lines (three on mobile); chips reserve their rows once a roll exists. Text arriving must never move text already read.",
+        "section": "typography"
+      },
+      {
+        "name": "The Reserved Space Rule",
+        "body": "A compartment reserves exactly the height its declared count of results will occupy — --rows × --row, where --row is 2.4rem, or 5.2rem for facets whose chips carry descriptions — but only once something has been rolled. Nothing rolled means nothing can shift, and an untouched card stays closed up.",
+        "section": "layout"
+      },
+      {
+        "name": "The No-Lift Rule",
+        "body": "Nothing rises on hover. State is reported by border colour (hairline → Signal Blue), by a 0.97 scale press that resets the instant the pointer lifts, and by the facet hue appearing on a live card's edge. Elevation is a property of the theme's material, not a response to the cursor.",
+        "section": "elevation"
+      },
+      {
+        "name": "The Skippable Reveal Rule",
+        "body": "The rattle is the product's one authored motion moment — ~1.5s per slot, ticks easing 60ms → 220ms, 220ms between slots — and it is always escapable: a Skip button, the Escape key, and a persisted \"Reveal one by one\" toggle. Motion that cannot be skipped is a cost the user did not agree to.",
+        "section": "components"
+      },
+      {
+        "name": "The Reduced-Motion Dialect Rule",
+        "body": "Reduced motion swaps vocabulary, it never mutes the system: slide becomes fade, the chip landing becomes an opacity appear, the sentence settle becomes a fade, the rattle drops to a paced pending state. Hover, press, and theme cross-fade survive, because they report state. A blanket transition-duration: 0 across the document is forbidden.",
+        "section": "components"
+      }
+    ],
+    "dos": [
+      "Do give every new facet its own OKLCH hue angle via --facet-hue, and let the theme-level --tint-*-l/c tokens supply lightness and chroma so contrast holds in both themes.",
+      "Do reserve space for anything that will arrive — --rows × --row on chips, min-height on the sentence — and only once the content can actually appear.",
+      "Do compose both theme values deliberately when adding a colour token; dark is tonal and shadowless, light is warm paper with the two-part shadow.",
+      "Do keep hierarchy in weight, size, and the reading/aside colour split, using the system sans for everything.",
+      "Do give every new motion a reduced-motion counterpart that preserves the state change (fade or an instant end state), and make any sequence longer than a second escapable.",
+      "Do report state through border colour, the 0.97 press, and hue on a live edge.",
+      "Do size touch targets through @media (pointer: coarse) rather than by changing the desktop rhythm."
+    ],
+    "donts": [
+      "Don't use a facet hue for anything that is not a result, a result's own control, or a live slot's edge. It is a traceability device, not a palette.",
+      "Don't introduce a second saturated accent, a gradient fill, gradient text, or a second type face.",
+      "Don't add a shadow to the dark theme, or a hover lift to either theme. Depth belongs to the material, not the cursor.",
+      "Don't derive one theme from the other with invert(), a filter, or opacity over a light base.",
+      "Don't let arriving content push read content: no unreserved chip rows, no growing banner.",
+      "Don't kill all transitions under prefers-reduced-motion; swap the vocabulary instead.",
+      "Don't let an emoji stand in for a label or an icon; emoji ride along with tag text and are aria-hidden.",
+      "Don't make the rolled sentence a live region — a paced reveal in a live region reads every partial state aloud."
+    ]
+  }
+}
