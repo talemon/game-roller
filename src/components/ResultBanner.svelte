@@ -99,8 +99,17 @@
     font-size: clamp(1.4rem, 3.5vw, 2rem);
     font-weight: 600;
     line-height: 1.3;
+    /* Two lines reserved: the banner keeps its height while slots lock in. */
+    min-height: 2.6em;
     text-wrap: balance;
     overflow-wrap: anywhere;
+  }
+
+  /* Three lines on narrow screens, where the finished sentence usually needs them. */
+  @media (max-width: 640px) {
+    .sentence {
+      min-height: 3.9em;
+    }
   }
 
   /* Each locked slot re-keys the line: a short settle, not an entrance. */

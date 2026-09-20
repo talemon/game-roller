@@ -25,6 +25,9 @@
   } = $props();
 
   const rattling = $derived(ghosts !== undefined);
+  /** Rows reserved under the controls: one per rolled chip, so a lock never grows the card. */
+  const reservedRows = $derived(state.count);
+  const tallChips = $derived(facet.items.some((item) => item.description));
 
   const hasCount = $derived(facet.count.max > facet.count.min);
 
@@ -79,8 +82,14 @@
     </button>
   </div>
 
-  {#if ghosts}
-    <ul class="chips" aria-hidden="true">
+  <ul
+    class="chips"
+    class:tall={tallChips}
+    style="--rows: {reservedRows}"
+    aria-label="Rolled {facet.label}"
+    aria-hidden={ghosts !== undefined}
+  >
+    {#if ghosts}
       {#each ghosts as item, i (i)}
         <li class="chip ghost">
           <span class="chip-label">
@@ -88,9 +97,7 @@
           </span>
         </li>
       {/each}
-    </ul>
-  {:else if state.rolled.length > 0}
-    <ul class="chips" aria-label="Rolled {facet.label}">
+    {:else}
       {#each state.rolled as item, i (item.id)}
         <li class="chip landed" style="--i: {i}">
           <span class="chip-label">
@@ -104,8 +111,8 @@
           {/if}
         </li>
       {/each}
-    </ul>
-  {/if}
+    {/if}
+  </ul>
 </article>
 
 <style>
@@ -185,14 +192,23 @@
     font-size: 0.8rem;
   }
 
+  /* Always present with rows reserved, so landing chips never push the layout. */
   .chips {
+    --row: 2.4rem;
     list-style: none;
     margin: 0;
     padding: 0;
     display: flex;
     flex-wrap: wrap;
+    align-content: flex-start;
     gap: 0.5rem;
+    min-height: calc(var(--rows, 1) * var(--row) + (var(--rows, 1) - 1) * 0.5rem);
     transition: opacity 0.15s;
+  }
+
+  /* Sized for the longest plot description at the narrowest three-column card (4 lines). */
+  .chips.tall {
+    --row: 6.25rem;
   }
 
   .chip {
@@ -242,7 +258,14 @@
     color: var(--muted);
     border-style: dashed;
     filter: blur(0.6px);
-    min-width: 7ch;
+    width: 7.5rem;
+    max-width: 100%;
+  }
+
+  .chip.ghost .chip-label {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
   }
 
   /* Landing: each locked chip drops into place, staggered by index. */

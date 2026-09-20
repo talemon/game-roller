@@ -20,11 +20,12 @@ export interface RevealOptions {
   reducedMotion: boolean;
 }
 
-const TICKS = 9;
-const TICK_START_MS = 45;
-const TICK_END_MS = 150;
-const GAP_MS = 110;
-const REDUCED_GAP_MS = 320;
+/** ~1.5 s per slot: 14 ticks easing from 60 ms to 220 ms, then a beat before the next slot. */
+const TICKS = 14;
+const TICK_START_MS = 60;
+const TICK_END_MS = 220;
+const GAP_MS = 220;
+const REDUCED_GAP_MS = 500;
 
 /**
  * Plays `rolls` one slot at a time in order. Returns a `skip()` that locks every
