@@ -69,9 +69,10 @@
   <div class="actions">
     <button class="primary" onclick={onRollAll}>Roll everything</button>
     {#if revealing}
-      <button onclick={onSkip}>Skip</button>
+      <button class="swap" onclick={onSkip}>Skip</button>
     {:else if canCopy}
       <button
+        class="swap"
         onclick={copy}
         disabled={!sentence}
         aria-label="Copy idea"
@@ -169,6 +170,11 @@
     color: var(--muted);
     cursor: pointer;
     min-height: 2.5rem;
+  }
+
+  /* Skip and Copy share this slot: one fixed width, so a swap can never resize the row. */
+  .swap {
+    min-width: 7.5rem;
   }
 
   /* When the row wraps, the toggle lines up under the buttons instead of drifting right. */

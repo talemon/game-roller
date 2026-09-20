@@ -23,8 +23,9 @@
   /** The slot currently rattling — its sentence position shows "…". */
   let pendingFacetId = $state<string | null>(null);
   let revealEnabled = $state(readRevealPreference());
-  let skipReveal: (() => void) | null = null;
-  const revealing = $derived(pendingFacetId !== null);
+  /** Non-null while a reveal sequence is live — including the beats between slots. */
+  let skipReveal = $state<(() => void) | null>(null);
+  const revealing = $derived(skipReveal !== null);
 
   const activeRolls = $derived<FacetRoll[]>(
     facets.flatMap((f) => {
@@ -57,11 +58,13 @@
   function play(targets: readonly Facet[]) {
     skipReveal?.();
     const rolls = targets.map((f) => rollFacet(f, states[f.id].count));
-    if (!revealEnabled) {
+    if (!revealEnabled || rolls.length === 0) {
       for (const r of rolls) states[r.facet.id].rolled = r.items;
       return;
     }
-    skipReveal = playReveal(
+    // onDone can fire before playReveal returns, so only publish a sequence still running.
+    let running = true;
+    const skip = playReveal(
       rolls,
       {
         onSpin(facet, decoys) {
@@ -78,11 +81,13 @@
         },
         onDone() {
           pendingFacetId = null;
-          skipReveal = null;
+          running = false;
+          if (skipReveal === skip) skipReveal = null;
         },
       },
       { reducedMotion: reducedMotion.matches },
     );
+    if (running) skipReveal = skip;
   }
 
   function roll(facet: Facet) {
