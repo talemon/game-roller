@@ -60,6 +60,9 @@
   );
 
   onDestroy(() => clearTimeout(copyTimer));
+
+  /** A finished idea is on screen: keeping it is now the loud action, rolling the quiet one. */
+  const keepReady = $derived(!!sentence && !revealing);
 </script>
 
 <section class="banner" class:revealing aria-labelledby="result-heading">
@@ -73,20 +76,35 @@
     {/key}
   </p>
   <div class="actions">
-    <button class="primary" onclick={onRollAll}>Roll everything</button>
-    {#if revealing}
-      <button class="swap" onclick={onSkip}>Skip</button>
-    {:else if canCopy}
+    <button class="roll" class:primary={!keepReady} onclick={onRollAll}>
+      {sentence ? 'Roll again' : 'Roll everything'}
+    </button>
+    {#if canCopy}
       <button
         class="swap"
+        class:primary={keepReady}
         onclick={copy}
-        disabled={!sentence}
+        disabled={!sentence || revealing}
         aria-label="Copy idea"
         class:failed={copyStatus === 'failed'}
         class:copied={copyStatus === 'copied'}
       >
         {#key copyStatus}<span class="line">{COPY_LABEL[copyStatus]}</span>{/key}
       </button>
+    {:else if sentence}
+      <!-- No clipboard API (insecure origin, embedded browser): hand over selectable text. -->
+      <input
+        class="fallback"
+        type="text"
+        readonly
+        value={sentence}
+        aria-label="Your game idea, select to copy"
+        onfocus={(e) => e.currentTarget.select()}
+      />
+    {/if}
+    <!-- Appended last: the reveal's escape hatch never moves a control that was already there. -->
+    {#if revealing}
+      <button onclick={onSkip}>Skip</button>
     {/if}
     <label class="reveal">
       <input
@@ -101,11 +119,15 @@
 </section>
 
 <style>
+  /*
+   * The reading is not a compartment: it is the tray floor the dice land on. Recessed
+   * rather than raised — deeper than the page in dark, warm chip-tone in light, no
+   * shadow in either — so the artifact never shares material with the controls.
+   */
   .banner {
-    background: var(--surface);
+    background: var(--tray);
     border: 1px solid var(--border);
-    border-radius: 12px;
-    box-shadow: var(--shadow);
+    border-radius: 16px;
     padding: 1.5rem;
     display: flex;
     flex-direction: column;
@@ -202,9 +224,27 @@
     min-height: 2.5rem;
   }
 
-  /* Skip and Copy share this slot: one fixed width, so a swap can never resize the row. */
+  /* Copy holds one width across Copy / Copied / Copy failed; the roll button across both
+     of its labels. Neither label change nudges anything else in the row. */
   .swap {
     min-width: 7.5rem;
+  }
+
+  .roll {
+    min-width: 9.5rem;
+  }
+
+  /* Clipboard-less browsers still get the sentence in a selectable, copyable field. */
+  .fallback {
+    flex: 1 1 14rem;
+    min-width: 0;
+    font: inherit;
+    color: var(--text);
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 0.45rem 0.9rem;
+    min-height: 2.5rem;
   }
 
   /* When the row wraps, the toggle lines up under the buttons instead of drifting right. */

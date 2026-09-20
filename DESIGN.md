@@ -5,6 +5,7 @@ colors:
   bg: "#121417"
   surface: "#1b1f24"
   chip: "#242a31"
+  tray: "#0c0e11"
   border: "#2e353d"
   text: "#e8eaed"
   muted: "#9aa3ad"
@@ -14,6 +15,7 @@ colors:
   paper-bg: "#f3f1ec"
   paper-surface: "#ffffff"
   paper-chip: "#ebe8e1"
+  paper-tray: "#e7e3d9"
   paper-border: "#d5d1c8"
   paper-text: "#1c1f24"
   paper-muted: "#5b6370"
@@ -55,6 +57,7 @@ rounded:
   sm: "6px"
   md: "8px"
   lg: "12px"
+  xl: "16px"
   pill: "999px"
 spacing:
   xs: "0.2rem"
@@ -93,9 +96,9 @@ components:
     rounded: "{rounded.lg}"
     padding: "0.5rem 1.25rem"
   banner:
-    backgroundColor: "{colors.surface}"
+    backgroundColor: "{colors.tray}"
     textColor: "{colors.text}"
-    rounded: "{rounded.lg}"
+    rounded: "{rounded.xl}"
     padding: "1.5rem"
   chip:
     typography: "{typography.body}"
@@ -144,13 +147,14 @@ Dark is the room the tray sits in by default; light is a separate, composed dayt
 A low-chroma neutral shell — near-black slate or warm paper — holding five saturated OKLCH facet hues that appear only where a result exists.
 
 ### Primary
-- **Signal Blue** (dark `#6ea8fe`, light `#2a5fc4`): the single action colour. It fills the Roll everything button, outlines the banner while a reveal is running, draws every focus ring, and tints the caret and text selection. Nothing decorative wears it.
+- **Signal Blue** (dark `#6ea8fe`, light `#2a5fc4`): the single action colour. It fills whichever control is currently primary — the roll button before an idea exists, Copy once one does — outlines the banner while a reveal is running, draws every focus ring, and tints the caret and text selection. Nothing decorative wears it.
 
 ### Secondary
 The five **facet hues**, expressed as OKLCH hue angles rather than fixed colours: **Viewpoint Green** (150), **Players Cyan** (195), **Genre Indigo** (255), **Plot Amber** (45), **Theme Magenta** (330). Each card supplies its angle via `--facet-hue`; lightness and chroma come from theme-level tokens (`--tint-bg-l/c`, `--tint-border-l/c`, `--tint-text-l/c`, `--tint-muted-l/c`, `--tint-accent-l/c`), so a hue is one number and contrast is guaranteed in both themes. The hue appears on the card's chips, its checkbox accent, and its border while that slot is rattling.
 
 ### Neutral
 - **Tray Slate** (dark `#121417` page, `#1b1f24` compartment, `#242a31` chip; light `#f3f1ec` page, `#ffffff` compartment, `#ebe8e1` chip): a three-step tonal ladder. In dark it is the entire depth system.
+- **Tray Floor** (dark `#0c0e11`, light `#e7e3d9`): the reading's own material, and the only surface recessed *below* the page. Compartments sit on it; nothing else uses it.
 - **Hairline** (dark `#2e353d`, light `#d5d1c8`): one pixel, on every compartment. Dashed when a compartment is disarmed.
 - **Reading** (dark `#e8eaed`, light `#1c1f24`) and **Aside** (dark `#9aa3ad`, light `#5b6370`): body and secondary text. Aside carries hints, counts, footer, and the reveal toggle at ≥4.5:1 in both themes.
 - **Fault Red** (dark `#ff8a80`, light `#b3261e`): failure only — currently just a failed clipboard write.
@@ -201,14 +205,15 @@ Density responds to pointer type, not width: under `@media (pointer: coarse)` bu
 Depth is a light-mode dialect. Dark mode has no shadows at all (`--shadow: none`): separation comes from the three-step tonal ladder (page `#121417` → compartment `#1b1f24` → chip `#242a31`) plus a hairline border. Light mode uses one shared two-part shadow — a 1px contact shadow and a 16px ambient one, both in the text colour at 5–6% — on compartments and the banner only. Chips, buttons, and inputs are flat in both themes.
 
 ### Shadow Vocabulary
-- **Compartment** (`box-shadow: 0 1px 2px rgb(28 31 36 / 0.06), 0 6px 16px rgb(28 31 36 / 0.05)`, light theme only): the card and banner resting on paper. Offset plus soft blur, never a zero-offset halo.
+- **Compartment** (`box-shadow: 0 1px 2px rgb(28 31 36 / 0.06), 0 6px 16px rgb(28 31 36 / 0.05)`, light theme only): the card resting on paper. Offset plus soft blur, never a zero-offset halo.
+- **The reading is recessed, never raised.** The banner carries no shadow in either theme; it separates by being a darker (dark) or deeper-paper (light) material than the page, with the same hairline. A dice tray's floor is below you, not floating.
 
 ### Named Rules
 **The No-Lift Rule.** Nothing rises on hover. State is reported by border colour (hairline → Signal Blue), by a 0.97 scale press that resets the instant the pointer lifts, and by the facet hue appearing on a live card's edge. Elevation is a property of the theme's material, not a response to the cursor.
 
 ## Shapes
 
-Three radii, each with a job: 6px for text inputs, 8px for buttons, 12px for compartments and for chips that grew a description. Bare chips and the theme switcher are fully round (999px), which is how a result reads as a token you could pick up rather than a box you read.
+Four radii, each with a job: 6px for text inputs, 8px for buttons, 12px for compartments and for chips that grew a description, 16px for the reading — the one surface that is not a compartment gets the one radius nothing else uses. Bare chips and the theme switcher are fully round (999px), which is how a result reads as a token you could pick up rather than a box you read.
 
 Every compartment carries a 1px border in both themes — the hairline is structural, not decorative, and it turns dashed when the compartment is disarmed so an off facet is legible at a glance without colour. Rattling decoys keep the dashed border and add a 0.6px blur: a die still moving. Nothing in the system uses a thick coloured left border, a hard offset shadow, or a gradient fill.
 
@@ -246,12 +251,16 @@ Every compartment carries a 1px border in both themes — the hairline is struct
 There is no navigation. The only persistent control is the theme switcher: a pill-shaped segmented group of three options (System / Light / Dark) built from visually hidden radios inside labels, with the active option filled in chip tone at weight 600 and the group's focus ring driven by `:has(input:focus-visible)`.
 
 ### Result Banner (signature component)
-The reading surface: a compartment-toned card holding the composed sentence at display size with two lines reserved, the primary action, a contextual Skip-or-Copy slot, and the reveal toggle pushed to the right edge (dropping to its own full-width row under 640px). Its border turns Signal Blue for the duration of a reveal. Each locked slot re-keys the sentence and plays `settle` (260ms, `cubic-bezier(0.16, 1, 0.3, 1)`, from `translateY(0.18em)` at 0.4 opacity) — a settle, not an entrance, because most of the line was already there. A single visually hidden `role="status"` announces the finished idea once; the visible sentence is deliberately not a live region.
+The reading, on its own material: a tray-floor panel at 16px radius holding the composed sentence at display size, the roll action, Copy, a Skip that appears only during a reveal, and the reveal toggle pushed to the right edge (dropping to its own full-width row under 640px). Below 720px the panel is `position: sticky; top: 0` at reduced padding, because per-facet re-roll happens a screen and a half further down. Its border turns Signal Blue for the duration of a reveal. Each locked slot re-keys the sentence and plays `settle` (260ms, `cubic-bezier(0.16, 1, 0.3, 1)`, from `translateY(0.18em)` at 0.4 opacity) — a settle, not an entrance, because most of the line was already there. A single visually hidden `role="status"` announces the finished idea once; the visible sentence is deliberately not a live region.
+
+Height is reserved from the sentence the running reveal will end on, rendered into a hidden sizer stacked in the same grid cell, so the panel grows once before the rattle instead of under a cursor aiming at Skip. The two-line floor applies only once a roll exists; the empty state is as short as its placeholder.
 
 ### Named Rules
 **The Skippable Reveal Rule.** The rattle is the product's one authored motion moment — ~1.5s per slot, ticks easing 60ms → 220ms, 220ms between slots — and it is always escapable: a Skip button, the Escape key, and a persisted "Reveal one by one" toggle. Motion that cannot be skipped is a cost the user did not agree to.
 
 **The Reduced-Motion Dialect Rule.** Reduced motion swaps vocabulary, it never mutes the system: slide becomes fade, the chip landing becomes an opacity appear, the sentence settle becomes a fade, the rattle drops to a paced pending state. Hover, press, and theme cross-fade survive, because they report state. A blanket `transition-duration: 0` across the document is forbidden.
+
+**The Shifting Weight Rule.** Primary marks the next thing worth doing, and that changes. With no idea on screen the roll button is primary and Copy is inert; the moment a settled sentence exists Copy takes the accent fill and the roll button demotes to secondary and relabels "Roll again". Success is copy-and-leave, so the loud control is whichever one gets the user there. Copy stays mounted and merely disabled during a reveal, and Skip is appended at the end of the row — nothing that was already there ever moves.
 
 ## Do's and Don'ts
 

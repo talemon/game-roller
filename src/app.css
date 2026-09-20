@@ -3,6 +3,8 @@
   --bg: #121417;
   --surface: #1b1f24;
   --chip: #242a31;
+  /* The tray floor the dice land on: recessed below the page, deeper than any compartment. */
+  --tray: #0c0e11;
   --border: #2e353d;
   --text: #e8eaed;
   --muted: #9aa3ad;
@@ -45,6 +47,8 @@
   --bg: #f3f1ec;
   --surface: #ffffff;
   --chip: #ebe8e1;
+  /* Light: a deeper sheet of the same paper — the tray floor under the white compartments. */
+  --tray: #e7e3d9;
   --border: #d5d1c8;
   --text: #1c1f24;
   --muted: #5b6370;
