@@ -9,6 +9,7 @@ export const plotFacet: Facet = {
   hint: "Booker's 7 basic plots + Tobias's 20 master plots",
   slot: 'about',
   enabledByDefault: true,
+  hue: 45,
   count: { min: 1, max: 2, default: 1 },
   items: masterPlots.map((p) => ({
     id: `plot:${p.id}`,

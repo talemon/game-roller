@@ -29,6 +29,8 @@ export interface Facet {
   items: readonly FacetItem[];
   count: { min: number; max: number; default: number };
   enabledByDefault: boolean;
+  /** OKLCH hue (0–360) that this facet's chips and live edge carry, so results trace back to their card. */
+  hue: number;
   /** Required when `slot === 'trailing'`. */
   renderTrailing?: (phrases: string[]) => string;
 }

@@ -47,6 +47,7 @@
   class="card"
   class:disabled={!state.enabled}
   class:rattling
+  style="--facet-hue: {facet.hue}"
   aria-labelledby="facet-{facet.id}"
   aria-busy={rattling}
 >
@@ -216,9 +217,15 @@
     --row: 5.2rem;
   }
 
+  /* Facet hue: chips, live edge and checkbox share it, so a result traces back to its card. */
   .chip {
-    background: var(--chip);
-    border: 1px solid var(--border);
+    --tint-bg: oklch(var(--tint-bg-l) var(--tint-bg-c) var(--facet-hue));
+    --tint-border: oklch(var(--tint-border-l) var(--tint-border-c) var(--facet-hue));
+    --tint-text: oklch(var(--tint-text-l) var(--tint-text-c) var(--facet-hue));
+    --tint-muted: oklch(var(--tint-muted-l) var(--tint-muted-c) var(--facet-hue));
+    background: var(--tint-bg);
+    border: 1px solid var(--tint-border);
+    color: var(--tint-text);
     border-radius: 999px;
     padding: 0.35rem 0.8rem;
     display: flex;
@@ -239,7 +246,7 @@
 
   .chip-desc {
     font-size: 0.8rem;
-    color: var(--muted);
+    color: var(--tint-muted);
     line-height: 1.35;
   }
 
@@ -254,14 +261,19 @@
     padding: 0.5rem 0.9rem;
   }
 
-  /* Rattling: the slot is live — accent edge, decoys dimmed and blurred like dice still moving. */
+  /* Rattling: the slot is live — hue edge, decoys dimmed and blurred like dice still moving. */
   .card.rattling {
-    border-color: var(--accent);
+    border-color: oklch(var(--tint-border-l) var(--tint-border-c) var(--facet-hue));
+  }
+
+  .card:not(.disabled) input[type='checkbox'] {
+    accent-color: oklch(var(--tint-accent-l) var(--tint-accent-c) var(--facet-hue));
   }
 
   .chip.ghost {
+    background: var(--chip);
     color: var(--muted);
-    border-style: dashed;
+    border: 1px dashed var(--border);
     filter: blur(0.6px);
     width: 7.5rem;
     max-width: 100%;

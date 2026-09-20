@@ -7,6 +7,7 @@ export const themeFacet = tagFacet({
   hint: 'Setting, subject or mood',
   slot: 'trailing',
   enabledByDefault: false,
+  hue: 330,
   count: { min: 1, max: 2, default: 1 },
   categories: ['Themes & Moods'],
   renderTrailing: (p) =>

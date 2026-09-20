@@ -34,6 +34,7 @@ export interface TagFacetOptions {
   phrases?: Record<string, string>;
   count: Facet['count'];
   enabledByDefault: boolean;
+  hue: number;
   renderTrailing?: Facet['renderTrailing'];
 }
 
@@ -61,6 +62,7 @@ export function tagFacet(opts: TagFacetOptions): Facet {
     items,
     count: opts.count,
     enabledByDefault: opts.enabledByDefault,
+    hue: opts.hue,
     renderTrailing: opts.renderTrailing,
   };
 }

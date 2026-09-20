@@ -11,6 +11,18 @@
   --danger: #ff8a80;
   --shadow: none;
 
+  /* Facet tints: lightness/chroma per theme; each card supplies --facet-hue. */
+  --tint-bg-l: 30%;
+  --tint-bg-c: 0.045;
+  --tint-border-l: 46%;
+  --tint-border-c: 0.09;
+  --tint-text-l: 92%;
+  --tint-text-c: 0.03;
+  --tint-muted-l: 78%;
+  --tint-muted-c: 0.05;
+  --tint-accent-l: 75%;
+  --tint-accent-c: 0.14;
+
   color-scheme: dark;
   font-family:
     system-ui,
@@ -42,6 +54,17 @@
   --shadow:
     0 1px 2px rgb(28 31 36 / 0.06),
     0 6px 16px rgb(28 31 36 / 0.05);
+
+  --tint-bg-l: 95%;
+  --tint-bg-c: 0.03;
+  --tint-border-l: 82%;
+  --tint-border-c: 0.08;
+  --tint-text-l: 32%;
+  --tint-text-c: 0.08;
+  --tint-muted-l: 46%;
+  --tint-muted-c: 0.07;
+  --tint-accent-l: 52%;
+  --tint-accent-c: 0.16;
 
   color-scheme: light;
   -webkit-font-smoothing: auto;

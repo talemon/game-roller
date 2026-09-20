@@ -6,6 +6,7 @@ export const viewpointFacet = tagFacet({
   hint: 'Art style and camera',
   slot: 'prefix',
   enabledByDefault: false,
+  hue: 150,
   count: { min: 1, max: 2, default: 1 },
   categories: ['Visuals & Viewpoint'],
   exclude: ['360 Video', 'Split Screen'],

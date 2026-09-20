@@ -6,6 +6,7 @@ export const playersFacet = tagFacet({
   hint: 'Solo, co-op or competitive',
   slot: 'prefix',
   enabledByDefault: false,
+  hue: 195,
   count: { min: 1, max: 1, default: 1 },
   categories: ['Players'],
   phrases: {

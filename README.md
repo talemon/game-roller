@@ -50,6 +50,7 @@ export interface Facet {
   items: readonly FacetItem[];       // { id, label, phrase, emoji?, description?, attribution? }
   count: { min: number; max: number; default: number };
   enabledByDefault: boolean;
+  hue: number;                       // OKLCH hue for this facet's chips (0–360)
   renderTrailing?: (phrases: string[]) => string;   // required when slot === 'trailing'
 }
 ```
@@ -71,6 +72,7 @@ export const settingFacet = tagFacet({
   hint: 'Steam science-fiction tags',
   slot: 'trailing',
   enabledByDefault: false,
+  hue: 280,
   count: { min: 1, max: 1, default: 1 },
   categories: ['Science Fiction'],
   renderTrailing: (p) => `set in a ${p[0]} world`,

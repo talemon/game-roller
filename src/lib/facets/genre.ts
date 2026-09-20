@@ -6,6 +6,7 @@ export const genreFacet = tagFacet({
   hint: 'What kind of game it is',
   slot: 'prefix',
   enabledByDefault: true,
+  hue: 255,
   count: { min: 1, max: 4, default: 2 },
   categories: ['Top-Level Genres', 'Genres', 'Sub-Genres', 'Role-Playing Genres', 'Card & Board Genres'],
   excludeCategories: ['Software Genres'],

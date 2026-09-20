@@ -11,6 +11,7 @@ function facet(id: string, slot: FacetSlot, renderTrailing?: Facet['renderTraili
     items: [],
     count: { min: 1, max: 1, default: 1 },
     enabledByDefault: true,
+    hue: 0,
     renderTrailing,
   };
 }
