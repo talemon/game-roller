@@ -116,6 +116,22 @@
       background-color 0.25s ease-out;
   }
 
+  /*
+   * Narrow: the reading stays on screen while the user works the cards below it.
+   * Per-facet re-roll is the core interaction, and the facet buttons sit up to 1000px
+   * down the page — without this the sentence is gone by the time you reach one.
+   */
+  @media (max-width: 719px) {
+    .banner {
+      position: sticky;
+      top: 0;
+      z-index: 1;
+      /* Compact while stuck: the tray below needs the room more than the padding does. */
+      padding: 1rem 1.25rem;
+      gap: 0.75rem;
+    }
+  }
+
   .banner.revealing {
     border-color: var(--accent);
   }
