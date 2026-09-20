@@ -1,6 +1,7 @@
 <script lang="ts">
   import FacetCard, { type FacetState } from './components/FacetCard.svelte';
   import ResultBanner from './components/ResultBanner.svelte';
+  import ThemeToggle from './components/ThemeToggle.svelte';
   import { facets } from './lib/facets/registry';
   import type { Facet, FacetRoll } from './lib/facets/types';
   import { rollFacet } from './lib/roll';
@@ -36,8 +37,11 @@
 
 <main>
   <header>
-    <h1>Game Roller</h1>
-    <p class="subtitle">Roll a genre, a master plot and any extra details — get a game idea.</p>
+    <div>
+      <h1>Game Roller</h1>
+      <p class="subtitle">Roll a genre, a master plot and any extra details — get a game idea.</p>
+    </div>
+    <ThemeToggle />
   </header>
 
   <ResultBanner {sentence} onRollAll={rollAll} />
@@ -66,6 +70,14 @@
     display: flex;
     flex-direction: column;
     gap: 1.5rem;
+  }
+
+  header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 1rem;
+    flex-wrap: wrap;
   }
 
   header h1 {

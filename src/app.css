@@ -1,3 +1,4 @@
+/* Dark is the default world; light is composed separately (warm paper, white cards), not inverted. */
 :root {
   --bg: #121417;
   --surface: #1b1f24;
@@ -8,6 +9,7 @@
   --accent: #6ea8fe;
   --accent-text: #0b1526;
   --danger: #ff8a80;
+  --shadow: none;
 
   color-scheme: dark;
   font-family:
@@ -25,6 +27,28 @@
   accent-color: var(--accent);
   caret-color: var(--accent);
   -webkit-font-smoothing: antialiased;
+}
+
+:root[data-theme='light'] {
+  --bg: #f3f1ec;
+  --surface: #ffffff;
+  --chip: #ebe8e1;
+  --border: #d5d1c8;
+  --text: #1c1f24;
+  --muted: #5b6370;
+  --accent: #2a5fc4;
+  --accent-text: #ffffff;
+  --danger: #b3261e;
+  --shadow:
+    0 1px 2px rgb(28 31 36 / 0.06),
+    0 6px 16px rgb(28 31 36 / 0.05);
+
+  color-scheme: light;
+  -webkit-font-smoothing: auto;
+}
+
+:root[data-theme='light'] button.primary:hover:not(:disabled) {
+  filter: brightness(0.92);
 }
 
 * {
