@@ -69,7 +69,7 @@ import { tagFacet } from '../steam-tags';
 export const settingFacet = tagFacet({
   id: 'setting',
   label: 'Setting',
-  hint: 'Steam science-fiction tags',
+  hint: 'Where the story happens',
   slot: 'trailing',
   enabledByDefault: false,
   hue: 280,

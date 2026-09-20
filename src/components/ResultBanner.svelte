@@ -155,6 +155,14 @@
     min-height: 2.5rem;
   }
 
+  /* When the row wraps, the toggle lines up under the buttons instead of drifting right. */
+  @media (max-width: 640px) {
+    .reveal {
+      margin-inline-start: 0;
+      flex-basis: 100%;
+    }
+  }
+
   .failed {
     border-color: var(--danger);
     color: var(--danger);
