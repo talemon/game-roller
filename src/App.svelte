@@ -6,7 +6,7 @@
   import type { Facet, FacetItem, FacetRoll } from './lib/facets/types';
   import { PENDING_ITEM, playReveal } from './lib/reveal';
   import { rollFacet } from './lib/roll';
-  import { composeSentence } from './lib/sentence';
+  import { composeSentence, composeSentenceParts } from './lib/sentence';
   import { steamTags } from './lib/steam-tags';
 
   const REVEAL_STORAGE_KEY = 'game-roller:reveal';
@@ -34,7 +34,9 @@
       return states[f.id].rolled.length > 0 ? [{ facet: f, items: states[f.id].rolled }] : [];
     }),
   );
-  const sentence = $derived(composeSentence(activeRolls));
+  const sentenceParts = $derived(composeSentenceParts(activeRolls));
+  /** The same reading as one string, for copying, announcing and re-keying the settle. */
+  const sentence = $derived(sentenceParts.map((part) => part.text).join(''));
   /**
    * The sentence the running reveal will end on. The banner reserves its height from this,
    * so the box grows once — before the rattle — rather than under a cursor aiming at Skip.
@@ -151,6 +153,7 @@
 
   <ResultBanner
     {sentence}
+    parts={sentenceParts}
     {reserveText}
     {revealing}
     {revealEnabled}

@@ -1,6 +1,9 @@
 <script lang="ts">
+  import type { SentencePart } from '../lib/sentence';
+
   let {
     sentence,
+    parts,
     reserveText,
     revealing,
     revealEnabled,
@@ -11,6 +14,8 @@
     onRevealChange,
   }: {
     sentence: string;
+    /** The same sentence split into facet-attributed runs, so each word wears its card's hue. */
+    parts: SentencePart[];
     /** The sentence this reveal will end on; reserves the banner's height up front. */
     reserveText: string;
     revealing: boolean;
@@ -86,7 +91,12 @@
          once, before the rattle, instead of under the cursor aiming at Skip. -->
     <span class="sizer" aria-hidden="true">{reserveText || sentence}</span>
     {#key sentence}
-      <span class="line">{sentence || 'Roll to get an idea'}</span>
+      <span class="line"
+        >{#each parts as part}{#if part.hue === undefined}{part.text}{:else}<span
+            class="word"
+            style="--facet-hue: {part.hue}">{part.text}</span
+          >{/if}{/each}{#if !sentence}Roll to get an idea{/if}</span
+      >
     {/key}
   </p>
   <div class="actions">
@@ -228,6 +238,17 @@
   .placeholder {
     color: var(--muted);
     font-weight: 400;
+  }
+
+  /*
+   * Traceability in the reading itself: a rolled word wears the hue of the compartment that
+   * produced it, so the sentence and the chips below it are visibly the same result. Only
+   * rolled text is tinted — "A", "game", "about", "and" stay the reading colour, which is
+   * what keeps five hues in one line legible as a sentence rather than a ransom note.
+   */
+  .word {
+    color: oklch(var(--tint-word-l) var(--tint-word-c) var(--facet-hue));
+    transition: color 0.25s ease-out;
   }
 
   .actions {

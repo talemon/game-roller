@@ -1,6 +1,6 @@
 import { describe, expect, test } from 'bun:test';
 import type { Facet, FacetItem, FacetRoll, FacetSlot } from './facets/types';
-import { composeSentence, indefiniteArticle } from './sentence';
+import { composeSentence, composeSentenceParts, indefiniteArticle } from './sentence';
 
 function facet(id: string, slot: FacetSlot, renderTrailing?: Facet['renderTrailing']): Facet {
   return {
@@ -79,6 +79,53 @@ describe('composeSentence', () => {
 
   test('the head-supplying phrase sorts last, whatever the draw order', () => {
     expect(composeSentence([headRoll(genre, ['tactical'], 'wargame')])).toBe('A tactical wargame');
+  });
+});
+
+describe('composeSentenceParts', () => {
+  const hued = (id: string, slot: FacetSlot, hue: number, renderTrailing?: Facet['renderTrailing']) => ({
+    ...facet(id, slot, renderTrailing),
+    hue,
+  });
+  const g = hued('genre', 'prefix', 255);
+  const p = hued('plot', 'about', 45);
+  const t = hued('theme', 'trailing', 330, (phrases) => `with a ${phrases.join(' and ')} theme`);
+
+  test('the joined parts are exactly the sentence', () => {
+    const rolls = [roll(g, ['puzzle']), roll(p, ['discovery']), roll(t, ['cyberpunk'])];
+    expect(
+      composeSentenceParts(rolls)
+        .map((part) => part.text)
+        .join(''),
+    ).toBe(composeSentence(rolls));
+  });
+
+  test('only rolled text carries its facet hue', () => {
+    const parts = composeSentenceParts([roll(g, ['puzzle']), roll(p, ['discovery'])]);
+    expect(parts.filter((part) => part.hue !== undefined)).toEqual([
+      { text: 'puzzle', facetId: 'genre', hue: 255 },
+      { text: 'discovery', facetId: 'plot', hue: 45 },
+    ]);
+    expect(parts.filter((part) => part.hue === undefined).map((part) => part.text)).toEqual([
+      'A ',
+      ' game about ',
+    ]);
+  });
+
+  test('a trailing clause tints its phrases, not the wrapper the facet wrote', () => {
+    expect(composeSentenceParts([roll(g, ['puzzle']), roll(t, ['cyberpunk', 'noir'])])).toEqual([
+      { text: 'A ' },
+      { text: 'puzzle', facetId: 'genre', hue: 255 },
+      { text: ' game, with a ' },
+      { text: 'cyberpunk', facetId: 'theme', hue: 330 },
+      { text: ' and ' },
+      { text: 'noir', facetId: 'theme', hue: 330 },
+      { text: ' theme' },
+    ]);
+  });
+
+  test('nothing rolled → no parts', () => {
+    expect(composeSentenceParts([roll(g, [])])).toEqual([]);
   });
 });
 
