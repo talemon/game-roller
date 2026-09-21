@@ -1,9 +1,8 @@
 # Game Roller
 
-Static web app that rolls random game ideas. Roll one or more genres (from the
-[SteamDB tag list](https://steamdb.info/tags/)) and a "master plot" (Christopher
-Booker's seven basic plots plus Ronald B. Tobias's twenty master plots), and the
-app composes a sentence such as:
+Static web app that rolls random game ideas. Roll one or more genres (from Steam's public
+tag list) and a "master plot" (Christopher Booker's seven basic plots plus Ronald B.
+Tobias's twenty master plots), and the app composes a sentence such as:
 
 > A role-playing action game about discovery
 
@@ -24,18 +23,22 @@ bun run check     # svelte-check + tsc
 
 ## Refreshing the Steam tag data
 
-`src/data/steam-tags.json` is a checked-in snapshot of https://steamdb.info/tags/.
-SteamDB returns HTTP 403 to plain HTTP clients, so the fetch step uses the
-[Firecrawl CLI](https://www.firecrawl.dev/) (must be installed and logged in):
+`src/data/steam-tags.json` is a checked-in snapshot of Valve's tag list:
 
 ```sh
-bun run tags:refresh   # = tags:fetch (firecrawl → .cache/steamdb-tags.html) + tags:parse
+bun run tags:refresh
 ```
 
-Without Firecrawl, save the page from a browser ("Webpage, HTML only") to
-`.cache/steamdb-tags.html` and run `bun run tags:parse`. The parser refuses to
-overwrite the snapshot if it finds fewer than 300 tags or 20 categories, and the
-facet modules throw at load if a category they depend on has been renamed.
+It fetches `IStoreService/GetTagList` (public, no key, no bot shield), keeps only the tags
+classified in `src/data/tag-groups.ts`, and records Valve's `version_hash` so an unchanged
+upstream is obvious. Valve serves `{tagid, name}` and no grouping, so **which facet a tag
+rolls for is this project's own classification** — written against the vocabulary Valve's
+[Tag Wizard](https://partner.steamgames.com/doc/store/tags) uses (Genres and Sub-Genres,
+Themes & Moods, Visuals & View Points, Player support). One group per tag.
+
+The refresh fails if a name in `tag-groups.ts` is gone from Valve's list, so an upstream
+rename surfaces as a broken refresh instead of a facet quietly losing an item. It also
+prints the Valve tags that roll for nothing, which is where new tags show up.
 
 ## Adding a rollable detail
 
@@ -47,7 +50,8 @@ export interface Facet {
   label: string;
   hint: string;                      // one line under the card title
   slot: 'prefix' | 'about' | 'trailing';
-  items: readonly FacetItem[];       // { id, label, phrase, emoji?, description?, attribution? }
+  icon: IconName;                    // Lucide icon beside the card title (src/lib/icons.ts)
+  items: readonly FacetItem[];       // { id, label, phrase, description?, attribution? }
   count: { min: number; max: number; default: number };
   enabledByDefault: boolean;
   hue: number;                       // OKLCH hue for this facet's chips (0–360)
@@ -58,9 +62,9 @@ export interface Facet {
 `prefix` phrases go before "game", `about` phrases after "about", and
 `trailing` facets append a comma clause rendered by `renderTrailing`.
 
-For a SteamDB-backed facet, use `tagFacet` from `src/lib/steam-tags.ts`;
-otherwise build `items` by hand. Then add it to `src/lib/facets/registry.ts` —
-registry order is sentence order.
+For a Steam-tag-backed facet, use `tagFacet` from `src/lib/steam-tags.ts` and give it a
+`group` from `src/data/tag-groups.ts`; otherwise build `items` by hand. Then add it to
+`src/lib/facets/registry.ts` — registry order is sentence order.
 
 ```ts
 // src/lib/facets/setting.ts
@@ -71,10 +75,11 @@ export const settingFacet = tagFacet({
   label: 'Setting',
   hint: 'Where the story happens',
   slot: 'trailing',
+  icon: 'palette',
   enabledByDefault: false,
   hue: 280,
   count: { min: 1, max: 1, default: 1 },
-  categories: ['Science Fiction'],
+  group: 'theme',
   renderTrailing: (p) => `set in a ${p[0]} world`,
 });
 ```

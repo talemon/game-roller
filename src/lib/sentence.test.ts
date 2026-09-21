@@ -12,6 +12,7 @@ function facet(id: string, slot: FacetSlot, renderTrailing?: Facet['renderTraili
     count: { min: 1, max: 1, default: 1 },
     enabledByDefault: true,
     hue: 0,
+    icon: 'gamepad',
     renderTrailing,
   };
 }

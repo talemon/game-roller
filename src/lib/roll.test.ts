@@ -47,6 +47,7 @@ describe('rollFacet', () => {
     label: 'Genre',
     hint: '',
     slot: 'prefix',
+    icon: 'gamepad',
     items,
     count: { min: 1, max, default: 1 },
     enabledByDefault: true,

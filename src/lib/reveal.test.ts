@@ -8,6 +8,7 @@ function facet(id: string): Facet {
     label: id,
     hint: '',
     slot: 'prefix',
+    icon: 'gamepad',
     items: Array.from({ length: 6 }, (_, i) => ({ id: `${id}:${i}`, label: `${id}${i}`, phrase: `${id}${i}` })),
     count: { min: 1, max: 2, default: 1 },
     enabledByDefault: true,

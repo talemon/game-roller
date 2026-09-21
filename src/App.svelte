@@ -132,9 +132,9 @@
     }
   }
 
-  const scrapedOn = steamTags.scrapedAt.slice(0, 10);
-  const scrapedOnLabel = new Intl.DateTimeFormat(undefined, { dateStyle: 'medium' }).format(
-    new Date(steamTags.scrapedAt),
+  const fetchedOn = steamTags.fetchedAt.slice(0, 10);
+  const fetchedOnLabel = new Intl.DateTimeFormat(undefined, { dateStyle: 'medium' }).format(
+    new Date(steamTags.fetchedAt),
   );
 </script>
 
@@ -175,11 +175,12 @@
   </section>
 
   <footer>
-    Genre, theme, viewpoint and player tags from
-    <a href="https://steamdb.info/tags/" target="_blank" rel="noopener">SteamDB</a>, scraped
-    <time datetime={scrapedOn}>{scrapedOnLabel}</time>. Master plots
-    after Christopher Booker, <cite>The Seven Basic Plots</cite>, and Ronald B. Tobias,
-    <cite>20 Master Plots</cite>.
+    Genre, theme, viewpoint and player tags are Steam's, from Valve's
+    <a href="https://api.steampowered.com/IStoreService/GetTagList/v1/?language=english" target="_blank" rel="noopener">public tag list</a>,
+    fetched <time datetime={fetchedOn}>{fetchedOnLabel}</time>.
+    Master plots after Christopher Booker, <cite>The Seven Basic Plots</cite>, and
+    Ronald B. Tobias, <cite>20 Master Plots</cite>. Icons from
+    <a href="https://lucide.dev" target="_blank" rel="noopener">Lucide</a>.
   </footer>
 </main>
 

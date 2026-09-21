@@ -11,6 +11,7 @@
 <script lang="ts">
   import { fade, slide } from 'svelte/transition';
   import type { Facet } from '../lib/facets/types';
+  import Icon from './Icon.svelte';
 
   const reducedMotion = matchMedia('(prefers-reduced-motion: reduce)');
   /** Expand/collapse: slide explains where the controls went; reduced motion keeps only the fade. */
@@ -88,6 +89,7 @@
   <header>
     <label class="title">
       <input type="checkbox" bind:this={toggle} bind:checked={state.enabled} onchange={onToggle} />
+      <Icon name={facet.icon} />
       <span id="facet-{facet.id}">{facet.label}</span>
     </label>
     <p class="hint" id="hint-{facet.id}">{facet.hint}</p>
@@ -138,17 +140,13 @@
     {#if ghosts}
       {#each ghosts as item, i (i)}
         <li class="chip ghost">
-          <span class="chip-label">
-            {#if item.emoji}<span class="emoji">{item.emoji}</span>{/if}{item.label}
-          </span>
+          <span class="chip-label">{item.label}</span>
         </li>
       {/each}
     {:else}
       {#each state.rolled as item, i (item.id)}
         <li class="chip landed" style="--i: {i}">
-          <span class="chip-label">
-            {#if item.emoji}<span class="emoji" aria-hidden="true">{item.emoji}</span>{/if}{item.label}
-          </span>
+          <span class="chip-label">{item.label}</span>
           {#if item.description}
             <span class="chip-desc">
               {item.description}
@@ -304,8 +302,13 @@
     font-weight: 500;
   }
 
-  .emoji {
-    margin-inline-end: 0.35em;
+  /* The card's icon carries the same hue as its chips, so a result traces back by colour. */
+  .title :global(.icon) {
+    color: oklch(var(--tint-text-l) var(--tint-text-c) var(--facet-hue));
+  }
+
+  .card.disabled .title :global(.icon) {
+    color: var(--muted);
   }
 
   .chip-desc {

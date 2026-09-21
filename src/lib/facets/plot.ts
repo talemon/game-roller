@@ -25,6 +25,7 @@ export const plotFacet: Facet = {
   label: 'Master plot',
   hint: "Booker's 7 basic plots + Tobias's 20 master plots",
   slot: 'about',
+  icon: 'book',
   enabledByDefault: true,
   hue: 45,
   count: { min: 1, max: 2, default: 1 },

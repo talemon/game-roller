@@ -1,18 +1,16 @@
 import { genreDescriptions } from '../../data/genre-descriptions';
 import { tagFacet } from '../steam-tags';
-import { GENRE_CATEGORIES } from './categories';
 
 export const genreFacet = tagFacet({
   id: 'genre',
   label: 'Genre',
   hint: 'What kind of game it is',
   slot: 'prefix',
+  icon: 'gamepad',
   enabledByDefault: true,
   hue: 255,
   count: { min: 1, max: 4, default: 2 },
-  categories: [...GENRE_CATEGORIES],
-  excludeCategories: ['Software Genres'],
-  exclude: ['Indie'],
+  group: 'genre',
   phrases: {
     RPG: 'role-playing',
     'Action RPG': 'action role-playing',

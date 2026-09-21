@@ -1,3 +1,5 @@
+import type { IconName } from '../icons';
+
 export interface FacetItem {
   /** Stable identifier, e.g. `tag:122` or `plot:discovery`. */
   id: string;
@@ -15,7 +17,6 @@ export interface FacetItem {
    * own head noun and sorts the phrase last: "A tactical party game", never "party game game".
    */
   suppressesHead?: boolean;
-  emoji?: string;
   /** Shown under the chip (plots). */
   description?: string;
   /** e.g. `Booker & Tobias`. */
@@ -36,6 +37,8 @@ export interface Facet {
   /** One line under the card title. */
   hint: string;
   slot: FacetSlot;
+  /** Lucide icon shown beside the card title — facet identity, not per-item decoration. */
+  icon: IconName;
   items: readonly FacetItem[];
   count: { min: number; max: number; default: number };
   enabledByDefault: boolean;

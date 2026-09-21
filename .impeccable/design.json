@@ -410,8 +410,8 @@
       "kind": "chip",
       "refersTo": "chip",
       "description": "A rolled result, tinted with its facet's hue so it traces back to its card.",
-      "html": "<span class=\"ds-chip\" style=\"--facet-hue: 255\"><span class=\"ds-chip-label\"><span class=\"ds-chip-emoji\" aria-hidden=\"true\">🧩</span>Puzzle Platformer</span></span>",
-      "css": ".ds-chip { --tint-bg: oklch(var(--tint-bg-l, 30%) var(--tint-bg-c, .045) var(--facet-hue)); --tint-border: oklch(var(--tint-border-l, 46%) var(--tint-border-c, .09) var(--facet-hue)); --tint-text: oklch(var(--tint-text-l, 92%) var(--tint-text-c, .03) var(--facet-hue)); display: inline-flex; flex-direction: column; gap: .15rem; background: var(--tint-bg); border: 1px solid var(--tint-border); color: var(--tint-text); border-radius: 999px; padding: .35rem .8rem; overflow-wrap: anywhere; } .ds-chip-label { font-weight: 500; } .ds-chip-emoji { margin-inline-end: .35em; }"
+      "html": "<span class=\"ds-chip\" style=\"--facet-hue: 255\"><span class=\"ds-chip-label\">Puzzle Platformer</span></span>",
+      "css": ".ds-chip { --tint-bg: oklch(var(--tint-bg-l, 30%) var(--tint-bg-c, .045) var(--facet-hue)); --tint-border: oklch(var(--tint-border-l, 46%) var(--tint-border-c, .09) var(--facet-hue)); --tint-text: oklch(var(--tint-text-l, 92%) var(--tint-text-c, .03) var(--facet-hue)); display: inline-flex; flex-direction: column; gap: .15rem; background: var(--tint-bg); border: 1px solid var(--tint-border); color: var(--tint-text); border-radius: 999px; padding: .35rem .8rem; overflow-wrap: anywhere; } .ds-chip-label { font-weight: 500; } "
     },
     {
       "name": "Described Chip",
@@ -535,7 +535,7 @@
       "Don't derive one theme from the other with invert(), a filter, or opacity over a light base.",
       "Don't let arriving content push read content: no unreserved chip rows, no growing banner.",
       "Don't kill all transitions under prefers-reduced-motion; swap the vocabulary instead.",
-      "Don't let an emoji stand in for a label or an icon; emoji ride along with tag text and are aria-hidden.",
+      "Don't let an icon stand in for a label; the facet icon is aria-hidden and always sits beside its title text.",
       "Don't make the rolled sentence a live region — a paced reveal in a live region reads every partial state aloud."
     ]
   }

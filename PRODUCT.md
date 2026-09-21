@@ -18,8 +18,9 @@ entertainment; they are trying to leave with something to build.
 
 Rolls a random game concept and composes it into one readable English sentence —
 "A role-playing action game about discovery". Genres and optional theme, look &
-viewpoint, and players come from the SteamDB tag list; the master plot comes from
-Christopher Booker's seven basic plots and Ronald B. Tobias's twenty master plots.
+viewpoint, and players come from Steam's public tag list, grouped into facets by
+this project; the master plot comes from Christopher Booker's seven basic plots and
+Ronald B. Tobias's twenty master plots.
 
 Success is one idea worth keeping. A session ends well when the user copies a
 sentence and leaves to build it. Copy is the conversion event, not dwell time or
@@ -51,11 +52,12 @@ notes file, a jam submission form, or a message to a collaborator.
   (a comma clause rendered by `renderTrailing`).
 - Facets stay user-controllable: per-facet on/off and per-facet counts within
   declared bounds. Nothing rolls that the user did not ask for.
-- Tag data is a checked-in, dated snapshot (`src/data/steam-tags.json`),
-  refreshed via `bun run tags:refresh`. The parser refuses a snapshot under 300
-  tags or 20 categories; facet modules throw at load if a category they depend
-  on was renamed. The committed snapshot is pruned to categories a facet
-  actually rolls from.
+- Tag data is a checked-in, dated snapshot (`src/data/steam-tags.json`) of Valve's
+  public `IStoreService/GetTagList`, refreshed via `bun run tags:refresh`. Valve
+  publishes tag ids and names but no grouping, so `src/data/tag-groups.ts` — which
+  facet each tag rolls for, one group per tag — is this project's own work. A refresh
+  fails on any classified name Valve no longer serves, and the snapshot carries only
+  classified tags.
 - Adding a rollable detail is a documented extension point: a `Facet` object in
   `src/lib/facets/`, listed in `registry.ts`, where registry order is sentence
   order.
@@ -70,7 +72,8 @@ good. The dice metaphor is behavioral (rattle, lock, land), not decorative.
 
 ## Evidence on Hand
 
-- `src/data/steam-tags.json` — dated SteamDB tag snapshot, 343 rollable tags.
+- `src/data/steam-tags.json` — dated snapshot of Valve's tag list, 330 rollable tags
+  across 142 genres, 147 themes, 28 looks and 13 player modes.
 - `src/data/master-plots.ts` — Booker's 7 and Tobias's 20, each with a
   description and source attribution.
 - No users, no testimonials, no usage numbers, no press. Future work must not
@@ -84,8 +87,8 @@ good. The dice metaphor is behavioral (rattle, lock, land), not decorative.
    leaving with a copied sentence, not for time spent rolling.
 3. **Partial re-rolling is the real interaction.** Keeping what works and
    re-rolling what does not is how a random prompt becomes someone's concept.
-4. **Credit the sources in the open.** SteamDB and Booker/Tobias attribution
-   stays visible; the tag snapshot stays dated and refreshable.
+4. **Credit the sources in the open.** Steam, Booker/Tobias and Lucide attribution
+   stays visible; the tag snapshot stays dated, versioned and refreshable.
 5. **Nothing rolls that the user did not ask for.** Facet toggles and counts are
    the contract; defaults may be opinionated, never sticky against the user.
 

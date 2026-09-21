@@ -230,7 +230,7 @@ Every compartment carries a 1px border in both themes — the hairline is struct
 
 ### Chips
 - **Style:** the facet's hue at token lightness/chroma — tinted fill, tinted 1px border, tinted text — fully round at 0.35rem/0.8rem. A chip with a description becomes a 12px-radius card (0.5rem/0.9rem) with a 0.8rem description line in the hue's muted tone and an attribution at 0.75rem/0.8 opacity.
-- **Emoji:** carried from the source tag, `aria-hidden`, 0.35em trailing space. Decorative only — it never replaces a label.
+- **No per-item glyph:** a chip is its label and its hue, nothing else. Steam's tag list carries no icon, and 330 hand-picked ones would be 330 chances to mislabel a tag.
 - **Landing:** each locked chip animates `land` (320ms, `cubic-bezier(0.16, 1, 0.3, 1)`) from `translateY(-0.5rem) scale(1.06)` and 0 opacity, staggered 45ms by index. Under reduced motion this becomes a 180ms opacity-only `appear`.
 - **Ghost (rattling):** neutral chip tone, dashed border, muted text, `blur(0.6px)`, fixed 7.5rem width with ellipsis so the rattle does not reflow. The blur is dropped under reduced motion.
 
@@ -239,6 +239,7 @@ Every compartment carries a 1px border in both themes — the hairline is struct
 - **Background:** compartment tone (`#1b1f24` / `#ffffff`), page tone behind.
 - **Shadow Strategy:** light theme only; see Elevation & Depth.
 - **Border:** 1px hairline; dashed when disarmed; the facet hue while that slot is rattling.
+- **Title icon:** one Lucide glyph (1.1em, `currentColor`, `aria-hidden`) before the card title, in the card's own hue — gamepad for Genre, palette for Theme, eye for Look & viewpoint, users for Players, open book for Master plot. Facet identity, not decoration: it is the only place an icon appears, and it drops to the muted tone when the card is disarmed.
 - **Internal Padding:** `1rem 1.25rem`, collapsing to `0.5rem` block padding when disarmed so an off compartment becomes a single line with its title and hint side by side.
 - **Stale results:** when the count no longer matches the chips on screen, the chips drop to 0.55 opacity, the card's own Roll takes a facet-hue border, and a caption reads "Roll to apply". A card never silently contradicts itself.
 
@@ -284,5 +285,5 @@ Height is reserved from the sentence the running reveal will end on, rendered in
 - **Don't** derive one theme from the other with `invert()`, a filter, or `opacity` over a light base.
 - **Don't** let arriving content push read content: no unreserved chip rows, no growing banner.
 - **Don't** kill all transitions under `prefers-reduced-motion`; swap the vocabulary instead.
-- **Don't** let an emoji stand in for a label or an icon; emoji ride along with tag text and are `aria-hidden`.
+- **Don't** let an icon stand in for a label; the facet icon is `aria-hidden` and always sits beside its title text.
 - **Don't** make the rolled sentence a live region — a paced reveal in a live region reads every partial state aloud.
