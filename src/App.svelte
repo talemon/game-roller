@@ -178,12 +178,14 @@
   </section>
 
   <footer>
-    Genre, theme, viewpoint and player tags are Steam's, from Valve's
-    <a href="https://api.steampowered.com/IStoreService/GetTagList/v1/?language=english" target="_blank" rel="noopener">public tag list</a>,
-    fetched <time datetime={fetchedOn}>{fetchedOnLabel}</time>.
-    Master plots after Christopher Booker, <cite>The Seven Basic Plots</cite>, and
-    Ronald B. Tobias, <cite>20 Master Plots</cite>. Icons from
-    <a href="https://lucide.dev" target="_blank" rel="noopener">Lucide</a>.
+    <span class="credit">Made by <a href="mailto:info@cbozkurt.com">Can Mert Bozkurt</a>.</span>
+    <span>
+      Genre, theme, viewpoint and player tags are from Steam's
+      <a href="https://api.steampowered.com/IStoreService/GetTagList/v1/?language=english" target="_blank" rel="noopener">public tag list</a>,
+      fetched <time datetime={fetchedOn}>{fetchedOnLabel}</time>.
+    </span>
+    <span>Master plots inspired by <cite>20 Master Plots</cite> by Ronald B. Tobias and other sources.</span>
+    <span>Icons from <a href="https://lucide.dev" target="_blank" rel="noopener">Lucide</a>.</span>
   </footer>
 </main>
 
@@ -222,8 +224,15 @@
   }
 
   footer {
+    display: flex;
+    flex-direction: column;
+    gap: 0.35rem;
     font-size: 0.85rem;
     color: var(--muted);
     line-height: 1.5;
+  }
+
+  .credit {
+    color: var(--text);
   }
 </style>

@@ -1,205 +1,217 @@
-export type PlotSource = 'booker' | 'tobias';
-
 export interface MasterPlot {
   id: string;
   title: string;
   /** Fragment used after "about". */
   phrase: string;
   description: string;
-  sources: PlotSource[];
+  /** Plots naming the same dramatic engine; at most one per family is rolled. */
+  family?: string;
 }
 
 /**
- * Christopher Booker, *The Seven Basic Plots* (2004), and
- * Ronald B. Tobias, *20 Master Plots* (1993). "The Quest" appears in both.
+ * This project's own taxonomy of master plots, written for video games rather than novels.
+ * Each one is a premise a player can be *put inside* — a situation with a verb, a pressure and
+ * a stake — not a shape a story takes when read from outside. That is the whole selection rule:
+ * if it cannot be played, it is not here.
  */
 export const masterPlots: readonly MasterPlot[] = [
-  // Booker
   {
-    id: 'overcoming-the-monster',
-    title: 'Overcoming the Monster',
-    phrase: 'overcoming the monster',
-    description: 'The hero must confront and destroy a threatening evil force.',
-    sources: ['booker'],
-  },
-  {
-    id: 'rags-to-riches',
-    title: 'Rags to Riches',
-    phrase: 'rags to riches',
-    description:
-      'An overlooked protagonist gains wealth, power or love, loses it, and earns it back on their own merit.',
-    sources: ['booker'],
-  },
-  {
-    id: 'quest',
-    title: 'The Quest',
-    phrase: 'a quest',
-    description:
-      'The hero and companions journey toward a vital goal, overcoming obstacles along the way.',
-    sources: ['booker', 'tobias'],
-  },
-  {
-    id: 'voyage-and-return',
-    title: 'Voyage and Return',
-    phrase: 'a voyage and return',
-    description: 'The hero travels to a strange world, faces its dangers, and returns home changed.',
-    sources: ['booker'],
-  },
-  {
-    id: 'comedy',
-    title: 'Comedy',
-    phrase: 'comedy',
-    description:
-      'Confusion and misunderstanding escalate until everything is revealed and resolved in a happy union.',
-    sources: ['booker'],
-  },
-  {
-    id: 'tragedy',
-    title: 'Tragedy',
-    phrase: 'tragedy',
-    description: "A protagonist's flaw or fatal decision drags them step by step to ruin.",
-    sources: ['booker'],
-  },
-  {
-    id: 'rebirth',
-    title: 'Rebirth',
-    phrase: 'rebirth',
-    description: 'A character falls under a dark shadow and is redeemed, often through someone else.',
-    sources: ['booker'],
-  },
-  // Tobias
-  {
-    id: 'adventure',
-    title: 'Adventure',
-    phrase: 'adventure',
-    description: "A journey where the events of the trip matter more than the hero's inner change.",
-    sources: ['tobias'],
-  },
-  {
-    id: 'pursuit',
-    title: 'Pursuit',
-    phrase: 'pursuit',
-    description: 'A chase: one party hunts another, and the gap keeps closing.',
-    sources: ['tobias'],
-  },
-  {
-    id: 'rescue',
-    title: 'Rescue',
-    phrase: 'a rescue',
-    description: "The protagonist must free a victim from an antagonist's grasp.",
-    sources: ['tobias'],
+    id: 'survival',
+    title: 'Survival',
+    phrase: 'survival',
+    description: 'The world is trying to kill you slowly. Every resource spent buys one more day.',
   },
   {
     id: 'escape',
     title: 'Escape',
     phrase: 'an escape',
-    description: 'Held captive, the protagonist must break free against the odds.',
-    sources: ['tobias'],
+    description: 'Something holds you. Getting out is the entire problem.',
+    family: 'chase',
+  },
+  {
+    id: 'the-hunt',
+    title: 'The Hunt',
+    phrase: 'a hunt',
+    description: 'Predator and prey, and the distance between them closing.',
+    family: 'chase',
+  },
+  {
+    id: 'infiltration',
+    title: 'Infiltration',
+    phrase: 'an infiltration',
+    description: 'Being somewhere you do not belong, for as long as nobody looks twice.',
+  },
+  {
+    id: 'heist',
+    title: 'The Heist',
+    phrase: 'a heist',
+    description: 'A plan, a crew and a prize — and every step has to land in order.',
+  },
+  {
+    id: 'rescue',
+    title: 'Rescue',
+    phrase: 'a rescue',
+    description: 'Someone is out of reach. Reaching them costs more than it should.',
+  },
+  {
+    id: 'last-stand',
+    title: 'Last Stand',
+    phrase: 'a last stand',
+    description: 'A place worth holding, a force that will take it, and the time in between.',
+  },
+  {
+    id: 'uprising',
+    title: 'Uprising',
+    phrase: 'an uprising',
+    description: 'A power owns this world. Breaking it starts small and never stays small.',
+  },
+  {
+    id: 'expedition',
+    title: 'Expedition',
+    phrase: 'an expedition',
+    description: 'A blank map, a long way out, and no guarantee the way back still exists.',
+    family: 'journey',
+  },
+  {
+    id: 'descent',
+    title: 'The Descent',
+    phrase: 'a descent',
+    description: 'Deeper is the only direction. Each level further from air, light and help.',
+    family: 'journey',
+  },
+  {
+    id: 'homecoming',
+    title: 'Homecoming',
+    phrase: 'a homecoming',
+    description: 'Return to the place you left and find that one of you has changed.',
+    family: 'journey',
+  },
+  {
+    id: 'aftermath',
+    title: 'Aftermath',
+    phrase: 'the aftermath',
+    description: 'The catastrophe already happened. This is about what gets built on top of it.',
+    family: 'making',
+  },
+  {
+    id: 'settlement',
+    title: 'Settlement',
+    phrase: 'building something lasting',
+    description: 'Turning an empty place into somewhere people stay, against weather and time.',
+    family: 'making',
+  },
+  {
+    id: 'investigation',
+    title: 'Investigation',
+    phrase: 'an investigation',
+    description: 'The truth exists in fragments, and the order you find them in changes it.',
+    family: 'truth',
+  },
+  {
+    id: 'conspiracy',
+    title: 'Conspiracy',
+    phrase: 'a conspiracy',
+    description: 'The world is lying about itself, and noticing makes you a target.',
+    family: 'truth',
+  },
+  {
+    id: 'first-contact',
+    title: 'First Contact',
+    phrase: 'first contact',
+    description: 'Something genuinely other is on the far side, and neither side has a word yet.',
+  },
+  {
+    id: 'the-loop',
+    title: 'The Loop',
+    phrase: 'a loop that will not end',
+    description: 'The same span of time, again. Knowledge is the only thing that carries over.',
+  },
+  {
+    id: 'the-bargain',
+    title: 'The Bargain',
+    phrase: 'a bargain',
+    description: 'Power is offered on terms. The terms are not clear until the power is spent.',
+    family: 'ruin',
+  },
+  {
+    id: 'downfall',
+    title: 'Downfall',
+    phrase: 'a downfall',
+    description: 'A slide that could have been stopped three decisions ago.',
+    family: 'ruin',
+  },
+  {
+    id: 'rise-to-power',
+    title: 'Rise to Power',
+    phrase: 'a rise to power',
+    description: 'Climbing works. The question is who is still standing below you.',
+  },
+  {
+    id: 'rivalry',
+    title: 'Rivalry',
+    phrase: 'a rivalry',
+    description: 'An equal wants exactly what you want, and only one of you gets it.',
+    family: 'contest',
+  },
+  {
+    id: 'underdog',
+    title: 'The Underdog',
+    phrase: 'an underdog',
+    description: 'Outmatched on paper, and the paper is mostly right.',
+    family: 'contest',
+  },
+  {
+    id: 'mastery',
+    title: 'Mastery',
+    phrase: 'mastery',
+    description: 'A craft that punishes you until it does not. The change is in your hands.',
+    family: 'becoming',
+  },
+  {
+    id: 'transformation',
+    title: 'Transformation',
+    phrase: 'a transformation',
+    description: 'Becoming something else — by choice, by infection, or by degrees.',
+    family: 'becoming',
+  },
+  {
+    id: 'the-bond',
+    title: 'The Bond',
+    phrase: 'a bond',
+    description: 'Two of you cross this together. The relationship is the mechanic.',
+    family: 'ties',
+  },
+  {
+    id: 'betrayal',
+    title: 'Betrayal',
+    phrase: 'a betrayal',
+    description: 'Trust given, used and spent — by them, or by you.',
+    family: 'ties',
   },
   {
     id: 'revenge',
     title: 'Revenge',
     phrase: 'revenge',
-    description: 'Retaliation for a real or imagined wrong, at growing cost.',
-    sources: ['tobias'],
+    description: 'A wrong gets answered. The answer keeps asking for more.',
+    family: 'debt',
   },
   {
-    id: 'riddle',
-    title: 'The Riddle',
-    phrase: 'a riddle',
-    description: 'A mystery whose solution has been hidden in plain sight.',
-    sources: ['tobias'],
-  },
-  {
-    id: 'rivalry',
-    title: 'Rivalry',
-    phrase: 'rivalry',
-    description: 'Two roughly equal forces compete for the same goal.',
-    sources: ['tobias'],
-  },
-  {
-    id: 'underdog',
-    title: 'Underdog',
-    phrase: 'an underdog',
-    description: 'A protagonist badly overmatched by an opponent overcomes the odds.',
-    sources: ['tobias'],
-  },
-  {
-    id: 'temptation',
-    title: 'Temptation',
-    phrase: 'temptation',
-    description:
-      'The protagonist is lured to act against their better judgment, and consequences follow.',
-    sources: ['tobias'],
-  },
-  {
-    id: 'metamorphosis',
-    title: 'Metamorphosis',
-    phrase: 'metamorphosis',
-    description: 'A physical transformation, usually a curse, that only love can undo.',
-    sources: ['tobias'],
-  },
-  {
-    id: 'transformation',
-    title: 'Transformation',
-    phrase: 'transformation',
-    description: 'An inner change in the protagonist triggered by a life event.',
-    sources: ['tobias'],
-  },
-  {
-    id: 'maturation',
-    title: 'Maturation',
-    phrase: 'maturation',
-    description: 'Coming of age: growing from naivety into adulthood through a hard lesson.',
-    sources: ['tobias'],
-  },
-  {
-    id: 'love',
-    title: 'Love',
-    phrase: 'love',
-    description: 'Lovers must overcome the obstacles keeping them apart.',
-    sources: ['tobias'],
-  },
-  {
-    id: 'forbidden-love',
-    title: 'Forbidden Love',
-    phrase: 'forbidden love',
-    description: 'A love that breaks social convention, and rarely ends well.',
-    sources: ['tobias'],
+    id: 'redemption',
+    title: 'Redemption',
+    phrase: 'redemption',
+    description: 'You did the harm. Everything now is payment on it.',
+    family: 'debt',
   },
   {
     id: 'sacrifice',
     title: 'Sacrifice',
     phrase: 'sacrifice',
-    description: 'The protagonist gives up something vital for a higher ideal.',
-    sources: ['tobias'],
+    description: 'Something vital has to be given up, and the game makes you pick it.',
   },
   {
-    id: 'discovery',
-    title: 'Discovery',
-    phrase: 'discovery',
-    description: 'A character learns something fundamental about themselves or the world.',
-    sources: ['tobias'],
-  },
-  {
-    id: 'wretched-excess',
-    title: 'Wretched Excess',
-    phrase: 'wretched excess',
-    description: "A character's decline driven by a flaw, obsession or addiction.",
-    sources: ['tobias'],
-  },
-  {
-    id: 'ascension',
-    title: 'Ascension',
-    phrase: 'ascension',
-    description: 'The rise of a character, often at a moral price.',
-    sources: ['tobias'],
-  },
-  {
-    id: 'descension',
-    title: 'Descension',
-    phrase: 'descension',
-    description: 'The fall of a character from grace.',
-    sources: ['tobias'],
+    id: 'stewardship',
+    title: 'Stewardship',
+    phrase: 'stewardship',
+    description: 'A place, a people or a thing is yours to keep alive. Neglect is the antagonist.',
   },
 ];

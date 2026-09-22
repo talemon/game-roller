@@ -28,6 +28,6 @@ Third-party material bundled with this project:
 - Steam tag ids and names in src/data/steam-tags.json come from Valve's public
   tag list (IStoreService/GetTagList). Their classification into facets
   (src/data/tag-groups.ts) and all tag blurbs are this project's own work.
-- Master plot titles are the taxonomies of Christopher Booker, The Seven Basic
-  Plots, and Ronald B. Tobias, 20 Master Plots; the descriptions in
-  src/data/master-plots.ts are this project's own summaries.
+- The master plots in src/data/master-plots.ts — titles, phrases and descriptions
+  — are this project's own list, written for games; it is informed by Ronald B.
+  Tobias, 20 Master Plots, and other sources, but copies no taxonomy.

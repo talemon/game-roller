@@ -322,7 +322,7 @@
       },
       "caption": {
         "displayName": "Caption",
-        "purpose": "Chip descriptions, count ranges, attribution."
+        "purpose": "Chip descriptions and count ranges."
       }
     },
     "shadows": [
@@ -417,9 +417,9 @@
       "name": "Described Chip",
       "kind": "chip",
       "refersTo": "chip-described",
-      "description": "A result carrying a description and source attribution (master plots).",
-      "html": "<span class=\"ds-chip-desc\" style=\"--facet-hue: 45\"><span class=\"ds-chip-desc-label\">Rebirth</span><span class=\"ds-chip-desc-body\">A character falls under a dark shadow and is redeemed, often through someone else. <span class=\"ds-chip-desc-attr\">Booker</span></span></span>",
-      "css": ".ds-chip-desc { --tint-bg: oklch(var(--tint-bg-l, 30%) var(--tint-bg-c, .045) var(--facet-hue)); --tint-border: oklch(var(--tint-border-l, 46%) var(--tint-border-c, .09) var(--facet-hue)); --tint-text: oklch(var(--tint-text-l, 92%) var(--tint-text-c, .03) var(--facet-hue)); --tint-muted: oklch(var(--tint-muted-l, 78%) var(--tint-muted-c, .05) var(--facet-hue)); display: inline-flex; flex-direction: column; gap: .15rem; max-width: 28rem; background: var(--tint-bg); border: 1px solid var(--tint-border); color: var(--tint-text); border-radius: 12px; padding: .5rem .9rem; } .ds-chip-desc-label { font-weight: 500; } .ds-chip-desc-body { font-size: .8rem; line-height: 1.35; color: var(--tint-muted); } .ds-chip-desc-attr { margin-inline-start: .35rem; font-size: .75rem; opacity: .8; }"
+      "description": "A result carrying a description (master plots).",
+      "html": "<span class=\"ds-chip-desc\" style=\"--facet-hue: 45\"><span class=\"ds-chip-desc-label\">The Heist</span><span class=\"ds-chip-desc-body\">A plan, a crew and a prize — and every step has to land in order.</span></span>",
+      "css": ".ds-chip-desc { --tint-bg: oklch(var(--tint-bg-l, 30%) var(--tint-bg-c, .045) var(--facet-hue)); --tint-border: oklch(var(--tint-border-l, 46%) var(--tint-border-c, .09) var(--facet-hue)); --tint-text: oklch(var(--tint-text-l, 92%) var(--tint-text-c, .03) var(--facet-hue)); --tint-muted: oklch(var(--tint-muted-l, 78%) var(--tint-muted-c, .05) var(--facet-hue)); display: inline-flex; flex-direction: column; gap: .15rem; max-width: 28rem; background: var(--tint-bg); border: 1px solid var(--tint-border); color: var(--tint-text); border-radius: 12px; padding: .5rem .9rem; } .ds-chip-desc-label { font-weight: 500; } .ds-chip-desc-body { font-size: .8rem; line-height: 1.35; color: var(--tint-muted); }"
     },
     {
       "name": "Ghost Chip",

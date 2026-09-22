@@ -180,7 +180,7 @@ The five **facet hues**, expressed as OKLCH hue angles rather than fixed colours
 - **Title** (600, 1.05rem): a compartment's name, sitting beside its checkbox.
 - **Body** (400, 1rem): chip labels are 500; the rest of the interface is 400.
 - **Label** (400, 0.85rem): card hints, the reveal toggle, segmented theme options, footer.
-- **Caption** (400, 0.8rem, 1.35): chip descriptions and the count range; attribution drops to 0.75rem at 0.8 opacity.
+- **Caption** (400, 0.8rem, 1.35): chip descriptions and the count range.
 
 ### Named Rules
 **The One Face Rule.** The system sans is the whole type system. No display face, no mono costume for "technical" — tabular numerals handle the only place numbers need to align.
@@ -229,7 +229,7 @@ Every compartment carries a 1px border in both themes — the hairline is struct
 - **Status variants:** the outlined copy button borders and tints Signal Blue on success, Fault Red on failure. While Copy is the primary it is already an accent slab, so success shows in the label alone and failure turns the slab itself Fault Red with the paired ink — an accent tint on an accent fill would paint the word in its own background. The state belongs to the idea, not to a clock: it is derived from which sentence was last copied, so the confirmation stands until that sentence changes. Its accessible name stays "Copy idea" while the visible label swaps.
 
 ### Chips
-- **Style:** the facet's hue at token lightness/chroma — tinted fill, tinted 1px border, tinted text — fully round at 0.35rem/0.8rem. A chip with a description becomes a 12px-radius card (0.5rem/0.9rem) with a 0.8rem description line in the hue's muted tone and an attribution at 0.75rem/0.8 opacity.
+- **Style:** the facet's hue at token lightness/chroma — tinted fill, tinted 1px border, tinted text — fully round at 0.35rem/0.8rem. A chip with a description becomes a 12px-radius card (0.5rem/0.9rem) with a 0.8rem description line in the hue's muted tone.
 - **No per-item glyph:** a chip is its label and its hue, nothing else. Steam's tag list carries no icon, and 330 hand-picked ones would be 330 chances to mislabel a tag.
 - **Landing:** each locked chip animates `land` (320ms, `cubic-bezier(0.16, 1, 0.3, 1)`) from `translateY(-0.5rem) scale(1.06)` and 0 opacity, staggered 45ms by index. Under reduced motion this becomes a 180ms opacity-only `appear`.
 - **Ghost (rattling):** neutral chip tone, dashed border, muted text, `blur(0.6px)`, fixed 7.5rem width with ellipsis so the rattle does not reflow. The blur is dropped under reduced motion.

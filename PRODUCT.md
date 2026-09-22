@@ -17,10 +17,11 @@ entertainment; they are trying to leave with something to build.
 ## Product Purpose
 
 Rolls a random game concept and composes it into one readable English sentence —
-"A role-playing action game about discovery". Genres and optional theme, look &
+"A role-playing action game about a heist". Genres and optional theme, look &
 viewpoint, and players come from Steam's public tag list, grouped into facets by
-this project; the master plot comes from Christopher Booker's seven basic plots and
-Ronald B. Tobias's twenty master plots.
+this project; the master plot comes from this project's own list of playable
+premises, written for games and informed by Ronald B. Tobias's 20 Master Plots
+among other sources.
 
 Success is one idea worth keeping. A session ends well when the user copies a
 sentence and leaves to build it. Copy is the conversion event, not dwell time or
@@ -29,10 +30,11 @@ roll count.
 ## Positioning
 
 Two vocabularies most idea generators do not combine: the taxonomy Steam players
-actually use to find games, and the plot taxonomy from narrative theory. The
-result is a concept that names both what the game *is* mechanically and what it
-is *about* — and it arrives as a sentence, not a table of slot-machine columns
-the user has to assemble themselves.
+actually use to find games, and a plot taxonomy written for things a player is
+put inside — a situation with a verb, a pressure and a stake. The result is a
+concept that names both what the game *is* mechanically and what it is *about* —
+and it arrives as a sentence, not a table of slot-machine columns the user has to
+assemble themselves.
 
 ## Operating Context
 
@@ -74,8 +76,8 @@ good. The dice metaphor is behavioral (rattle, lock, land), not decorative.
 
 - `src/data/steam-tags.json` — dated snapshot of Valve's tag list, 330 rollable tags
   across 142 genres, 147 themes, 28 looks and 13 player modes.
-- `src/data/master-plots.ts` — Booker's 7 and Tobias's 20, each with a
-  description and source attribution.
+- `src/data/master-plots.ts` — 30 master plots, this project's own taxonomy, each
+  with a description and a dedupe family.
 - No users, no testimonials, no usage numbers, no press. Future work must not
   invent any.
 
@@ -87,8 +89,9 @@ good. The dice metaphor is behavioral (rattle, lock, land), not decorative.
    leaving with a copied sentence, not for time spent rolling.
 3. **Partial re-rolling is the real interaction.** Keeping what works and
    re-rolling what does not is how a random prompt becomes someone's concept.
-4. **Credit the sources in the open.** Steam, Booker/Tobias and Lucide attribution
-   stays visible; the tag snapshot stays dated, versioned and refreshable.
+4. **Credit the sources in the open.** Steam, Lucide and the plot list's
+   influences stay visible; the tag snapshot stays dated, versioned and
+   refreshable. The master plots themselves are this project's own work.
 5. **Nothing rolls that the user did not ask for.** Facet toggles and counts are
    the contract; defaults may be opinionated, never sticky against the user.
 

@@ -1,7 +1,7 @@
 import type { IconName } from '../icons';
 
 export interface FacetItem {
-  /** Stable identifier, e.g. `tag:122` or `plot:discovery`. */
+  /** Stable identifier, e.g. `tag:122` or `plot:heist`. */
   id: string;
   /** Display label, e.g. `RPG`. */
   label: string;
@@ -19,14 +19,12 @@ export interface FacetItem {
   suppressesHead?: boolean;
   /** Shown under the chip (plots). */
   description?: string;
-  /** e.g. `Booker & Tobias`. */
-  attribution?: string;
 }
 
 /**
  * Where a facet's phrases land in the sentence:
  * - `prefix`: adjectives before "game" (`A first-person action game`)
- * - `about`: the subject after "about" (`… about discovery`)
+ * - `about`: the subject after "about" (`… about a heist`)
  * - `trailing`: a comma clause rendered by `renderTrailing` (`, with a cyberpunk theme`)
  */
 export type FacetSlot = 'prefix' | 'about' | 'trailing';

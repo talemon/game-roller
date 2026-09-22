@@ -1,10 +1,10 @@
 # Game Roller
 
 Static web app that rolls random game ideas. Roll one or more genres (from Steam's public
-tag list) and a "master plot" (Christopher Booker's seven basic plots plus Ronald B.
-Tobias's twenty master plots), and the app composes a sentence such as:
+tag list) and a "master plot" (this project's own list of playable premises), and the app
+composes a sentence such as:
 
-> A role-playing action game about discovery
+> A role-playing action game about a heist
 
 Optional facets — theme, look & viewpoint, players — can be switched on per card.
 
@@ -51,7 +51,7 @@ export interface Facet {
   hint: string;                      // one line under the card title
   slot: 'prefix' | 'about' | 'trailing';
   icon: IconName;                    // Lucide icon beside the card title (src/lib/icons.ts)
-  items: readonly FacetItem[];       // { id, label, phrase, description?, attribution? }
+  items: readonly FacetItem[];       // { id, label, phrase, description?, family? }
   count: { min: number; max: number; default: number };
   enabledByDefault: boolean;
   hue: number;                       // OKLCH hue for this facet's chips (0–360)

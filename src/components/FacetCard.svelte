@@ -148,10 +148,7 @@
         <li class="chip landed" style="--i: {i}">
           <span class="chip-label">{item.label}</span>
           {#if item.description}
-            <span class="chip-desc">
-              {item.description}
-              {#if item.attribution}<span class="attribution">{item.attribution}</span>{/if}
-            </span>
+            <span class="chip-desc">{item.description}</span>
           {/if}
         </li>
       {/each}
@@ -315,12 +312,6 @@
     font-size: 0.8rem;
     color: var(--tint-muted);
     line-height: 1.35;
-  }
-
-  .attribution {
-    margin-inline-start: 0.35rem;
-    font-size: 0.75rem;
-    opacity: 0.8;
   }
 
   .chip:has(.chip-desc) {
