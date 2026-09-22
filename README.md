@@ -8,7 +8,7 @@ composes a sentence such as:
 
 Optional facets — theme, look & viewpoint, players — can be switched on per card.
 
-Svelte 5 + Vite, TypeScript, Bun. No backend, no persistence.
+Svelte 5 + Vite, TypeScript, Bun. No backend; preferences (theme, reveal, left-out options) live in `localStorage`.
 
 ## Commands
 

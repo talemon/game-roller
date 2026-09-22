@@ -5,11 +5,14 @@
     enabled: boolean;
     count: number;
     rolled: FacetItem[];
+    /** The count the chips were rolled for; a short pool can leave fewer chips than this. */
+    rolledFor: number;
   }
 </script>
 
 <script lang="ts">
   import { fade, slide } from 'svelte/transition';
+  import { exclusions } from '../lib/exclusions.svelte';
   import type { Facet } from '../lib/facets/types';
   import Icon from './Icon.svelte';
 
@@ -20,7 +23,7 @@
 
   let {
     facet,
-    state = $bindable(),
+    state: slot = $bindable(),
     ghosts,
     onRoll,
     onNotice,
@@ -39,19 +42,44 @@
    * Rows reserved under the controls: one per rolled chip, so a lock never grows the card.
    * Nothing rolled yet means nothing can shift, so an untouched card reserves no space.
    */
-  const reservedRows = $derived(state.rolled.length > 0 || rattling ? state.count : 0);
+  const reservedRows = $derived(slot.rolled.length > 0 || rattling ? slot.count : 0);
   const tallChips = $derived(facet.items.some((item) => item.description));
-  /** The count no longer matches what is on the card: the chips are last roll's answer. */
+  /** The count changed since the last roll: the chips are that request's answer, not this one's. */
   const stale = $derived(
-    !rattling && state.rolled.length > 0 && state.rolled.length !== state.count,
+    !rattling && slot.rolled.length > 0 && slot.rolledFor !== slot.count,
   );
+
+  const excluded = $derived(exclusions.of(facet.id));
+  const eligibleCount = $derived(exclusions.eligible(facet).length);
+  const excludedCount = $derived(facet.items.length - eligibleCount);
+  let optionsOpen = $state(false);
+  /** Two facets have over a hundred options; the rest fit on screen without a filter. */
+  const filterable = $derived(facet.items.length > 40);
+  let filter = $state('');
+  const shownOptions = $derived.by(() => {
+    const needle = filter.trim().toLowerCase();
+    return needle ? facet.items.filter((item) => item.label.toLowerCase().includes(needle)) : facet.items;
+  });
+
+  /** Leaving out an option also takes it off the card: the sentence stops saying it at once. */
+  function toggleOption(item: FacetItem) {
+    exclusions.toggle(facet.id, item.id);
+    if (excluded.has(item.id)) slot.rolled = slot.rolled.filter((r) => r.id !== item.id);
+  }
+
+  /** The chip's button unmounts with the chip: hand focus to Roll, the natural next action. */
+  function excludeRolled(item: FacetItem, event: MouseEvent) {
+    if (document.activeElement === event.currentTarget) rollButton?.focus();
+    toggleOption(item);
+  }
 
   let card: HTMLElement;
   let toggle: HTMLInputElement;
+  let rollButton = $state<HTMLButtonElement>();
 
   /** Collapsing unmounts the controls: hand focus to the checkbox instead of dropping it to <body>. */
   function onToggle() {
-    if (!state.enabled && card.contains(document.activeElement)) toggle.focus();
+    if (!slot.enabled && card.contains(document.activeElement)) toggle.focus();
   }
 
   const hasCount = $derived(facet.count.max > facet.count.min);
@@ -72,7 +100,7 @@
         next === facet.count.max ? ', the most it rolls' : next === facet.count.min ? ', the fewest it rolls' : '';
       onNotice(`${facet.label} set to ${next}${bound}`);
     }
-    state.count = next;
+    slot.count = next;
     input.value = String(next);
   }
 </script>
@@ -80,7 +108,7 @@
 <article
   bind:this={card}
   class="card"
-  class:disabled={!state.enabled}
+  class:disabled={!slot.enabled}
   class:rattling
   style="--facet-hue: {facet.hue}"
   aria-labelledby="facet-{facet.id}"
@@ -88,14 +116,14 @@
 >
   <header>
     <label class="title">
-      <input type="checkbox" bind:this={toggle} bind:checked={state.enabled} onchange={onToggle} />
+      <input type="checkbox" bind:this={toggle} bind:checked={slot.enabled} onchange={onToggle} />
       <Icon name={facet.icon} />
       <span id="facet-{facet.id}">{facet.label}</span>
     </label>
     <p class="hint" id="hint-{facet.id}">{facet.hint}</p>
   </header>
 
-  {#if state.enabled}
+  {#if slot.enabled}
   <div class="controls" transition:reveal>
     {#if hasCount}
       <label class="count" for="count-{facet.id}">
@@ -107,7 +135,7 @@
           min={facet.count.min}
           max={facet.count.max}
           step="1"
-          bind:value={state.count}
+          bind:value={slot.count}
           onchange={clampCount}
           aria-describedby="range-{facet.id}"
         />
@@ -115,6 +143,7 @@
       </label>
     {/if}
     <button
+      bind:this={rollButton}
       class:stale
       onclick={onRoll}
       aria-label="Roll {facet.label}"
@@ -144,16 +173,87 @@
         </li>
       {/each}
     {:else}
-      {#each state.rolled as item, i (item.id)}
+      {#each slot.rolled as item, i (item.id)}
         <li class="chip landed" style="--i: {i}">
           <span class="chip-label">{item.label}</span>
           {#if item.description}
             <span class="chip-desc">{item.description}</span>
           {/if}
+          <button
+            type="button"
+            class="chip-remove"
+            aria-label="Leave {item.label} out of future rolls"
+            onclick={(event) => excludeRolled(item, event)}
+          >
+            <Icon name="ban" />
+            Leave out
+          </button>
         </li>
       {/each}
     {/if}
   </ul>
+
+  <div class="options" transition:reveal>
+    <button
+      type="button"
+      class="options-toggle"
+      class:edited={excludedCount > 0}
+      aria-expanded={optionsOpen}
+      aria-controls="options-{facet.id}"
+      onclick={() => (optionsOpen = !optionsOpen)}
+    >
+      <span class="chevron" class:open={optionsOpen} aria-hidden="true"></span>
+      All options
+      <span class="options-count">
+        {#if excludedCount > 0}
+          <Icon name="ban" />
+          {excludedCount} left out
+        {:else}
+          {facet.items.length}
+        {/if}
+      </span>
+    </button>
+    {#if optionsOpen}
+      <div id="options-{facet.id}" class="options-body" transition:reveal>
+        <div class="options-bar">
+          <p class="options-hint">Click an option to leave it out of future rolls.</p>
+          {#if filterable}
+            <input
+              type="search"
+              class="options-filter"
+              placeholder="Filter"
+              aria-label="Filter {facet.label} options"
+              bind:value={filter}
+            />
+          {/if}
+          {#if excludedCount > 0}
+            <button type="button" class="options-reset" onclick={() => exclusions.clear(facet.id)}>
+              Include all
+            </button>
+          {/if}
+        </div>
+        <ul class="options-list" aria-label="{facet.label} options">
+          {#each shownOptions as item (item.id)}
+            <li>
+              <button
+                type="button"
+                class="option"
+                class:excluded={excluded.has(item.id)}
+                aria-pressed={!excluded.has(item.id)}
+                title={item.description}
+                onclick={() => toggleOption(item)}
+              >
+                {item.label}
+              </button>
+            </li>
+          {/each}
+        </ul>
+        {#if shownOptions.length === 0}
+          <p class="options-empty">Nothing matches “{filter.trim()}”.</p>
+        {/if}
+      </div>
+    {/if}
+  </div>
   {/if}
 </article>
 
@@ -287,6 +387,7 @@
     color: var(--tint-text);
     border-radius: 999px;
     padding: 0.35rem 0.8rem;
+    position: relative;
     display: flex;
     flex-direction: column;
     gap: 0.15rem;
@@ -317,6 +418,205 @@
   .chip:has(.chip-desc) {
     border-radius: 12px;
     padding: 0.5rem 0.9rem;
+  }
+
+  /* Leave-out: named, not a ×. A × says "dismiss"; this says the chip will not come back. */
+  .chip.landed {
+    padding-right: 6rem;
+  }
+
+  .chip-remove {
+    position: absolute;
+    top: 50%;
+    right: 0.4rem;
+    transform: translateY(-50%);
+    display: inline-flex;
+    align-items: center;
+    gap: 0.3rem;
+    min-height: 0;
+    padding: 0.15rem 0.5rem;
+    border-radius: 999px;
+    border-color: transparent;
+    background: transparent;
+    color: var(--tint-muted);
+    font-size: 0.75rem;
+    line-height: 1.2;
+    white-space: nowrap;
+  }
+
+  .chip:has(.chip-desc) .chip-remove {
+    top: 0.45rem;
+    transform: none;
+  }
+
+  .chip-remove:hover:not(:disabled),
+  .chip-remove:focus-visible {
+    color: var(--tint-text);
+    background: var(--tint-border);
+    border-color: transparent;
+  }
+
+  /* Every option the facet can roll, closed by default: a reference and an edit surface, not the result. */
+  .options {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    min-width: 0;
+  }
+
+  .options-toggle {
+    align-self: flex-start;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.25rem 0.5rem 0.25rem 0.25rem;
+    min-height: 2rem;
+    background: transparent;
+    border-color: transparent;
+    color: var(--muted);
+    font-size: 0.85rem;
+  }
+
+  .options-toggle:hover:not(:disabled) {
+    color: var(--text);
+    border-color: transparent;
+    background: var(--chip);
+  }
+
+  /* Something is left out: the list is now where that gets undone, so it stops being a footnote
+     and wears the facet's tint, matching the chip control that put it there. */
+  .options-toggle.edited {
+    padding-inline: 0.5rem 0.8rem;
+    background: oklch(var(--tint-bg-l) var(--tint-bg-c) var(--facet-hue));
+    border-color: oklch(var(--tint-border-l) var(--tint-border-c) var(--facet-hue));
+    color: oklch(var(--tint-text-l) var(--tint-text-c) var(--facet-hue));
+  }
+
+  .options-toggle.edited:hover:not(:disabled) {
+    background: oklch(var(--tint-bg-l) var(--tint-bg-c) var(--facet-hue));
+    border-color: var(--accent);
+    color: oklch(var(--tint-text-l) var(--tint-text-c) var(--facet-hue));
+  }
+
+  .chevron {
+    width: 0.5em;
+    height: 0.5em;
+    border-right: 1.5px solid currentColor;
+    border-bottom: 1.5px solid currentColor;
+    transform: rotate(-45deg);
+    transition: transform 0.15s;
+    margin-inline: 0.2em;
+  }
+
+  .chevron.open {
+    transform: rotate(45deg);
+  }
+
+  .options-count {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.3rem;
+    font-variant-numeric: tabular-nums;
+  }
+
+  .options-toggle.edited .options-count {
+    font-weight: 600;
+  }
+
+  .options-body {
+    display: flex;
+    flex-direction: column;
+    gap: 0.6rem;
+  }
+
+  .options-bar {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    flex-wrap: wrap;
+  }
+
+  .options-hint {
+    margin: 0;
+    color: var(--muted);
+    font-size: 0.85rem;
+    flex: 1 1 14rem;
+  }
+
+  .options-filter {
+    font: inherit;
+    font-size: 0.9rem;
+    color: var(--text);
+    background: var(--bg);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    padding: 0.25rem 0.5rem;
+    min-height: 2.25rem;
+    width: 10rem;
+    max-width: 100%;
+  }
+
+  .options-reset {
+    min-height: 2.25rem;
+    padding-block: 0.25rem;
+    font-size: 0.85rem;
+  }
+
+  .options-list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.4rem;
+  }
+
+  /* Included reads like a small chip; left out is hollow and struck, so the two states never blur. */
+  .option {
+    --tint-bg: oklch(var(--tint-bg-l) var(--tint-bg-c) var(--facet-hue));
+    --tint-border: oklch(var(--tint-border-l) var(--tint-border-c) var(--facet-hue));
+    --tint-text: oklch(var(--tint-text-l) var(--tint-text-c) var(--facet-hue));
+    min-height: 0;
+    padding: 0.25rem 0.7rem;
+    border-radius: 999px;
+    font-size: 0.85rem;
+    background: var(--tint-bg);
+    border-color: var(--tint-border);
+    color: var(--tint-text);
+    max-width: 100%;
+    overflow-wrap: anywhere;
+  }
+
+  .option.excluded {
+    background: transparent;
+    border-style: dashed;
+    border-color: var(--border);
+    color: var(--muted);
+    text-decoration: line-through;
+  }
+
+  .option:hover:not(:disabled) {
+    border-color: var(--accent);
+  }
+
+  .options-empty {
+    margin: 0;
+    color: var(--muted);
+    font-size: 0.85rem;
+  }
+
+  /* Touch: the small pills stay small; the tap target is widened invisibly instead. */
+  @media (pointer: coarse) {
+    .option {
+      position: relative;
+    }
+
+    .option::before,
+    .chip-remove::before {
+      content: '';
+      position: absolute;
+      inset: -0.4rem;
+    }
   }
 
   /* Rattling: the slot is live — hue edge, decoys dimmed and blurred like dice still moving. */
@@ -382,7 +682,8 @@
       grid-template-columns: 17rem 1fr;
       grid-template-areas:
         'header chips'
-        'controls chips';
+        'controls chips'
+        'options options';
       column-gap: 1.5rem;
       align-items: start;
     }
@@ -393,6 +694,10 @@
 
     .controls {
       grid-area: controls;
+    }
+
+    .options {
+      grid-area: options;
     }
 
     .chips {
@@ -417,7 +722,8 @@
       /* Header spans both columns; controls/chips keep their areas while they slide out. */
       grid-template-areas:
         'header header'
-        'controls chips';
+        'controls chips'
+        'options options';
       row-gap: 0;
     }
 
