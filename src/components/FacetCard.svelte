@@ -197,6 +197,7 @@
     <button
       type="button"
       class="options-toggle"
+      class:edited={excludedCount > 0}
       aria-expanded={optionsOpen}
       aria-controls="options-{facet.id}"
       onclick={() => (optionsOpen = !optionsOpen)}
@@ -204,7 +205,12 @@
       <span class="chevron" class:open={optionsOpen} aria-hidden="true"></span>
       All options
       <span class="options-count">
-        {#if excludedCount > 0}{eligibleCount} of {facet.items.length}{:else}{facet.items.length}{/if}
+        {#if excludedCount > 0}
+          <Icon name="ban" />
+          {excludedCount} left out
+        {:else}
+          {facet.items.length}
+        {/if}
       </span>
     </button>
     {#if optionsOpen}
@@ -477,6 +483,21 @@
     background: var(--chip);
   }
 
+  /* Something is left out: the list is now where that gets undone, so it stops being a footnote
+     and wears the facet's tint, matching the chip control that put it there. */
+  .options-toggle.edited {
+    padding-inline: 0.5rem 0.8rem;
+    background: oklch(var(--tint-bg-l) var(--tint-bg-c) var(--facet-hue));
+    border-color: oklch(var(--tint-border-l) var(--tint-border-c) var(--facet-hue));
+    color: oklch(var(--tint-text-l) var(--tint-text-c) var(--facet-hue));
+  }
+
+  .options-toggle.edited:hover:not(:disabled) {
+    background: oklch(var(--tint-bg-l) var(--tint-bg-c) var(--facet-hue));
+    border-color: var(--accent);
+    color: oklch(var(--tint-text-l) var(--tint-text-c) var(--facet-hue));
+  }
+
   .chevron {
     width: 0.5em;
     height: 0.5em;
@@ -492,7 +513,14 @@
   }
 
   .options-count {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.3rem;
     font-variant-numeric: tabular-nums;
+  }
+
+  .options-toggle.edited .options-count {
+    font-weight: 600;
   }
 
   .options-body {
