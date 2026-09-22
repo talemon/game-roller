@@ -51,7 +51,7 @@ export interface Facet {
   hint: string;                      // one line under the card title
   slot: 'prefix' | 'about' | 'trailing';
   icon: IconName;                    // Lucide icon beside the card title (src/lib/icons.ts)
-  items: readonly FacetItem[];       // { id, label, phrase, description?, family? }
+  items: readonly FacetItem[];       // { id, label, phrase, description?, families? }
   count: { min: number; max: number; default: number };
   enabledByDefault: boolean;
   hue: number;                       // OKLCH hue for this facet's chips (0–360)

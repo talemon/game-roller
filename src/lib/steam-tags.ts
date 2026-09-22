@@ -6,8 +6,11 @@ import type { SteamTagData, TaggedTag } from './steam-tag-types';
 
 export const steamTags: SteamTagData = data as SteamTagData;
 
-/** A phrase ending in "game" already says what the sentence's head noun would say. */
-const HEAD_NOUN = /game$/i;
+/**
+ * A phrase ending in one of these already says what the sentence's head noun would say:
+ * "a farming sim game" and "a visual novel game" are both the noun twice over.
+ */
+const HEAD_NOUN = /(?:game|sim|simulator|novel|fiction)$/i;
 
 /** The snapshot's tags for one facet, sorted by name. */
 export function tagsInGroup(group: TagGroup): TaggedTag[] {
@@ -30,10 +33,10 @@ export interface TagFacetOptions {
   /** Tag name → one-line blurb shown under the chip. */
   descriptions?: Record<string, string>;
   /**
-   * Tag name → family. Tags in one family are near-synonyms and never share a roll;
-   * a name absent here is its own family of one.
+   * Tag name → the families it belongs to. One member of a family per roll; a tag absent
+   * here is its own family of one, and a head-noun phrase joins `head-noun` on top.
    */
-  families?: Record<string, string>;
+  families?: Record<string, readonly string[]>;
   count: Facet['count'];
   enabledByDefault: boolean;
   hue: number;
@@ -58,7 +61,7 @@ export function tagFacet(opts: TagFacetOptions): Facet {
         label: tag.name,
         phrase,
         description: descriptions[tag.name],
-        family: suppressesHead ? 'head-noun' : families[tag.name],
+        families: suppressesHead ? [...(families[tag.name] ?? []), 'head-noun'] : families[tag.name],
         suppressesHead: suppressesHead || undefined,
       };
     });

@@ -21,21 +21,22 @@ export function sampleDistinct<T>(
 }
 
 /**
- * Draws `count` items, at most one per declared family — "role-playing action role-playing"
- * is a distinct draw but says one thing twice. Comes up short only when the pool runs out
- * of unused families.
+ * Draws `count` items, at most one per family — "role-playing action role-playing" is a
+ * distinct draw but says one thing twice. An item can belong to several families at once
+ * ("Action RPG" is both an RPG and an action game), and any one of them being spoken for
+ * already is enough to pass it over. Comes up short only when the pool runs out of items
+ * whose families are all unused.
  */
 export function rollFacet(facet: Facet, count: number, rng?: () => number): FacetRoll {
   const clamped = Math.max(facet.count.min, Math.min(count, facet.count.max));
   const pool = sampleDistinct(facet.items, facet.items.length, rng);
-  const families = new Set<string>();
+  const spoken = new Set<string>();
   const items: FacetItem[] = [];
   for (const item of pool) {
     if (items.length === clamped) break;
-    if (item.family !== undefined) {
-      if (families.has(item.family)) continue;
-      families.add(item.family);
-    }
+    const families = item.families ?? [];
+    if (families.some((family) => spoken.has(family))) continue;
+    for (const family of families) spoken.add(family);
     items.push(item);
   }
   return { facet, items };

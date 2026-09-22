@@ -8,9 +8,14 @@
  * - One group per tag. A tag in two facets prints the same idea twice in one sentence
  *   ("a comic-book game ... with a comic book theme"), so `Comic Book` is a look, not a theme.
  * - A sport is what the game *is*, not what it is about: `Golf` and `Tennis` are genres.
+ * - A camera or a dimension is a look, never a genre. `2D Platformer` and `FPS` would roll
+ *   beside the viewpoint that already says it ("a 3D 2D platformer game"), so the genre keeps
+ *   the kind of game and the look facet keeps the camera: `2D` + `Platformer`, `First-Person`
+ *   + `Shooter` compose the same idea without either facet borrowing the other's vocabulary.
  * - A theme is a setting, subject or mood — something the game is *about*. Quality claims
- *   (`Lore-Rich`, `Immersive`), play-style adjectives (`Tactical`) and bare mechanics
- *   (`Loot`, `Logic`) describe how a game plays, not what it is about, and roll for nothing.
+ *   (`Lore-Rich`, `Immersive`, `Beautiful`), play-style adjectives (`Tactical`) and bare
+ *   mechanics (`Loot`, `Logic`) describe how a game plays or how good it is, not what it is
+ *   about, and roll for nothing.
  * - Software genres (`Utilities`, `Video Production`), production facts (`Indie`,
  *   `Early Access`), content descriptors (`Gore`, `Nudity`) and marketing tags (`eSports`)
  *   roll for nothing and are simply absent.
@@ -20,30 +25,30 @@ export type TagGroup = 'genre' | 'theme' | 'viewpoint' | 'players';
 
 /** What kind of game it is. Prefix slot: "A <genre> game". */
 const genre = [
-  '2D Fighter', '2D Platformer', '3D Fighter', '3D Platformer', '4X', 'Action',
-  'Action Roguelike', 'Action RPG', 'Action RTS', 'Action-Adventure', 'Adventure', 'Arcade',
-  'Arena Shooter', 'Auto Battler', 'Automobile Sim', 'Baseball', 'Basketball', 'Battle Royale',
-  'Beat \'em up', 'Billiards', 'Board Game', 'Boomer Shooter', 'Bowling', 'Boxing',
-  'Bullet Heaven', 'Bullet Hell', 'Card Battler', 'Card Game', 'Casual', 'Chess',
-  'Choose Your Own Adventure', 'City Builder', 'Collectathon', 'Colony Sim', 'Combat Racing',
-  'Creature Collector', 'Cricket', 'CRPG', 'Cycling', 'Dating Sim', 'Deckbuilding', 'Dice',
-  'Dungeon Crawler', 'Escape Room', 'Espionage', 'Exploration', 'Extraction Shooter',
-  'Falling Blocks', 'Farming Sim', 'Fighting', 'Flight', 'Football (American)',
-  'Football (Soccer)', 'FPS', 'God Game', 'Golf', 'Grand Strategy', 'Hack and Slash',
-  'Hero Shooter', 'Hidden Object', 'Hobby Sim', 'Hockey', 'Idler', 'Immersive Sim', 'Incremental',
-  'Interactive Fiction', 'Job Simulator', 'JRPG', 'Life Sim', 'Looter Shooter', 'Mahjong',
-  'Match 3', 'Medical Sim', 'Metroidvania', 'Mini Golf', 'MMORPG', 'MOBA', 'Motocross', 'Musou',
-  'Mystery Dungeon', 'On-Rails Shooter', 'Open World Survival Craft', 'Outbreak Sim',
-  'Party Game', 'Party-Based RPG', 'Pinball', 'Platformer', 'Point & Click', 'Poker',
-  'Political Sim', 'Precision Platformer', 'Puzzle', 'Puzzle Platformer', 'Racing',
-  'Real Time Tactics', 'Rhythm', 'Roguelike', 'Roguelike Deckbuilder', 'Roguelite', 'RPG', 'RTS',
-  'Rugby', 'Runner', 'Sandbox', 'Shoot \'Em Up', 'Shooter', 'Shop Keeper', 'Simulation',
-  'Skateboarding', 'Skating', 'Skiing', 'Snowboarding', 'Social Deduction', 'Sokoban',
-  'Solitaire', 'Souls-like', 'Space Sim', 'Spectacle fighter', 'Spelling', 'Sports', 'Strategy',
-  'Strategy RPG', 'Tabletop', 'Tactical RPG', 'Tennis', 'Third-Person Shooter', 'Time Management',
-  'Top-Down Shooter', 'Tower Defense', 'Trading Card Game', 'Traditional Roguelike', 'Trivia',
-  'Turn-Based Strategy', 'Turn-Based Tactics', 'Twin Stick Shooter', 'Typing', 'Visual Novel',
-  'Volleyball', 'Walking Simulator', 'Wargame', 'Word Game', 'Wrestling',
+  '4X', 'Action', 'Action Roguelike', 'Action RPG', 'Action RTS', 'Action-Adventure', 'Adventure',
+  'Arcade', 'Arena Shooter', 'Auto Battler', 'Automobile Sim', 'Baseball', 'Basketball',
+  'Battle Royale', 'Beat \'em up', 'Billiards', 'Board Game', 'Boomer Shooter', 'Bowling',
+  'Boxing', 'Bullet Heaven', 'Bullet Hell', 'Card Battler', 'Card Game', 'Casual', 'Chess',
+  'Choose Your Own Adventure', 'City Builder', 'Clicker', 'Collectathon', 'Colony Sim',
+  'Combat Racing', 'Creature Collector', 'Cricket', 'CRPG', 'Cycling', 'Dating Sim',
+  'Deckbuilding', 'Dice', 'Dungeon Crawler', 'Escape Room', 'Espionage', 'Exploration',
+  'Extraction Shooter', 'Falling Blocks', 'Farming Sim', 'Fighting', 'Flight',
+  'Football (American)', 'Football (Soccer)', 'God Game', 'Golf', 'Grand Strategy',
+  'Hack and Slash', 'Hero Shooter', 'Hidden Object', 'Hobby Sim', 'Hockey', 'Idler',
+  'Immersive Sim', 'Incremental', 'Interactive Fiction', 'Job Simulator', 'JRPG', 'Life Sim',
+  'Looter Shooter', 'Mahjong', 'Match 3', 'Medical Sim', 'Metroidvania', 'Mini Golf', 'MMORPG',
+  'MOBA', 'Motocross', 'Musou', 'Mystery Dungeon', 'On-Rails Shooter',
+  'Open World Survival Craft', 'Outbreak Sim', 'Party Game', 'Party-Based RPG', 'Pinball',
+  'Platformer', 'Point & Click', 'Poker', 'Political Sim', 'Precision Platformer', 'Puzzle',
+  'Puzzle Platformer', 'Racing', 'Real Time Tactics', 'Rhythm', 'Roguelike',
+  'Roguelike Deckbuilder', 'Roguelite', 'RPG', 'RTS', 'Rugby', 'Runner', 'Sandbox',
+  'Shoot \'Em Up', 'Shooter', 'Shop Keeper', 'Simulation', 'Skateboarding', 'Skating', 'Skiing',
+  'Snowboarding', 'Social Deduction', 'Sokoban', 'Solitaire', 'Souls-like', 'Space Sim',
+  'Spectacle fighter', 'Spelling', 'Sports', 'Strategy', 'Strategy RPG', 'Tabletop',
+  'Tactical RPG', 'Tennis', 'Time Management', 'Tower Defense', 'Trading Card Game',
+  'Traditional Roguelike', 'Trivia', 'Turn-Based Strategy', 'Turn-Based Tactics',
+  'Twin Stick Shooter', 'Typing', 'Visual Novel', 'Volleyball', 'Walking Simulator', 'Wargame',
+  'Word Game', 'Wrestling',
 ] as const;
 
 /** Setting, subject or mood. Trailing slot: "with a <theme> theme". */
@@ -71,10 +76,10 @@ const theme = [
 
 /** Art style and camera. Prefix slot: "A <viewpoint> game". */
 const viewpoint = [
-  '2.5D', '2D', '3D', 'Abstract', 'Anime', 'Beautiful', 'Cartoon', 'Cartoony', 'Cinematic',
-  'Colorful', 'Comic Book', 'Cute', 'First-Person', 'FMV', 'Hand-drawn', 'Isometric',
-  'Minimalist', 'Noir', 'Pixel Graphics', 'Psychedelic', 'Realistic', 'Side Scroller', 'Stylized',
-  'Text-Based', 'Third Person', 'Top-Down', 'Voxel', 'VR',
+  '2.5D', '2D', '3D', 'Abstract', 'Anime', 'Cartoon', 'Cartoony', 'Cinematic', 'Colorful',
+  'Comic Book', 'Cute', 'First-Person', 'FMV', 'Hand-drawn', 'Isometric', 'Minimalist', 'Noir',
+  'Pixel Graphics', 'Psychedelic', 'Realistic', 'Side Scroller', 'Stylized', 'Text-Based',
+  'Third Person', 'Top-Down', 'Voxel', 'VR',
 ] as const;
 
 /** Who plays, and how. Prefix slot: "A <players> game". */

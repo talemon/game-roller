@@ -74,8 +74,8 @@ good. The dice metaphor is behavioral (rattle, lock, land), not decorative.
 
 ## Evidence on Hand
 
-- `src/data/steam-tags.json` — dated snapshot of Valve's tag list, 327 rollable tags
-  across 142 genres, 143 themes, 28 looks and 14 player modes.
+- `src/data/steam-tags.json` — dated snapshot of Valve's tag list, 320 rollable tags
+  across 136 genres, 143 themes, 27 looks and 14 player modes.
 - `src/data/master-plots.ts` — 30 master plots, this project's own taxonomy, each
   with a description and a dedupe family.
 - No users, no testimonials, no usage numbers, no press. Future work must not

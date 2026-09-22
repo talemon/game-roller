@@ -15,6 +15,6 @@ export const plotFacet: Facet = {
     label: p.title,
     phrase: p.phrase,
     description: p.description,
-    family: p.family,
+    families: p.family === undefined ? undefined : [p.family],
   })),
 };

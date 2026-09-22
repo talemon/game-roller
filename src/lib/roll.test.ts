@@ -36,11 +36,11 @@ describe('sampleDistinct', () => {
 });
 
 describe('rollFacet', () => {
-  const item = (id: string, family?: string): FacetItem => ({
+  const item = (id: string, ...families: string[]): FacetItem => ({
     id,
     label: id,
     phrase: id,
-    family,
+    families: families.length === 0 ? undefined : families,
   });
   const facet = (items: FacetItem[], max: number): Facet => ({
     id: 'genre',
@@ -61,9 +61,14 @@ describe('rollFacet', () => {
     );
     for (let seed = 0; seed < 200; seed++) {
       const drawn = rollFacet(f, 3, lcg(seed)).items;
-      const families = drawn.map((i) => i.family).filter(Boolean);
+      const families = drawn.flatMap((i) => i.families ?? []);
       expect(new Set(families).size).toBe(families.length);
     }
+  });
+
+  test('one shared family is enough to pass an item over', () => {
+    const f = facet([item('action rpg', 'rpg', 'action'), item('action', 'action')], 2);
+    expect(rollFacet(f, 2, lcg(3)).items).toHaveLength(1);
   });
 
   test('comes up short rather than repeating a family', () => {

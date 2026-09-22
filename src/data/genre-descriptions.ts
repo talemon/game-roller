@@ -4,10 +4,6 @@
  * chip with nothing under it.
  */
 export const genreDescriptions: Record<string, string> = {
-  '2D Fighter': 'One-on-one combat on a flat plane, built on precise inputs and combos.',
-  '2D Platformer': 'Run and jump across side-on levels of platforms and hazards.',
-  '3D Fighter': 'One-on-one combat in a 3D arena, with sidestepping and spatial positioning.',
-  '3D Platformer': 'Jump and climb through fully 3D spaces, often collecting things along the way.',
   '4X': 'Explore, expand, exploit and exterminate: build an empire from a single settlement.',
   Action: 'Fast, reflex-driven play where timing and hand-eye coordination decide the outcome.',
   'Action Roguelike': 'Real-time combat through randomized runs, where dying starts you over.',
@@ -37,6 +33,7 @@ export const genreDescriptions: Record<string, string> = {
   Chess: 'Chess, or a game that plays like it.',
   'Choose Your Own Adventure': 'A branching story steered by the choices you make at each fork.',
   'City Builder': 'Plan, zone and grow a city while keeping its services and citizens in balance.',
+  Clicker: 'One input, repeated, compounding into numbers that keep growing.',
   Collectathon: 'Levels full of things to find; gathering them is the goal.',
   'Colony Sim': 'Keep a group of settlers alive and thriving by managing their needs and work.',
   'Combat Racing': 'Racing with weapons, where wrecking rivals is as good as passing them.',
@@ -58,7 +55,6 @@ export const genreDescriptions: Record<string, string> = {
   Flight: 'Pilot aircraft, from arcade dogfights to careful instrument flying.',
   'Football (American)': 'The gridiron sport of American football.',
   'Football (Soccer)': 'The world game: eleven a side and one ball.',
-  FPS: 'Shooting seen through the eyes of the character.',
   'God Game': 'Shape a world and guide its people from above, with indirect control.',
   Golf: 'Clubs, greens and the long walk between them.',
   'Grand Strategy': 'Run a whole nation over decades: diplomacy, economy, war and succession.',
@@ -130,9 +126,7 @@ export const genreDescriptions: Record<string, string> = {
   Tabletop: 'A digital take on games normally played around a table.',
   'Tactical RPG': 'Turn-based squad battles on a grid, with characters who level and gear up.',
   Tennis: 'Rackets, a net and a court.',
-  'Third-Person Shooter': 'Shooting with the camera behind the character.',
   'Time Management': 'Serve a rush of tasks before the clock or the queue beats you.',
-  'Top-Down Shooter': 'Shooting seen from above, with movement on a 2D plane.',
   'Tower Defense': 'Place defences along a path to stop waves of enemies.',
   'Trading Card Game': 'Collect cards from packs and build decks to duel with.',
   'Traditional Roguelike':
