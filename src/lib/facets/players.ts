@@ -12,6 +12,7 @@ export const playersFacet = tagFacet({
   group: 'players',
   phrases: {
     Singleplayer: 'single-player',
+    PvE: 'PvE',
     PvP: 'PvP',
     '4 Player Local': '4-player local',
     'Split Screen': 'split-screen',

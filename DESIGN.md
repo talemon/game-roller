@@ -230,7 +230,7 @@ Every compartment carries a 1px border in both themes — the hairline is struct
 
 ### Chips
 - **Style:** the facet's hue at token lightness/chroma — tinted fill, tinted 1px border, tinted text — fully round at 0.35rem/0.8rem. A chip with a description becomes a 12px-radius card (0.5rem/0.9rem) with a 0.8rem description line in the hue's muted tone.
-- **No per-item glyph:** a chip is its label and its hue, nothing else. Steam's tag list carries no icon, and 330 hand-picked ones would be 330 chances to mislabel a tag.
+- **No per-item glyph:** a chip is its label and its hue, nothing else. Steam's tag list carries no icon, and 327 hand-picked ones would be 327 chances to mislabel a tag.
 - **Landing:** each locked chip animates `land` (320ms, `cubic-bezier(0.16, 1, 0.3, 1)`) from `translateY(-0.5rem) scale(1.06)` and 0 opacity, staggered 45ms by index. Under reduced motion this becomes a 180ms opacity-only `appear`.
 - **Ghost (rattling):** neutral chip tone, dashed border, muted text, `blur(0.6px)`, fixed 7.5rem width with ellipsis so the rattle does not reflow. The blur is dropped under reduced motion.
 

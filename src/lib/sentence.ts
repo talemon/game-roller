@@ -2,7 +2,20 @@ import type { Facet, FacetItem, FacetRoll } from './facets/types';
 
 const VOWEL_START = /^[aeiou]/i;
 
+/**
+ * An initialism is read letter by letter, so its article follows the sound of the first
+ * letter's *name*: "an MMORPG", "an FMV", "an LGBTQ+ theme", but "a VR game". A leading run
+ * of two or more capitals is the tell; the few that are said as a word instead are listed.
+ */
+const INITIALISM = /^[A-Z][A-Z0-9]+/;
+const LETTER_NAME_VOWEL = /^[AEFHILMNORSX]/;
+const SAID_AS_WORD: Record<string, true> = { MOBA: true };
+
 export function indefiniteArticle(word: string): 'a' | 'an' {
+  const initialism = INITIALISM.exec(word)?.[0];
+  if (initialism !== undefined && SAID_AS_WORD[initialism] !== true) {
+    return LETTER_NAME_VOWEL.test(initialism) ? 'an' : 'a';
+  }
   return VOWEL_START.test(word) ? 'an' : 'a';
 }
 
@@ -76,7 +89,7 @@ export function composeSentenceParts(rolls: readonly FacetRoll[]): SentencePart[
   const tinted = (text: string, facet: Facet) =>
     parts.push({ text, facetId: facet.id, hue: facet.hue });
 
-  plain(`${VOWEL_START.test(head) ? 'An' : 'A'} `);
+  plain(`${indefiniteArticle(head) === 'an' ? 'An' : 'A'} `);
 
   ordered.forEach((entry, index) => {
     if (index > 0) plain(' ');

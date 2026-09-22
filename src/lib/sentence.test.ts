@@ -134,4 +134,16 @@ describe('indefiniteArticle', () => {
     expect(indefiniteArticle('atmospheric')).toBe('an');
     expect(indefiniteArticle('cyberpunk')).toBe('a');
   });
+
+  test('an initialism follows its first letter\'s name, not its spelling', () => {
+    expect(indefiniteArticle('MMORPG')).toBe('an');
+    expect(indefiniteArticle('FMV')).toBe('an');
+    expect(indefiniteArticle('LGBTQ+')).toBe('an');
+    expect(indefiniteArticle('VR')).toBe('a');
+    expect(indefiniteArticle('PvP')).toBe('a');
+  });
+
+  test('an initialism said as a word is read as one', () => {
+    expect(indefiniteArticle('MOBA')).toBe('a');
+  });
 });

@@ -2,6 +2,102 @@ import { themeDescriptions } from '../../data/theme-descriptions';
 import { indefiniteArticle } from '../sentence';
 import { tagFacet } from '../steam-tags';
 
+/**
+ * Valve names tags for browsing, where a plural reads fine on a list; the sentence says
+ * "with a … theme" and needs the singular. Proper nouns survive `tagPhrase`'s lowercasing here,
+ * and Valve's own `1990's` typo is corrected on the way into the sentence.
+ */
+const THEME_PHRASES: Record<string, string> = {
+  '1990\'s': '1990s',
+  Aliens: 'alien',
+  Animals: 'animal',
+  Assassins: 'assassin',
+  Bikes: 'bike',
+  Birds: 'bird',
+  Capybaras: 'capybara',
+  Cats: 'cat',
+  'Cold War': 'Cold War',
+  Demons: 'demon',
+  Dinosaurs: 'dinosaur',
+  Dogs: 'dog',
+  Dragons: 'dragon',
+  Dwarves: 'dwarf',
+  Elves: 'elf',
+  Foxes: 'fox',
+  Horses: 'horse',
+  Lemmings: 'lemming',
+  Lovecraftian: 'Lovecraftian',
+  Mars: 'Mars',
+  Mechs: 'mech',
+  Memes: 'meme',
+  Pirates: 'pirate',
+  Rome: 'ancient Rome',
+  Spaceships: 'spaceship',
+  Tanks: 'tank',
+  Trains: 'train',
+  Vampires: 'vampire',
+  Vikings: 'viking',
+  Werewolves: 'werewolf',
+  Wolves: 'wolf',
+  'World War I': 'World War I',
+  'World War II': 'World War II',
+  Zombies: 'zombie',
+};
+
+/**
+ * Two themes roll at once, and Steam's vocabulary carries several names for one idea:
+ * "with comedy and dark humour themes" is one theme printed twice. One member per family
+ * per roll; a name absent here is its own family of one.
+ */
+const THEME_FAMILIES: Record<string, string> = {
+  Comedy: 'humour',
+  Funny: 'humour',
+  'Dark Comedy': 'humour',
+  'Dark Humor': 'humour',
+  Parody: 'satire',
+  Satire: 'satire',
+  Horror: 'horror',
+  'Survival Horror': 'horror',
+  'Psychological Horror': 'horror',
+  Fantasy: 'fantasy',
+  'Dark Fantasy': 'fantasy',
+  'Sci-fi': 'future',
+  Futuristic: 'future',
+  Space: 'space',
+  Spaceships: 'space',
+  Retro: 'retro',
+  'Old School': 'retro',
+  Nostalgia: 'retro',
+  Cozy: 'calm',
+  Wholesome: 'calm',
+  Relaxing: 'calm',
+  'Family Friendly': 'calm',
+  Farming: 'farming',
+  Agriculture: 'farming',
+  War: 'war',
+  Military: 'war',
+  Naval: 'naval',
+  Sailing: 'naval',
+  Underwater: 'underwater',
+  Submarine: 'underwater',
+  Detective: 'detective',
+  Investigation: 'detective',
+  Historical: 'history',
+  'Alternate History': 'history',
+  Economy: 'economy',
+  Capitalism: 'economy',
+  Trading: 'economy',
+  Building: 'making',
+  Crafting: 'making',
+  Cleaning: 'tidying',
+  Organizing: 'tidying',
+  Bikes: 'bikes',
+  BMX: 'bikes',
+  Motorbike: 'bikes',
+  Transportation: 'transport',
+  Driving: 'transport',
+};
+
 export const themeFacet = tagFacet({
   id: 'theme',
   label: 'Theme',
@@ -13,6 +109,8 @@ export const themeFacet = tagFacet({
   count: { min: 1, max: 2, default: 1 },
   group: 'theme',
   descriptions: themeDescriptions,
+  phrases: THEME_PHRASES,
+  families: THEME_FAMILIES,
   renderTrailing: (p) =>
     p.length === 1 ? `with ${indefiniteArticle(p[0])} ${p[0]} theme` : `with ${p.join(' and ')} themes`,
 });

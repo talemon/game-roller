@@ -8,8 +8,12 @@
  * - One group per tag. A tag in two facets prints the same idea twice in one sentence
  *   ("a comic-book game ... with a comic book theme"), so `Comic Book` is a look, not a theme.
  * - A sport is what the game *is*, not what it is about: `Golf` and `Tennis` are genres.
+ * - A theme is a setting, subject or mood — something the game is *about*. Quality claims
+ *   (`Lore-Rich`, `Immersive`), play-style adjectives (`Tactical`) and bare mechanics
+ *   (`Loot`, `Logic`) describe how a game plays, not what it is about, and roll for nothing.
  * - Software genres (`Utilities`, `Video Production`), production facts (`Indie`,
- *   `Early Access`) and marketing tags (`eSports`) roll for nothing and are simply absent.
+ *   `Early Access`), content descriptors (`Gore`, `Nudity`) and marketing tags (`eSports`)
+ *   roll for nothing and are simply absent.
  * - Names must match Valve's tag list exactly; `bun run tags:refresh` fails on any that do not.
  */
 export type TagGroup = 'genre' | 'theme' | 'viewpoint' | 'players';
@@ -50,20 +54,19 @@ const theme = [
   'Conspiracy', 'Cooking', 'Cozy', 'Crafting', 'Crime', 'Cult', 'Cyberpunk', 'Dark',
   'Dark Comedy', 'Dark Fantasy', 'Dark Humor', 'Decorating', 'Demons', 'Destruction', 'Detective',
   'Dinosaurs', 'Diplomacy', 'Dogs', 'Dragons', 'Driving', 'Dwarves', 'Dystopian', 'Economy',
-  'Elves', 'Emotional', 'Faith', 'Family Friendly', 'Fantasy', 'Farming', 'Fishing', 'Foxes',
-  'Funny', 'Futuristic', 'Gambling', 'Game Development', 'Gothic', 'Hacking', 'Heist',
-  'Historical', 'Horror', 'Horses', 'Hunting', 'Immersive', 'Investigation', 'Lemmings', 'LGBTQ+',
-  'Logic', 'Loot', 'Lore-Rich', 'Lovecraftian', 'Magic', 'Management', 'Mars', 'Martial Arts',
-  'Mechs', 'Medieval', 'Memes', 'Military', 'Mining', 'Modern', 'Motorbike', 'Mystery',
-  'Mythology', 'Nature', 'Naval', 'Ninja', 'Nostalgia', 'Offroad', 'Old School', 'Organizing',
-  'Otome', 'Parkour', 'Parody', 'Party', 'Philosophical', 'Pirates', 'Post-apocalyptic',
-  'Programming', 'Psychological', 'Psychological Horror', 'Relaxing', 'Retro', 'Robots',
-  'Romance', 'Rome', 'Sailing', 'Samurai', 'Satire', 'Sci-fi', 'Science', 'Sniper', 'Snow',
-  'Space', 'Spaceships', 'Stealth', 'Steampunk', 'Submarine', 'Superhero', 'Supernatural',
-  'Surreal', 'Survival', 'Survival Horror', 'Swordplay', 'Tactical', 'Tanks', 'Thriller',
-  'Time Travel', 'Trains', 'Transhumanism', 'Transportation', 'Underground', 'Underwater',
-  'Vampires', 'Vikings', 'War', 'Werewolves', 'Western', 'Wholesome', 'Wolves', 'World War I',
-  'World War II', 'Wuxia', 'Xianxia', 'Zombies', 'Zoo',
+  'Elves', 'Emotional', 'Epic', 'Faith', 'Family Friendly', 'Fantasy', 'Farming', 'Fishing',
+  'Foxes', 'Funny', 'Futuristic', 'Gambling', 'Game Development', 'Gothic', 'Hacking', 'Heist',
+  'Historical', 'Horror', 'Horses', 'Hunting', 'Investigation', 'Lemmings', 'LGBTQ+',
+  'Lovecraftian', 'Magic', 'Management', 'Mars', 'Martial Arts', 'Mechs', 'Medieval', 'Memes',
+  'Military', 'Mining', 'Modern', 'Motorbike', 'Mystery', 'Mythology', 'Nature', 'Naval', 'Ninja',
+  'Nostalgia', 'Offroad', 'Old School', 'Organizing', 'Otome', 'Parkour', 'Parody',
+  'Philosophical', 'Pirates', 'Post-apocalyptic', 'Programming', 'Psychological',
+  'Psychological Horror', 'Relaxing', 'Retro', 'Robots', 'Romance', 'Rome', 'Sailing', 'Samurai',
+  'Satire', 'Sci-fi', 'Science', 'Sniper', 'Snow', 'Space', 'Spaceships', 'Stealth', 'Steampunk',
+  'Submarine', 'Superhero', 'Supernatural', 'Surreal', 'Survival', 'Survival Horror', 'Swordplay',
+  'Tanks', 'Thriller', 'Time Travel', 'Trading', 'Trains', 'Transhumanism', 'Transportation',
+  'Underground', 'Underwater', 'Vampires', 'Vikings', 'War', 'Werewolves', 'Western', 'Wholesome',
+  'Wolves', 'World War I', 'World War II', 'Wuxia', 'Xianxia', 'Zombies', 'Zoo',
 ] as const;
 
 /** Art style and camera. Prefix slot: "A <viewpoint> game". */
@@ -77,7 +80,7 @@ const viewpoint = [
 /** Who plays, and how. Prefix slot: "A <players> game". */
 const players = [
   '4 Player Local', 'Asynchronous Multiplayer', 'Co-op', 'Co-op Campaign', 'Local Co-Op',
-  'Local Multiplayer', 'Massively Multiplayer', 'Multiplayer', 'Online Co-Op', 'PvP',
+  'Local Multiplayer', 'Massively Multiplayer', 'Multiplayer', 'Online Co-Op', 'PvE', 'PvP',
   'Singleplayer', 'Split Screen', 'Team-Based',
 ] as const;
 
