@@ -183,10 +183,10 @@
             type="button"
             class="chip-remove"
             aria-label="Leave {item.label} out of future rolls"
-            title="Leave out of future rolls"
             onclick={(event) => excludeRolled(item, event)}
           >
-            <span aria-hidden="true">×</span>
+            <Icon name="ban" />
+            Leave out
           </button>
         </li>
       {/each}
@@ -414,32 +414,28 @@
     padding: 0.5rem 0.9rem;
   }
 
-  /* Leave-out: a quiet × on the chip's edge, in the chip's own ink; it belongs to this result. */
+  /* Leave-out: named, not a ×. A × says "dismiss"; this says the chip will not come back. */
   .chip.landed {
-    padding-right: 2.1rem;
-  }
-
-  .chip.landed:has(.chip-desc) {
-    padding-right: 2.4rem;
+    padding-right: 6rem;
   }
 
   .chip-remove {
     position: absolute;
     top: 50%;
-    right: 0.35rem;
+    right: 0.4rem;
     transform: translateY(-50%);
-    width: 1.5rem;
-    height: 1.5rem;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.3rem;
     min-height: 0;
-    padding: 0;
-    display: grid;
-    place-items: center;
-    border-radius: 50%;
+    padding: 0.15rem 0.5rem;
+    border-radius: 999px;
     border-color: transparent;
     background: transparent;
     color: var(--tint-muted);
-    font-size: 1.15rem;
-    line-height: 1;
+    font-size: 0.75rem;
+    line-height: 1.2;
+    white-space: nowrap;
   }
 
   .chip:has(.chip-desc) .chip-remove {
