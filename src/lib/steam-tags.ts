@@ -28,6 +28,11 @@ export interface TagFacetOptions {
   group: TagGroup;
   /** Tag names to drop. */
   exclude?: string[];
+  /**
+   * Tag name → chip label, for the few names Valve spells inconsistently (`1990's` beside
+   * `1980s`). The key stays Valve's name, which is what the refresh validates against.
+   */
+  labels?: Record<string, string>;
   /** Tag name → sentence phrase; anything absent goes through `tagPhrase`'s default rule. */
   phrases?: Record<string, string>;
   /** Tag name → one-line blurb shown under the chip. */
@@ -46,6 +51,7 @@ export interface TagFacetOptions {
 /** Builds a `Facet` whose items are Steam tags from one group. */
 export function tagFacet(opts: TagFacetOptions): Facet {
   const exclude = opts.exclude ?? [];
+  const labels = opts.labels ?? {};
   const phrases = opts.phrases ?? {};
   const families = opts.families ?? {};
   const descriptions = opts.descriptions ?? {};
@@ -58,7 +64,7 @@ export function tagFacet(opts: TagFacetOptions): Facet {
       const suppressesHead = HEAD_NOUN.test(phrase);
       return {
         id: `tag:${tag.id}`,
-        label: tag.name,
+        label: labels[tag.name] ?? tag.name,
         phrase,
         description: descriptions[tag.name],
         families: suppressesHead ? [...(families[tag.name] ?? []), 'head-noun'] : families[tag.name],

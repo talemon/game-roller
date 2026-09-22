@@ -109,6 +109,7 @@ export const themeFacet = tagFacet({
   count: { min: 1, max: 2, default: 1 },
   group: 'theme',
   descriptions: themeDescriptions,
+  labels: { '1990\'s': '1990s' },
   phrases: THEME_PHRASES,
   families: THEME_FAMILIES,
   renderTrailing: (p) =>

@@ -178,7 +178,7 @@
   </section>
 
   <footer>
-    <span class="credit">Made by <a href="mailto:info@cbozkurt.com">Can Mert Bozkurt</a>.</span>
+    <span class="credit">Made by <a href="https://cbozkurt.com" target="_blank" rel="noopener">Can Mert Bozkurt</a>.</span>
     <span>
       Genre, theme, viewpoint and player tags are from Steam's
       <a href="https://api.steampowered.com/IStoreService/GetTagList/v1/?language=english" target="_blank" rel="noopener">public tag list</a>,
