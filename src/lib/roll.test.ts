@@ -60,7 +60,7 @@ describe('rollFacet', () => {
       3,
     );
     for (let seed = 0; seed < 200; seed++) {
-      const drawn = rollFacet(f, 3, lcg(seed)).items;
+      const drawn = rollFacet(f, 3, { rng: lcg(seed) }).items;
       const families = drawn.flatMap((i) => i.families ?? []);
       expect(new Set(families).size).toBe(families.length);
     }
@@ -68,21 +68,29 @@ describe('rollFacet', () => {
 
   test('one shared family is enough to pass an item over', () => {
     const f = facet([item('action rpg', 'rpg', 'action'), item('action', 'action')], 2);
-    expect(rollFacet(f, 2, lcg(3)).items).toHaveLength(1);
+    expect(rollFacet(f, 2, { rng: lcg(3) }).items).toHaveLength(1);
   });
 
   test('comes up short rather than repeating a family', () => {
     const f = facet([item('rpg', 'rpg'), item('action rpg', 'rpg')], 2);
-    expect(rollFacet(f, 2, lcg(3)).items).toHaveLength(1);
+    expect(rollFacet(f, 2, { rng: lcg(3) }).items).toHaveLength(1);
   });
 
   test('family-free items still fill the requested count', () => {
     const f = facet([item('a'), item('b'), item('c')], 3);
-    expect(rollFacet(f, 3, lcg(5)).items).toHaveLength(3);
+    expect(rollFacet(f, 3, { rng: lcg(5) }).items).toHaveLength(3);
   });
 
   test('clamps the count to the facet bounds', () => {
     const f = facet([item('a'), item('b'), item('c')], 2);
-    expect(rollFacet(f, 99, lcg(5)).items).toHaveLength(2);
+    expect(rollFacet(f, 99, { rng: lcg(5) }).items).toHaveLength(2);
+  });
+
+  test('draws only from the given pool', () => {
+    const a = item('a');
+    const f = facet([a, item('b'), item('c')], 3);
+    for (let seed = 0; seed < 50; seed++) {
+      expect(rollFacet(f, 3, { pool: [a], rng: lcg(seed) }).items).toEqual([a]);
+    }
   });
 });

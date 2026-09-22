@@ -18,6 +18,8 @@ export interface RevealHooks {
 export interface RevealOptions {
   /** Skip the rattle; still lock slots one after another. */
   reducedMotion: boolean;
+  /** Where a slot's decoys come from; defaults to everything the facet has. */
+  pool?: (facet: Facet) => readonly FacetItem[];
 }
 
 /** ~1.5 s per slot: 14 ticks easing from 60 ms to 220 ms, then a beat before the next slot. */
@@ -35,13 +37,13 @@ const REDUCED_GAP_MS = 500;
 export function playReveal(
   rolls: readonly FacetRoll[],
   hooks: RevealHooks,
-  { reducedMotion }: RevealOptions,
+  { reducedMotion, pool = (facet) => facet.items }: RevealOptions,
 ): () => void {
   let timer: ReturnType<typeof setTimeout> | undefined;
   let index = 0;
   let done = false;
 
-  const ghostsFor = (roll: FacetRoll) => sampleDistinct(roll.facet.items, roll.items.length);
+  const ghostsFor = (roll: FacetRoll) => sampleDistinct(pool(roll.facet), roll.items.length);
 
   const finish = () => {
     if (done) return;

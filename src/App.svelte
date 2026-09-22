@@ -2,6 +2,7 @@
   import FacetCard, { type FacetState } from './components/FacetCard.svelte';
   import ResultBanner from './components/ResultBanner.svelte';
   import ThemeToggle from './components/ThemeToggle.svelte';
+  import { exclusions } from './lib/exclusions.svelte';
   import { facets } from './lib/facets/registry';
   import type { Facet, FacetItem, FacetRoll } from './lib/facets/types';
   import { PENDING_ITEM, playReveal } from './lib/reveal';
@@ -14,7 +15,10 @@
 
   let states = $state<Record<string, FacetState>>(
     Object.fromEntries(
-      facets.map((f) => [f.id, { enabled: f.enabledByDefault, count: f.count.default, rolled: [] }]),
+      facets.map((f) => [
+        f.id,
+        { enabled: f.enabledByDefault, count: f.count.default, rolled: [], rolledFor: 0 },
+      ]),
     ),
   );
 
@@ -75,7 +79,13 @@
   /** Results are decided up front; the reveal only paces when each one becomes visible. */
   function play(targets: readonly Facet[]) {
     skipReveal?.();
-    const rolls = targets.map((f) => rollFacet(f, states[f.id].count));
+    const rolls = targets.map((f) => rollFacet(f, states[f.id].count, { pool: exclusions.eligible(f) }));
+    for (const r of rolls) states[r.facet.id].rolledFor = states[r.facet.id].count;
+    // Left-out options (or families) can starve a slot; the chips alone would not say why.
+    const short = rolls
+      .filter((r) => r.items.length < states[r.facet.id].count)
+      .map((r) => `${r.facet.label} rolled ${r.items.length} of ${states[r.facet.id].count}: not enough options left in`);
+    if (short.length > 0) announce(short.join('. '));
     if (!revealEnabled || rolls.length === 0) {
       for (const r of rolls) states[r.facet.id].rolled = r.items;
       return;
@@ -112,7 +122,7 @@
           if (skipReveal === skip) skipReveal = null;
         },
       },
-      { reducedMotion: reducedMotion.matches },
+      { reducedMotion: reducedMotion.matches, pool: (facet) => exclusions.eligible(facet) },
     );
     if (running) skipReveal = skip;
   }

@@ -47,13 +47,15 @@ notes file, a jam submission form, or a message to a collaborator.
 ## Capabilities and Constraints
 
 - Static build, no backend, no accounts, no analytics, no data collection.
-  `localStorage` holds only the theme and reveal preferences.
+  `localStorage` holds only the theme, the reveal preference and which options the
+  user has left out of each facet's rolls.
 - Every facet must compose into one grammatical English sentence. A detail that
   cannot be phrased into the sentence is out of scope, however interesting.
   Facet slots: `prefix` (before "game"), `about` (after "about"), `trailing`
   (a comma clause rendered by `renderTrailing`).
-- Facets stay user-controllable: per-facet on/off and per-facet counts within
-  declared bounds. Nothing rolls that the user did not ask for.
+- Facets stay user-controllable: per-facet on/off, per-facet counts within
+  declared bounds, and per-option leave-out (from a rolled chip, or from the
+  card's full list). Nothing rolls that the user did not ask for.
 - Tag data is a checked-in, dated snapshot (`src/data/steam-tags.json`) of Valve's
   public `IStoreService/GetTagList`, refreshed via `bun run tags:refresh`. Valve
   publishes tag ids and names but no grouping, so `src/data/tag-groups.ts` — which
